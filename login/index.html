@@ -61,24 +61,26 @@
     .glow.two { bottom: -140px; right: -60px; width: 420px; height: 420px; background: rgba(203,107,255,.22); animation-duration: 9s; }
     .glow.three { top: 30%; left: 46%; width: 300px; height: 300px; background: rgba(90,167,255,.16); animation-duration: 10s; }
 
-    /* TOPBAR */
+    /* HEADER — EXACT /signup */
     .topbar {
       position: fixed;
       top: 0;
+      left: 0;
       width: 100%;
+      z-index: 20;
       backdrop-filter: blur(10px);
       background: rgba(7,11,20,.58);
       border-bottom: 1px solid var(--line);
-      z-index: 20;
     }
 
     .topbar-inner {
       width: min(1180px, calc(100% - 32px));
-      margin: auto;
-      padding: 18px 0;
+      margin: 0 auto;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 0;
     }
 
     .brand { display: flex; align-items: center; gap: 14px; }
@@ -87,6 +89,28 @@
       background: linear-gradient(135deg, var(--cyan), var(--violet));
       box-shadow: 0 12px 36px rgba(89,240,255,.22);
       animation: floating 5s ease-in-out infinite;
+    }
+    .brand h1 { margin: 0; font-size: 1.4rem; }
+    .brand p { margin: 3px 0 0; color: var(--muted); font-size: .82rem; }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,.72);
+      font-size: .96rem;
+      transition: .2s ease;
+    }
+    .nav-links a:hover { color: #fff; }
+
+    .auth-buttons {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .btn {
@@ -118,7 +142,7 @@
       margin: auto;
     }
 
-    /* EXACT SAME STRUCTURE AS SIGNUP */
+    /* EXACT STRUCTURE /signup */
     .hero-card,
     .form-card {
       background: var(--panel);
@@ -195,6 +219,7 @@
 <div class="glow two"></div>
 <div class="glow three"></div>
 
+<!-- HEADER EXACT /signup -->
 <header class="topbar">
   <div class="topbar-inner">
     <div class="brand">
@@ -205,6 +230,13 @@
       </div>
     </div>
 
+    <nav class="nav-links">
+      <a href="/#hosting">Hosting</a>
+      <a href="/#features">Fonctions</a>
+      <a href="/#about">À propos</a>
+      <a href="#lang-section">Langue</a>
+    </nav>
+
     <div class="auth-buttons">
       <a class="btn secondary" href="/signup">Inscription</a>
       <a class="btn" href="/">Accueil</a>
@@ -214,14 +246,14 @@
 
 <main>
 
-  <!-- HERO (EN HAUT) -->
+  <!-- HERO -->
   <div class="hero-card">
     <div class="pill">Connexion Novibe</div>
     <h2>Reviens sur <span class="grad">Novibe</span><br>en quelques secondes.</h2>
     <p>Connecte-toi avec ton email et ton mot de passe dans une interface cohérente avec la plateforme.</p>
   </div>
 
-  <!-- FORMULAIRE (EN DESSOUS) -->
+  <!-- FORMULAIRE -->
   <div class="form-card">
 
     <div class="field">
@@ -288,7 +320,7 @@
     try {
       await signInWithEmailAndPassword(auth, email, pass);
 
-      // IMPORTANT : marquer l'utilisateur comme connecté
+      // IMPORTANT
       localStorage.setItem("novibe-auth", "true");
 
       setMessage("Connecté. Redirection...");
