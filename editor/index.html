@@ -6,6 +6,7 @@
   <title>Novibe — Editor</title>
 
   <style>
+
     :root {
       --bg: #070b14;
       --panel: rgba(255,255,255,.06);
@@ -39,7 +40,7 @@
       color: inherit;
     }
 
-    /* ===== TOPBAR ===== */
+    /* ===== HEADER OFFICIEL ===== */
 
     .topbar {
       position: fixed;
@@ -48,17 +49,16 @@
       background: rgba(7,11,20,.6);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line);
-      z-index: 50;
+      z-index: 20;
     }
 
     .topbar-inner {
-      width: min(1280px, calc(100% - 32px));
+      width: min(1180px, calc(100% - 32px));
       margin: auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 16px 0;
-      gap: 20px;
     }
 
     .brand {
@@ -72,18 +72,16 @@
       height:44px;
       border-radius:14px;
       background: linear-gradient(135deg,var(--cyan),var(--violet));
-      box-shadow: 0 12px 30px rgba(89,240,255,.25);
     }
 
     nav {
       display:flex;
-      gap:22px;
+      gap:20px;
     }
 
     nav a {
-      color: rgba(255,255,255,.72);
-      font-size: .96rem;
-      transition: .2s;
+      color: rgba(255,255,255,.7);
+      font-size: .95rem;
     }
 
     nav a:hover {
@@ -103,11 +101,6 @@
       font-weight: 700;
       background: linear-gradient(135deg,var(--cyan),var(--blue));
       color: #071018;
-      transition: .2s;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
     }
 
     .btn.secondary {
@@ -120,7 +113,7 @@
 
     main {
       padding-top: 110px;
-      width: min(1450px, calc(100% - 32px));
+      width: min(1400px, calc(100% - 32px));
       margin: auto;
       padding-bottom: 40px;
     }
@@ -129,7 +122,7 @@
       margin-bottom: 22px;
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 28px;
+      border-radius: 26px;
       padding: 28px;
       backdrop-filter: blur(12px);
       box-shadow: var(--shadow);
@@ -138,7 +131,6 @@
     .hero h1 {
       margin: 0;
       font-size: 3rem;
-      line-height: 1;
       letter-spacing: -.06em;
     }
 
@@ -153,71 +145,18 @@
       margin-top: 16px;
       color: var(--muted);
       line-height: 1.7;
-      max-width: 800px;
+      max-width: 850px;
     }
 
     /* ===== EDITOR ===== */
 
-    .editor-layout {
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 20px;
-    }
-
-    .sidebar,
     .editor-panel {
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 28px;
+      border-radius: 26px;
+      overflow: hidden;
       backdrop-filter: blur(12px);
       box-shadow: var(--shadow);
-    }
-
-    .sidebar {
-      padding: 24px;
-      height: fit-content;
-      position: sticky;
-      top: 110px;
-    }
-
-    .sidebar h2 {
-      margin-top: 0;
-      margin-bottom: 12px;
-      font-size: 1.4rem;
-    }
-
-    .sidebar p {
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .side-list {
-      margin-top: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .side-item {
-      padding: 16px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.08);
-    }
-
-    .side-item strong {
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .side-item span {
-      color: var(--muted);
-      font-size: .92rem;
-      line-height: 1.5;
-    }
-
-    .editor-panel {
-      overflow: hidden;
     }
 
     .editor-top {
@@ -227,7 +166,7 @@
       padding: 18px 20px;
       border-bottom: 1px solid var(--line);
       background: rgba(255,255,255,.03);
-      gap: 14px;
+      gap: 12px;
       flex-wrap: wrap;
     }
 
@@ -239,25 +178,16 @@
     .editor-actions {
       display: flex;
       gap: 10px;
-      flex-wrap: wrap;
     }
 
     .editor-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
       min-height: 720px;
     }
 
-    .code-side {
-      border-right: 1px solid var(--line);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .preview-side {
-      display: flex;
-      flex-direction: column;
-      background: rgba(255,255,255,.02);
+    .editor-workspace {
+      width: 100%;
+      height: 720px;
+      position: relative;
     }
 
     .panel-title {
@@ -268,25 +198,28 @@
       background: rgba(255,255,255,.02);
     }
 
-    textarea {
-      flex: 1;
+    #code,
+    #preview {
       width: 100%;
+      height: calc(100% - 49px);
       border: none;
+      outline: none;
+      display: block;
+    }
+
+    #code {
       resize: none;
-      background: transparent;
-      color: white;
       padding: 20px;
       font-family: Consolas, monospace;
       font-size: .95rem;
       line-height: 1.7;
-      outline: none;
+      background: transparent;
+      color: white;
     }
 
-    iframe {
-      flex: 1;
-      width: 100%;
-      border: none;
+    #preview {
       background: white;
+      display: none;
     }
 
     .status {
@@ -294,28 +227,6 @@
       border-top: 1px solid var(--line);
       color: var(--muted);
       font-size: .92rem;
-    }
-
-    @media (max-width: 1100px) {
-
-      .editor-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        position: relative;
-        top: 0;
-      }
-
-      .editor-content {
-        grid-template-columns: 1fr;
-      }
-
-      .code-side {
-        border-right: none;
-        border-bottom: 1px solid var(--line);
-        min-height: 400px;
-      }
     }
 
     @media (max-width: 850px) {
@@ -331,19 +242,25 @@
       }
 
       .hero h1 {
-        font-size: 2.3rem;
+        font-size: 2.2rem;
       }
 
       main {
-        width: min(1450px, calc(100% - 20px));
+        width: min(1400px, calc(100% - 20px));
+      }
+
+      .editor-workspace {
+        height: 600px;
       }
     }
+
   </style>
 </head>
 
 <body>
 
 <header class="topbar">
+
   <div class="topbar-inner">
 
     <div class="brand">
@@ -368,75 +285,42 @@
     </div>
 
   </div>
+
 </header>
 
 <main>
 
   <section class="hero">
+
     <h1>Novibe <span>Editor</span></h1>
 
     <p>
-      Éditeur de code moderne intégré directement dans Novibe.
-      Code ton site, teste ton HTML/CSS/JavaScript et visualise le rendu instantanément.
+      Éditeur de code intégré dans Novibe.
+      Code directement ton site web et visualise le résultat en temps réel.
     </p>
+
   </section>
 
-  <section class="editor-layout">
+  <section class="editor-panel">
 
-    <aside class="sidebar">
+    <div class="editor-top">
 
-      <h2>Outils</h2>
+      <h2>editor.html</h2>
 
-      <p>
-        Utilise l’éditeur Novibe pour créer rapidement des pages web modernes.
-      </p>
-
-      <div class="side-list">
-
-        <div class="side-item">
-          <strong>HTML</strong>
-          <span>Structure de ton site web.</span>
-        </div>
-
-        <div class="side-item">
-          <strong>CSS</strong>
-          <span>Design moderne et responsive.</span>
-        </div>
-
-        <div class="side-item">
-          <strong>JavaScript</strong>
-          <span>Interactions et animations.</span>
-        </div>
-
-        <div class="side-item">
-          <strong>Live Preview</strong>
-          <span>Visualisation instantanée.</span>
-        </div>
-
+      <div class="editor-actions">
+        <button class="btn secondary" id="clearBtn">Effacer</button>
+        <button class="btn" id="runBtn">Exécuter</button>
       </div>
 
-    </aside>
+    </div>
 
-    <section class="editor-panel">
+    <div class="editor-content">
 
-      <div class="editor-top">
+      <div class="editor-workspace">
 
-        <h2>editor.html</h2>
-
-        <div class="editor-actions">
-          <button class="btn secondary" id="clearBtn">Effacer</button>
-          <button class="btn" id="runBtn">Exécuter</button>
+        <div class="panel-title">
+          <span id="modeLabel">Code source</span>
         </div>
-
-      </div>
-
-      <div class="editor-content">
-
-        <div class="code-side">
-
-          <div class="panel-title">
-            Code source
-          </div>
 
 <textarea id="code"><!DOCTYPE html>
 <html>
@@ -454,6 +338,7 @@
 
     h1 {
       color: #59f0ff;
+      font-size: 3rem;
     }
   </style>
 </head>
@@ -467,25 +352,15 @@
 </body>
 </html></textarea>
 
-        </div>
-
-        <div class="preview-side">
-
-          <div class="panel-title">
-            Aperçu en direct
-          </div>
-
-          <iframe id="preview"></iframe>
-
-        </div>
+        <iframe id="preview"></iframe>
 
       </div>
 
-      <div class="status" id="status">
-        Éditeur prêt.
-      </div>
+    </div>
 
-    </section>
+    <div class="status" id="status">
+      Éditeur prêt.
+    </div>
 
   </section>
 
@@ -499,20 +374,51 @@
 
   const code = document.getElementById("code");
   const preview = document.getElementById("preview");
+
   const runBtn = document.getElementById("runBtn");
   const clearBtn = document.getElementById("clearBtn");
+
   const status = document.getElementById("status");
+  const modeLabel = document.getElementById("modeLabel");
+
   const logoutBtn = document.getElementById("logoutBtn");
 
-  function runCode() {
+  let previewMode = false;
 
-    preview.srcdoc = code.value;
+  runBtn.addEventListener("click", () => {
 
-    status.textContent = "Aperçu mis à jour.";
-    status.style.color = "#59f0ff";
-  }
+    if(!previewMode) {
 
-  runBtn.addEventListener("click", runCode);
+      preview.srcdoc = code.value;
+
+      code.style.display = "none";
+      preview.style.display = "block";
+
+      runBtn.textContent = "Terminer";
+
+      modeLabel.textContent = "Aperçu du site";
+
+      status.textContent = "Mode aperçu activé.";
+      status.style.color = "#59f0ff";
+
+      previewMode = true;
+
+    } else {
+
+      preview.style.display = "none";
+      code.style.display = "block";
+
+      runBtn.textContent = "Exécuter";
+
+      modeLabel.textContent = "Code source";
+
+      status.textContent = "Retour au code.";
+      status.style.color = "#cb6bff";
+
+      previewMode = false;
+    }
+
+  });
 
   clearBtn.addEventListener("click", () => {
 
@@ -520,7 +426,7 @@
 
     preview.srcdoc = "";
 
-    status.textContent = "Éditeur vidé.";
+    status.textContent = "Code supprimé.";
     status.style.color = "#ff6bd6";
   });
 
@@ -530,8 +436,6 @@
 
     window.location.href = "/";
   });
-
-  runCode();
 
 </script>
 
