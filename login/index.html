@@ -2,317 +2,258 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Novibe — Login</title>
 
   <style>
     :root {
-      --bg:#070b14;
-      --panel:rgba(255,255,255,.06);
-      --line:rgba(255,255,255,.12);
-      --text:#fff;
-      --muted:rgba(255,255,255,.68);
-      --cyan:#59f0ff;
-      --blue:#5aa7ff;
-      --violet:#cb6bff;
-      --shadow:0 24px 60px rgba(0,0,0,.35);
+      --bg: #070b14;
+      --panel: rgba(255,255,255,.06);
+      --line: rgba(255,255,255,.12);
+      --text: #ffffff;
+      --muted: rgba(255,255,255,.68);
+      --cyan: #59f0ff;
+      --blue: #5aa7ff;
+      --violet: #cb6bff;
+      --pink: #ff6bd6;
+      --shadow: 0 24px 60px rgba(0,0,0,.35);
     }
 
-    *{box-sizing:border-box;min-width:0}
+    * { box-sizing: border-box; }
 
-    body{
-      margin:0;
-      font-family:system-ui,Segoe UI,Arial;
-      color:var(--text);
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text);
       background:
         radial-gradient(circle at 12% 12%, rgba(89,240,255,.22), transparent 24%),
         radial-gradient(circle at 82% 18%, rgba(203,107,255,.20), transparent 24%),
-        linear-gradient(180deg,#05070d,#070b14);
-      overflow-x:hidden;
+        linear-gradient(180deg, #05070d 0%, #070b14 100%);
     }
 
-    @keyframes fadeUp{
-      from{opacity:0;transform:translateY(24px)}
-      to{opacity:1;transform:translateY(0)}
+    a { color: inherit; text-decoration: none; }
+
+    /* TOPBAR */
+    .topbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      backdrop-filter: blur(10px);
+      background: rgba(7,11,20,.6);
+      border-bottom: 1px solid var(--line);
+      z-index: 10;
     }
 
-    @keyframes floating{
-      0%{transform:translateY(0)}
-      50%{transform:translateY(-10px)}
-      100%{transform:translateY(0)}
+    .topbar-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
     }
 
-    .wrap{min-height:100vh}
-
-    .glow{
-      position:fixed;
-      border-radius:999px;
-      filter:blur(50px);
-      opacity:.85;
-      z-index:0;
-      animation:floating 8s infinite;
-    }
-    .glow.one{top:-120px;left:-60px;width:360px;height:360px;background:rgba(89,240,255,.25)}
-    .glow.two{bottom:-140px;right:-60px;width:420px;height:420px;background:rgba(203,107,255,.22)}
-
-    /* TOPBAR CORRIGÉE (bouton ajouté) */
-    .topbar{
-      position:fixed;
-      top:0;left:0;
-      width:100%;
-      z-index:20;
-      backdrop-filter:blur(10px);
-      background:rgba(7,11,20,.58);
-      border-bottom:1px solid var(--line);
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
     }
 
-    .topbar-inner{
-      width:min(1180px,calc(100% - 32px));
-      margin:0 auto;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:18px 0;
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
     }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
+    .btn {
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: #071018;
+      transition: .2s;
     }
 
-    .logo{
-      width:44px;height:44px;
-      border-radius:16px;
-      background:linear-gradient(135deg,var(--cyan),var(--violet));
-      animation:floating 5s infinite;
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn.secondary {
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--line);
+      color: white;
     }
 
-    .btn-top{
-      padding:10px 16px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.06);
-      color:white;
-      text-decoration:none;
-      font-weight:600;
-      transition:.2s;
+    /* LAYOUT */
+    main {
+      padding-top: 110px;
     }
 
-    .btn-top:hover{
-      background:rgba(255,255,255,.12);
+    .container {
+      width: min(1100px, calc(100% - 32px));
+      margin: auto;
     }
 
-    main{
-      padding-top:110px;
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 60px 0;
     }
 
-    /* GRID FIX */
-    .login-grid{
-      display:grid;
-      grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
-      gap:22px;
-      width:min(1180px,calc(100% - 32px));
-      margin:0 auto;
-      padding:64px 0;
-      align-items:stretch;
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 30px;
     }
 
-    .hero-card,.form-card{
-      background:var(--panel);
-      border:1px solid var(--line);
-      border-radius:34px;
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(12px);
-      animation:fadeUp .8s ease;
+    h2 { margin: 0 0 10px; }
+    p { color: var(--muted); }
+
+    /* FORM */
+    .field {
+      display: grid;
+      gap: 8px;
+      margin-top: 16px;
     }
 
-    .hero-card{
-      padding:34px;
-      position:relative;
-      overflow:hidden;
+    input {
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      color: white;
+      outline: none;
     }
 
-    .hero-card h2{
-      margin:0;
-      font-size:clamp(2.4rem,5vw,4.5rem);
-      line-height:.95;
-      letter-spacing:-.06em;
+    input:focus {
+      border-color: rgba(89,240,255,.6);
     }
 
-    .grad{
-      background:linear-gradient(135deg,#fff,var(--cyan),var(--violet));
-      -webkit-background-clip:text;
-      color:transparent;
+    .actions {
+      margin-top: 18px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .form-card{
-      padding:30px;
+    .msg {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      min-height: 40px;
     }
 
-    .field{
-      display:grid;
-      gap:8px;
-      margin-top:16px;
-    }
-
-    input{
-      padding:15px 16px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.06);
-      color:#fff;
-      outline:none;
-    }
-
-    input:focus{
-      border-color:rgba(89,240,255,.5);
-      box-shadow:0 0 0 3px rgba(89,240,255,.12);
-    }
-
-    .btn{
-      width:100%;
-      margin-top:18px;
-      padding:14px;
-      border:none;
-      border-radius:16px;
-      font-weight:800;
-      cursor:pointer;
-      background:linear-gradient(135deg,var(--cyan),var(--blue));
-      color:#071018;
-    }
-
-    .btn.secondary{
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--line);
-      color:#fff;
-      margin-top:10px;
-    }
-
-    .message{
-      margin-top:14px;
-      padding:14px;
-      border-radius:16px;
-      border:1px solid var(--line);
-      color:var(--muted);
-      min-height:50px;
-    }
-
-    .lang{
-      margin-top:14px;
-      display:flex;
-      justify-content:center;
-      gap:10px;
-    }
-
-    select{
-      padding:10px;
-      border-radius:12px;
-      background:rgba(255,255,255,.08);
-      color:#fff;
-      border:1px solid var(--line);
-    }
-
-    @media(max-width:980px){
-      .login-grid{grid-template-columns:1fr}
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 
 <body>
-<div class="wrap">
-  <div class="glow one"></div>
-  <div class="glow two"></div>
 
-  <!-- TOPBAR FIX -->
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <div class="logo"></div>
-        <strong>Novibe</strong>
-      </div>
+<header class="topbar">
+  <div class="topbar-inner">
 
-      <div style="display:flex;gap:10px">
-        <a class="btn-top" href="/signup">Inscription</a>
-        <a class="btn-top" href="/">Accueil</a>
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <strong>Novibe</strong><br>
+        <small style="color:rgba(255,255,255,.6)">Login</small>
       </div>
     </div>
-  </header>
 
-  <main>
-    <section class="login-grid">
+    <div style="display:flex; gap:10px;">
+      <a class="btn secondary" href="/">Accueil</a>
+      <a class="btn" href="/signup">Inscription</a>
+    </div>
 
-      <!-- HERO -->
-      <div class="hero-card">
-        <h2><span class="grad">Connexion</span><br>à Novibe</h2>
-        <p style="color:var(--muted);line-height:1.7">
-          Accède à ton compte et retrouve ton espace utilisateur.
-        </p>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="grid">
+
+    <!-- LEFT -->
+    <div class="card">
+      <h2>Connexion à Novibe</h2>
+      <p>Accède à ton compte et retrouve ton espace.</p>
+
+      <p style="margin-top:20px; color:rgba(255,255,255,.6)">
+        Interface cohérente avec Signup, design glass + gradients.
+      </p>
+    </div>
+
+    <!-- RIGHT FORM -->
+    <div class="card">
+
+      <h2>Login</h2>
+      <p>Entre tes identifiants</p>
+
+      <div class="field">
+        <label>Email</label>
+        <input id="email" type="email" placeholder="email@exemple.com">
       </div>
 
-      <!-- FORM -->
-      <div class="form-card">
+      <div class="field">
+        <label>Mot de passe</label>
+        <input id="password" type="password" placeholder="••••••••">
+      </div>
 
-        <div class="field">
-          <label>Email</label>
-          <input id="email" type="email"/>
-        </div>
-
-        <div class="field">
-          <label>Mot de passe</label>
-          <input id="password" type="password"/>
-        </div>
-
-        <button class="btn" id="loginBtn">Se connecter</button>
+      <div class="actions">
+        <button id="loginBtn" class="btn">Se connecter</button>
         <a class="btn secondary" href="/signup">Créer un compte</a>
-
-        <div class="message" id="msg">...</div>
-
-        <div class="lang">
-          <span>Langue</span>
-          <select id="lang">
-            <option>FR</option>
-            <option>EN</option>
-          </select>
-        </div>
-
       </div>
 
-    </section>
-  </main>
-</div>
+      <div id="msg" class="msg">Connecte-toi pour continuer.</div>
+
+    </div>
+
+  </div>
+
+</main>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
-const app = initializeApp({
-  apiKey:"AIzaSyDdMYtSr2FeNGay_Nwv8oLMXg7WVQspOJ8",
-  authDomain:"novibe-a5c1f.firebaseapp.com",
-  projectId:"novibe-a5c1f",
-  storageBucket:"novibe-a5c1f.firebasestorage.app",
-  messagingSenderId:"312673438609",
-  appId:"1:312673438609:web:2fbf719814a6c8c61a2830"
-});
+const firebaseConfig = {
+  apiKey: "AIzaSyDdMYtSr2FeNGay_Nwv8oLMXg7WVQspOJ8",
+  authDomain: "novibe-a5c1f.firebaseapp.com",
+  projectId: "novibe-a5c1f",
+  storageBucket: "novibe-a5c1f.firebasestorage.app",
+  messagingSenderId: "312673438609",
+  appId: "1:312673438609:web:2fbf719814a6c8c61a2830"
+};
 
+const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-const els={
-  email:document.getElementById("email"),
-  password:document.getElementById("password"),
-  msg:document.getElementById("msg"),
-  btn:document.getElementById("loginBtn")
-};
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const msg = document.getElementById("msg");
 
-els.btn.onclick=async()=>{
-  try{
-    await signInWithEmailAndPassword(auth,els.email.value,els.password.value);
-    els.msg.textContent="Connexion réussie";
-    setTimeout(()=>location.href="/",1000);
-  }catch(e){
-    els.msg.textContent="Erreur";
+document.getElementById("loginBtn").addEventListener("click", async () => {
+  try {
+    msg.textContent = "Connexion...";
+    await signInWithEmailAndPassword(auth, email.value, password.value);
+
+    msg.textContent = "Connexion réussie ✔ Redirection...";
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 1000);
+
+  } catch (e) {
+    msg.textContent = "Erreur : " + e.message;
   }
-};
+});
 </script>
 
 </body>
