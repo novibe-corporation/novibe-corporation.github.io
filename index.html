@@ -1,8 +1,11 @@
-<!DOCTYPE html><html lang="fr">
+<!DOCTYPE html>
+<html lang="fr">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Novibe — Home</title>
+  <title>Novibe — © Novibe Corporation</title>
+
   <style>
     :root {
       --bg: #070b14;
@@ -16,645 +19,206 @@
       --pink: #ff6bd6;
       --shadow: 0 24px 60px rgba(0,0,0,.35);
       --radius-lg: 24px;
-    }* { box-sizing: border-box; min-width: 0; }
-html { scroll-behavior: smooth; }
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-  background: var(--bg);
-}
-body {
-  margin: 0;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: var(--text);
-  background:
-    radial-gradient(circle at 12% 12%, rgba(89,240,255,.22), transparent 24%),
-    radial-gradient(circle at 82% 18%, rgba(203,107,255,.20), transparent 24%),
-    radial-gradient(circle at 50% 75%, rgba(90,167,255,.14), transparent 30%),
-    linear-gradient(180deg, #05070d 0%, #070b14 45%, #060913 100%);
-}
+    }
 
-a { color: inherit; text-decoration: none; }
-img, video, canvas, svg { max-width: 100%; height: auto; }
+    * { box-sizing: border-box; min-width: 0; }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes floating {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
-}
-@keyframes pulseGlow {
-  0% { box-shadow: 0 0 0 rgba(89,240,255,.2); }
-  50% { box-shadow: 0 0 24px rgba(89,240,255,.28); }
-  100% { box-shadow: 0 0 0 rgba(89,240,255,.2); }
-}
+    html, body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, sans-serif;
+      overflow-x: hidden;
+    }
 
-.wrap { min-height: 100vh; position: relative; overflow-x: clip; }
-.glow {
-  position: fixed;
-  border-radius: 999px;
-  filter: blur(50px);
-  pointer-events: none;
-  z-index: 0;
-  opacity: .9;
-}
-.glow.one { top: -120px; left: -60px; width: 360px; height: 360px; background: rgba(89,240,255,.25); }
-.glow.two { bottom: -140px; right: -60px; width: 420px; height: 420px; background: rgba(203,107,255,.22); }
-.glow.three { top: 28%; left: 45%; width: 300px; height: 300px; background: rgba(90,167,255,.16); }
+    body {
+      background:
+        radial-gradient(circle at 12% 12%, rgba(89,240,255,.22), transparent 24%),
+        radial-gradient(circle at 82% 18%, rgba(203,107,255,.20), transparent 24%),
+        radial-gradient(circle at 50% 75%, rgba(90,167,255,.14), transparent 30%),
+        linear-gradient(180deg, #05070d 0%, #070b14 45%, #060913 100%);
+    }
 
-.topbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 20;
-  backdrop-filter: blur(10px);
-  background: rgba(7,11,20,.58);
-  border-bottom: 1px solid var(--line);
-}
-.topbar-inner, .footer-inner, .container {
-  width: min(1180px, calc(100% - 32px));
-  margin: 0 auto;
-}
-.topbar-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 18px 0;
-}
-.brand { display: flex; align-items: center; gap: 14px; }
-.logo {
-  width: 44px; height: 44px; border-radius: 16px;
-  background: linear-gradient(135deg, var(--cyan), var(--violet));
-  box-shadow: 0 12px 36px rgba(89,240,255,.22);
-  animation: floating 5s ease-in-out infinite;
-}
-.brand h1 { margin: 0; font-size: 1.4rem; line-height: 1; letter-spacing: -.04em; }
-.brand p { margin: 3px 0 0; color: var(--muted); font-size: .82rem; }
+    a { text-decoration: none; color: inherit; }
 
-nav { display: flex; gap: 26px; flex-wrap: wrap; justify-content: center; }
-nav a { color: rgba(255,255,255,.72); font-size: .96rem; transition: .2s ease; }
-nav a:hover { color: #fff; text-shadow: 0 0 12px rgba(89,240,255,.7); }
+    /* TOPBAR */
+    .topbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 50;
+      background: rgba(7,11,20,.6);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
 
-.btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  gap: 10px; border: 0; cursor: pointer; font-weight: 800;
-  border-radius: 18px; padding: 14px 20px; color: #071018;
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  box-shadow: 0 16px 40px rgba(89,240,255,.18);
-  transition: transform .18s ease, filter .18s ease;
-  white-space: nowrap;
-  animation: pulseGlow 4s infinite;
-}
-.btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
-.btn.secondary {
-  color: #fff;
-  background: rgba(255,255,255,.05);
-  border: 1px solid var(--line);
-  box-shadow: none;
-  backdrop-filter: blur(14px);
-}
+    .topbar-inner {
+      max-width: 1180px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      gap: 16px;
+    }
 
-main { padding-top: 110px; }
-section {
-  width: 100%;
-  padding: clamp(64px, 8vw, 96px) 0;
-  scroll-margin-top: 100px;
-  overflow: clip;
-}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-.hero {
-  display: grid;
-  grid-template-columns: minmax(0,1.05fr) minmax(0,.95fr);
-  gap: 34px;
-  align-items: center;
-  min-width: 0;
-  padding: 76px 0 80px;
-}
-.pill {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 10px 16px; border-radius: 999px;
-  background: rgba(255,255,255,.06); border: 1px solid var(--line);
-  color: var(--cyan); font-size: .92rem; font-weight: 700;
-  margin-bottom: 20px;
-  backdrop-filter: blur(14px);
-}
-.hero h2 {
-  margin: 0;
-  font-size: clamp(3rem, 6vw, 5.8rem);
-  line-height: .95;
-  letter-spacing: -.08em;
-}
-.hero h2 .grad {
-  background: linear-gradient(135deg, #ffffff 0%, var(--cyan) 38%, var(--violet) 72%, var(--pink) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.hero p {
-  max-width: 640px;
-  color: var(--muted);
-  font-size: 1.08rem;
-  line-height: 1.75;
-  margin: 24px 0 0;
-}
-.actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
-.metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 34px; }
-.metric, .card, .panel, .about-box, .lang-box {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
-  min-width: 0;
-}
-.metric { padding: 18px; animation: fadeUp .9s ease; transition: transform .25s ease; }
-.metric:hover { transform: translateY(-6px); }
-.metric strong { display: block; font-size: 2rem; line-height: 1; margin-bottom: 6px; }
-.metric span { color: var(--muted); font-size: .92rem; }
-.metric:nth-child(1) strong { color: var(--cyan); }
-.metric:nth-child(2) strong { color: var(--violet); }
-.metric:nth-child(3) strong { color: var(--blue); }
+    .logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+    }
 
-.terminal {
-  position: relative;
-  overflow: hidden;
-  padding: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-  border-radius: 38px;
-  border: 1px solid rgba(255,255,255,.10);
-  box-shadow: 0 16px 40px rgba(0,0,0,.35);
-  animation: fadeUp 1s ease, floating 6s ease-in-out infinite;
-}
-.terminal:before {
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(89,240,255,.12), rgba(203,107,255,.10));
-  pointer-events: none;
-}
-.terminal-top {
-  display: flex; align-items: center; gap: 8px;
-  padding: 18px 20px;
-  border-bottom: 1px solid rgba(255,255,255,.10);
-  background: rgba(255,255,255,.05);
-  position: relative;
-}
-.dot { width: 12px; height: 12px; border-radius: 999px; }
-.dot.red { background: #ff6a5f; }
-.dot.yellow { background: #ffd15d; }
-.dot.green { background: #4be68f; }
-.terminal-title { margin-left: 10px; color: rgba(255,255,255,.54); font-size: .9rem; }
-.terminal-body {
-  padding: 22px;
-  position: relative;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: .98rem;
-  line-height: 1.75;
-  overflow: auto;
-  overflow-y: hidden;
-  max-width: 100%;
-  word-break: break-word;
-}
-.line { white-space: pre-wrap; }
-.c1 { color: var(--cyan); }
-.c2 { color: var(--violet); }
-.c3 { color: #ffd66b; }
-.c4 { color: #8ef0a9; }
-.c5 { color: #fff; }
+    nav {
+      display: flex;
+      gap: 20px;
+    }
 
-.section-head { text-align: center; margin-bottom: 26px; }
-.section-head h3 { margin: 0; font-size: clamp(2rem, 4vw, 3.4rem); letter-spacing: -.06em; }
-.section-head p { color: var(--muted); margin: 12px auto 0; max-width: 760px; line-height: 1.7; }
+    nav a {
+      opacity: .7;
+    }
 
-.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
-.card {
-  padding: 22px;
-  transition: transform .25s ease, border-color .25s ease, background .25s ease;
-  animation: fadeUp .8s ease;
-}
-.card:hover { transform: translateY(-8px) scale(1.02); border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.09); }
-.card .icon {
-  width: 56px; height: 56px; border-radius: 20px; margin-bottom: 18px;
-  background: linear-gradient(135deg, rgba(89,240,255,.95), rgba(203,107,255,.95));
-  box-shadow: 0 10px 34px rgba(89,240,255,.18);
-}
-.card:nth-child(2) .icon { background: linear-gradient(135deg, rgba(203,107,255,.95), rgba(255,107,214,.95)); }
-.card:nth-child(3) .icon { background: linear-gradient(135deg, rgba(90,167,255,.95), rgba(89,240,255,.95)); }
-.card:nth-child(4) .icon { background: linear-gradient(135deg, rgba(89,240,255,.95), rgba(90,167,255,.95)); }
-.card h4 { margin: 0 0 10px; font-size: 1.18rem; }
-.card p { margin: 0; color: var(--muted); line-height: 1.7; }
+    nav a:hover {
+      opacity: 1;
+    }
 
-.split { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: start; }
-.panel { padding: 26px; }
-.panel h4 { margin: 0 0 12px; font-size: 1.4rem; }
-.panel p { margin: 0; color: var(--muted); line-height: 1.75; }
-.codepath {
-  margin-top: 18px;
-  padding: 15px 16px;
-  border-radius: 18px;
-  background: rgba(0,0,0,.26);
-  border: 1px solid rgba(255,255,255,.10);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  color: var(--cyan);
-  overflow-x: auto;
-  word-break: break-all;
-  overflow-wrap: anywhere;
-  max-width: 100%;
-}
-.list { display: grid; gap: 12px; }
-.list-item {
-  padding: 16px 18px;
-  border-radius: 18px;
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.10);
-}
-.list-item strong { display: block; margin-bottom: 4px; }
-.list-item span { color: var(--muted); line-height: 1.65; }
+    .btn {
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+    }
 
-.about { text-align: center; }
-.about-box {
-  animation: fadeUp 1s ease;
-  padding: 36px;
-  border-radius: 40px;
-  background: linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
-  border: 1px solid rgba(255,255,255,.12);
-  backdrop-filter: blur(20px);
-  box-shadow: var(--shadow);
-}
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: white;
+    }
 
-footer {
-  margin-top: 36px;
-  padding: 24px 0 36px;
-  border-top: 1px solid var(--line);
-  background: rgba(0,0,0,.16);
-  backdrop-filter: blur(16px);
-}
-.footer-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  color: rgba(255,255,255,.54);
-  font-size: .95rem;
-}
-.lang-box {
-  margin-top: 18px;
-  padding: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.lang-box label { color: rgba(255,255,255,.7); }
-.lang-box select {
-  padding: 12px 16px;
-  border-radius: 14px;
-  background: rgba(255,255,255,.08);
-  color: white;
-  border: 1px solid rgba(255,255,255,.12);
-  outline: none;
-}
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+    }
 
-.auth-buttons { display: flex; align-items: center; gap: 12px; flex-wrap: nowrap; }
+    /* HERO */
+    main {
+      padding-top: 100px;
+      max-width: 1180px;
+      margin: auto;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
 
-@media (max-width: 980px) {
-  .topbar-inner, .footer-inner { width: min(1180px, calc(100% - 20px)); }
-  .topbar-inner { flex-wrap: wrap; justify-content: center; text-align: center; }
-  nav { display: none; }
-  main { padding-top: 128px; }
-  .hero, .split { grid-template-columns: 1fr; }
-  .hero { padding: 52px 0 70px; gap: 22px; }
-  .metrics { grid-template-columns: 1fr; }
-  .actions { flex-direction: column; }
-  .btn { width: 100%; }
-  .terminal { width: 100%; }
-  .terminal-body { font-size: .88rem; }
-  .auth-buttons { width: 100%; }
-  .auth-buttons .btn { width: auto; flex: 1; }
-}
+    .hero {
+      padding: 80px 0;
+      text-align: center;
+    }
 
+    .hero h1 {
+      font-size: 3rem;
+    }
+
+    .grad {
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      margin-top: 20px;
+    }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="glow one"></div>
-    <div class="glow two"></div>
-    <div class="glow three"></div><header class="topbar">
+
+<header class="topbar">
   <div class="topbar-inner">
+
     <div class="brand">
       <div class="logo"></div>
-      <div>
-        <h1>Novibe</h1>
-        <p>© Novibe Corporation</p>
-      </div>
+      <strong>Novibe</strong>
     </div>
 
     <nav>
-      <a href="#hosting" data-i18n="nav_hosting">Hosting</a>
-      <a href="#features" data-i18n="nav_features">Fonctions</a>
-      <a href="#about" data-i18n="nav_about">À propos</a>
-      <a href="#lang-section" data-i18n="nav_language">Langue</a>
+      <a href="#features">Fonctions</a>
+      <a href="#about">À propos</a>
     </nav>
 
-    <div class="auth-buttons">
-      <a class="btn secondary login-btn" href="/login" data-i18n="login">Connexion</a>
-      <a class="btn signup-btn" href="/signup" data-i18n="signup">Inscription</a>
+    <!-- IMPORTANT : zone dynamique -->
+    <div class="auth-buttons" id="authButtons">
+      <a class="btn secondary" href="/login">Connexion</a>
+      <a class="btn" href="/signup">Inscription</a>
     </div>
+
   </div>
 </header>
 
-<main class="container">
+<main>
+
   <section class="hero">
-    <div>
-      <div class="pill" data-i18n="hero_badge">Nouvelle génération de site web</div>
-      <h2 data-i18n-html="hero_title">Crée. <span class="grad">Héberge.</span><br>Code avec style.</h2>
-      <p data-i18n="hero_text">
-        Novibe est une corporation indépendante pensée pour héberger des sites web avec une structure moderne,
-        par exemple /sites/nomdusite/pagedusite, tout en intégrant un éditeur de code directement dans le site.
-        Compatible avec Java, Python, C++, CSS, JavaScript, JSON, HTML et plus encore.
-      </p>
+    <h1>Crée. <span class="grad">Héberge.</span> Code.</h1>
+    <p>Novibe est une plateforme moderne pour créer et héberger des projets web.</p>
 
-      <div class="actions">
-        <a class="btn" href="#features" data-i18n="hero_cta_primary">Découvrir</a>
-        <a class="btn secondary" href="#hosting" data-i18n="hero_cta_secondary">Voir l’hébergement</a>
-      </div>
-
-      <div class="metrics">
-        <div class="metric">
-          <strong>99.9%</strong>
-          <span data-i18n="metric_1">Stabilité d’hébergement</span>
-        </div>
-        <div class="metric">
-          <strong>24/7</strong>
-          <span data-i18n="metric_2">Accès cloud continu</span>
-        </div>
-        <div class="metric">
-          <strong>∞</strong>
-          <span data-i18n="metric_3">Créativité sans limite</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="terminal" aria-label="Novibe editor preview">
-      <div class="terminal-top">
-        <span class="dot red"></span>
-        <span class="dot yellow"></span>
-        <span class="dot green"></span>
-        <span class="terminal-title" data-i18n="editor_title">novibe-editor</span>
-      </div>
-      <div class="terminal-body">
-        <div class="line"><span class="c2">&lt;html&gt;</span></div>
-        <div class="line">  <span class="c1">&lt;head&gt;</span></div>
-        <div class="line">    <span class="c3">&lt;title&gt;</span><span class="c5" data-i18n="editor_preview_title">My Website</span><span class="c3">&lt;/title&gt;</span></div>
-        <div class="line">  <span class="c1">&lt;/head&gt;</span></div>
-        <div class="line">  <span class="c1">&lt;body&gt;</span></div>
-        <div class="line">    <span class="c5" data-i18n="editor_preview_line">Bienvenue sur Novibe.</span></div>
-        <div class="line">    <span class="c4">console.log("Hosted with Novibe")</span></div>
-        <div class="line">  <span class="c1">&lt;/body&gt;</span></div>
-        <div class="line"><span class="c2">&lt;/html&gt;</span></div>
-      </div>
+    <div class="card">
+      Interface futuriste, hosting, éditeur intégré et système indépendant.
     </div>
   </section>
 
-  <section id="features">
-    <div class="section-head">
-      <h3 data-i18n="features_title">Fonctionnalités principales</h3>
-      <p data-i18n="features_text">Une plateforme pensée pour publier, coder et organiser des projets web avec une interface moderne et propre.</p>
-    </div>
-
-    <div class="grid-4">
-      <div class="card">
-        <div class="icon"></div>
-        <h4 data-i18n="feature_1_title">Hébergement de sites</h4>
-        <p data-i18n="feature_1_text">Publie des pages avec une structure claire comme /sites/nomdusite/pagedusite, idéale pour les projets indépendants.</p>
-      </div>
-      <div class="card">
-        <div class="icon"></div>
-        <h4 data-i18n="feature_2_title">Éditeur intégré</h4>
-        <p data-i18n="feature_2_text">Travaille directement dans le navigateur avec HTML, CSS, JavaScript, JSON, Python, Java et C++.</p>
-      </div>
-      <div class="card">
-        <div class="icon"></div>
-        <h4 data-i18n="feature_3_title">Interface futuriste</h4>
-        <p data-i18n="feature_3_text">Dégradés, effet glassmorphism, cartes lumineuses et ambiance new website pour une identité premium.</p>
-      </div>
-      <div class="card">
-        <div class="icon"></div>
-        <h4 data-i18n="feature_4_title">Plateforme indépendante</h4>
-        <p data-i18n="feature_4_text">Novibe est conçue comme une corporation autonome qui aide les créateurs à lancer leurs idées plus vite.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="hosting">
-    <div class="split">
-      <div class="panel">
-        <h4 data-i18n="hosting_title">Système d’hébergement</h4>
-        <p data-i18n="hosting_text">
-          Novibe permet d’héberger des sites web avec une logique simple et moderne. Chaque projet peut disposer de ses propres pages,
-          de son propre chemin d’accès et d’une gestion claire des contenus.
-        </p>
-        <div class="codepath">https://novibe.example/sites/mon-site/page-d-accueil</div>
-      </div>
-
-      <div class="list">
-        <div class="list-item">
-          <strong data-i18n="hosting_point_1_title">Déploiement rapide</strong>
-          <span data-i18n="hosting_point_1_text">Publie une page sans complexité inutile et garde une structure lisible.</span>
-        </div>
-        <div class="list-item">
-          <strong data-i18n="hosting_point_2_title">Multi-langage</strong>
-          <span data-i18n="hosting_point_2_text">Prend en charge plusieurs langages pour le front-end et le code logique.</span>
-        </div>
-        <div class="list-item">
-          <strong data-i18n="hosting_point_3_title">Expérience fluide</strong>
-          <span data-i18n="hosting_point_3_text">Une interface conçue pour les créateurs, les développeurs et les projets de communauté.</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="about" class="about">
-    <div class="about-box">
-      <div class="pill" data-i18n="about_badge" style="margin-bottom:18px;">À propos de Novibe</div>
-      <h3 data-i18n="about_title" style="margin:0; font-size: clamp(2.1rem, 4vw, 3.6rem); letter-spacing:-.06em;">Indépendante. Moderne. Créative.</h3>
-      <p data-i18n="about_text" style="color: var(--muted); line-height: 1.8; max-width: 860px; margin: 18px auto 0;">
-        Novibe Corporation est une corporation indépendante dédiée à l’hébergement de sites web et à la création d’outils de développement intégrés.
-        Le but est de réunir hébergement, édition de code et interface moderne dans un seul environnement simple et élégant.
-      </p>
-    </div>
-  </section>
 </main>
 
-<footer>
-  <div class="footer-inner">
-    <div data-i18n="footer_left"><strong style="color:white;">Novibe</strong> — © Novibe Corporation</div>
-    <div data-i18n="footer_right">Site conceptuel moderne avec dégradés, hébergement web et éditeur intégré.</div>
-  </div>
-  <div class="lang-box" id="lang-section">
-    <label for="language-select" data-i18n="language_label">Langue :</label>
-    <select id="language-select" aria-label="Choisir la langue">
-      <option value="fr">Français</option>
-      <option value="en">English</option>
-    </select>
-  </div>
-</footer>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
-  </div>  <script>
-    const translations = {
-      fr: {
-        nav_hosting: 'Hosting',
-        nav_features: 'Fonctions',
-        nav_about: 'À propos',
-        nav_language: 'Langue',
-        login: 'Connexion',
-        signup: 'Inscription',
-        hero_badge: 'Nouvelle génération de site web',
-        hero_title: 'Crée. <span class="grad">Héberge.</span><br>Code avec style.',
-        hero_text: 'Novibe est une corporation indépendante pensée pour héberger des sites web avec une structure moderne, par exemple /sites/nomdusite/pagedusite, tout en intégrant un éditeur de code directement dans le site. Compatible avec Java, Python, C++, CSS, JavaScript, JSON, HTML et plus encore.',
-        hero_cta_primary: 'Découvrir',
-        hero_cta_secondary: 'Voir l’hébergement',
-        metric_1: 'Stabilité d’hébergement',
-        metric_2: 'Accès cloud continu',
-        metric_3: 'Créativité sans limite',
-        editor_title: 'novibe-editor',
-        editor_preview_title: 'My Website',
-        editor_preview_line: 'Bienvenue sur Novibe.',
-        features_title: 'Fonctionnalités principales',
-        features_text: 'Une plateforme pensée pour publier, coder et organiser des projets web avec une interface moderne et propre.',
-        feature_1_title: 'Hébergement de sites',
-        feature_1_text: 'Publie des pages avec une structure claire comme /sites/nomdusite/pagedusite, idéale pour les projets indépendants.',
-        feature_2_title: 'Éditeur intégré',
-        feature_2_text: 'Travaille directement dans le navigateur avec HTML, CSS, JavaScript, JSON, Python, Java et C++.',
-        feature_3_title: 'Interface futuriste',
-        feature_3_text: 'Dégradés, effet glassmorphism, cartes lumineuses et ambiance new website pour une identité premium.',
-        feature_4_title: 'Plateforme indépendante',
-        feature_4_text: 'Novibe est conçue comme une corporation autonome qui aide les créateurs à lancer leurs idées plus vite.',
-        hosting_title: 'Système d’hébergement',
-        hosting_text: 'Novibe permet d’héberger des sites web avec une logique simple et moderne. Chaque projet peut disposer de ses propres pages, de son propre chemin d’accès et d’une gestion claire des contenus.',
-        hosting_point_1_title: 'Déploiement rapide',
-        hosting_point_1_text: 'Publie une page sans complexité inutile et garde une structure lisible.',
-        hosting_point_2_title: 'Multi-langage',
-        hosting_point_2_text: 'Prend en charge plusieurs langages pour le front-end et le code logique.',
-        hosting_point_3_title: 'Expérience fluide',
-        hosting_point_3_text: 'Une interface conçue pour les créateurs, les développeurs et les projets de communauté.',
-        about_badge: 'À propos de Novibe',
-        about_title: 'Indépendante. Moderne. Créative.',
-        about_text: 'Novibe Corporation est une corporation indépendante dédiée à l’hébergement de sites web et à la création d’outils de développement intégrés. Le but est de réunir hébergement, édition de code et interface moderne dans un seul environnement simple et élégant.',
-        footer_left: 'Novibe — © Novibe Corporation',
-        footer_right: 'Site conceptuel moderne avec dégradés, hébergement web et éditeur intégré.',
-        language_label: 'Langue :'
-      },
+  const firebaseConfig = {
+    apiKey: "AIzaSyDdMYtSr2FeNGay_Nwv8oLMXg7WVQspOJ8",
+    authDomain: "novibe-a5c1f.firebaseapp.com",
+    projectId: "novibe-a5c1f",
+    storageBucket: "novibe-a5c1f.firebasestorage.app",
+    messagingSenderId: "312673438609",
+    appId: "1:312673438609:web:2fbf719814a6c8c61a2830"
+  };
 
-      en: {
-        nav_hosting: 'Hosting',
-        nav_features: 'Features',
-        nav_about: 'About',
-        nav_language: 'Language',
-        login: 'Login',
-        signup: 'Signup',
-        hero_badge: 'New generation website',
-        hero_title: 'Create. <span class="grad">Host.</span><br>Code with style.',
-        hero_text: 'Novibe is an independent corporation designed to host websites with a modern structure such as /sites/yoursite/page while integrating a built-in code editor directly into the platform.',
-        hero_cta_primary: 'Discover',
-        hero_cta_secondary: 'View hosting',
-        metric_1: 'Hosting stability',
-        metric_2: 'Continuous cloud access',
-        metric_3: 'Unlimited creativity',
-        editor_title: 'novibe-editor',
-        editor_preview_title: 'My Website',
-        editor_preview_line: 'Welcome to Novibe.',
-        features_title: 'Main Features',
-        features_text: 'A platform designed to publish, code and organize web projects with a modern interface.',
-        feature_1_title: 'Website Hosting',
-        feature_1_text: 'Publish pages with a clean structure like /sites/yoursite/page.',
-        feature_2_title: 'Integrated Editor',
-        feature_2_text: 'Work directly in your browser with HTML, CSS, JavaScript, JSON, Python, Java and C++.',
-        feature_3_title: 'Futuristic Interface',
-        feature_3_text: 'Gradients, glassmorphism effects and glowing cards for a premium identity.',
-        feature_4_title: 'Independent Platform',
-        feature_4_text: 'Novibe helps creators launch ideas faster.',
-        hosting_title: 'Hosting System',
-        hosting_text: 'Novibe provides a modern hosting logic with clean project structures.',
-        hosting_point_1_title: 'Fast deployment',
-        hosting_point_1_text: 'Publish quickly with a readable structure.',
-        hosting_point_2_title: 'Multi-language',
-        hosting_point_2_text: 'Supports multiple programming languages.',
-        hosting_point_3_title: 'Smooth experience',
-        hosting_point_3_text: 'Built for creators and developers.',
-        about_badge: 'About Novibe',
-        about_title: 'Independent. Modern. Creative.',
-        about_text: 'Novibe Corporation is dedicated to hosting websites and integrated development tools.',
-        footer_left: 'Novibe — © Novibe Corporation',
-        footer_right: 'Modern concept website with gradients and integrated editor.',
-        language_label: 'Language:'
-      }
-    };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-    const languageSelect = document.getElementById('language-select');
+  const authButtons = document.getElementById("authButtons");
 
-    function applyLanguage(lang) {
-      const current = translations[lang] || translations.fr;
+  onAuthStateChanged(auth, (user) => {
 
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if(current[key]) {
-          el.textContent = current[key];
-        }
+    if (user) {
+      authButtons.innerHTML = `
+        <a class="btn" href="/create">Créer</a>
+        <button class="btn secondary" id="logoutBtn">Déconnexion</button>
+      `;
+
+      document.getElementById("logoutBtn").addEventListener("click", async () => {
+        await signOut(auth);
+        location.reload();
       });
 
-      document.querySelectorAll('[data-i18n-html]').forEach(el => {
-        const key = el.getAttribute('data-i18n-html');
-        if(current[key]) {
-          el.innerHTML = current[key];
-        }
-      });
-
-      document.documentElement.lang = lang;
-      localStorage.setItem('novibe-language', lang);
+    } else {
+      authButtons.innerHTML = `
+        <a class="btn secondary" href="/login">Connexion</a>
+        <a class="btn" href="/signup">Inscription</a>
+      `;
     }
+  });
 
-    const savedLanguage = localStorage.getItem('novibe-language');
-    const browserLanguage = navigator.language.slice(0,2);
+</script>
 
-    const defaultLanguage =
-      translations[savedLanguage]
-      ? savedLanguage
-      : translations[browserLanguage]
-      ? browserLanguage
-      : 'fr';
-
-    languageSelect.value = defaultLanguage;
-    applyLanguage(defaultLanguage);
-
-    languageSelect.addEventListener('change', e => {
-      applyLanguage(e.target.value);
-    });
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting) {
-          entry.target.animate([
-            { opacity: 0, transform: 'translateY(30px)' },
-            { opacity: 1, transform: 'translateY(0)' }
-          ], {
-            duration: 700,
-            easing: 'ease',
-            fill: 'forwards'
-          });
-        }
-      });
-    });
-
-    document.querySelectorAll('.card, .panel, .metric, .about-box').forEach(el => {
-      observer.observe(el);
-    });
-  </script>
 </body>
 </html>
