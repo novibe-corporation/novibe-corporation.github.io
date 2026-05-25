@@ -1,110 +1,580 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!DOCTYPE html><html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Inscription - Novibe</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Novibe — Inscription</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #070b14;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+    :root {
+      --bg: #070b14;
+      --panel: rgba(255,255,255,.06);
+      --panel-strong: rgba(255,255,255,.10);
+      --text: #ffffff;
+      --muted: rgba(255,255,255,.68);
+      --line: rgba(255,255,255,.12);
+      --cyan: #59f0ff;
+      --blue: #5aa7ff;
+      --violet: #cb6bff;
+      --pink: #ff6bd6;
+      --shadow: 0 24px 60px rgba(0,0,0,.35);
+      --radius-lg: 24px;
+      --radius-xl: 34px;
+    }* { box-sizing: border-box; min-width: 0; }
+html { scroll-behavior: smooth; }
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+  background: var(--bg);
+}
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 12% 12%, rgba(89,240,255,.22), transparent 24%),
+    radial-gradient(circle at 82% 18%, rgba(203,107,255,.20), transparent 24%),
+    radial-gradient(circle at 50% 75%, rgba(90,167,255,.14), transparent 30%),
+    linear-gradient(180deg, #05070d 0%, #070b14 45%, #060913 100%);
+}
 
-    .box {
-      width: 90%;
-      max-width: 420px;
-      padding: 30px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 20px;
-      backdrop-filter: blur(12px);
-    }
+a { color: inherit; text-decoration: none; }
 
-    input {
-      width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(0,0,0,0.3);
-      color: white;
-      outline: none;
-    }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes floating {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 rgba(89,240,255,.2); }
+  50% { box-shadow: 0 0 24px rgba(89,240,255,.28); }
+  100% { box-shadow: 0 0 0 rgba(89,240,255,.2); }
+}
 
-    button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #59f0ff, #5aa7ff);
-      font-weight: bold;
-      cursor: pointer;
-    }
+.wrap {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: clip;
+}
 
-    .msg {
-      margin-top: 15px;
-      font-size: 14px;
-      color: #aaa;
-    }
+.glow {
+  position: fixed;
+  border-radius: 999px;
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: .9;
+}
+.glow.one { top: -120px; left: -60px; width: 360px; height: 360px; background: rgba(89,240,255,.25); }
+.glow.two { bottom: -140px; right: -60px; width: 420px; height: 420px; background: rgba(203,107,255,.22); }
+.glow.three { top: 30%; left: 46%; width: 300px; height: 300px; background: rgba(90,167,255,.16); }
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 20;
+  backdrop-filter: blur(10px);
+  background: rgba(7,11,20,.58);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar-inner, .footer-inner, .container {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0;
+}
+
+.brand { display: flex; align-items: center; gap: 14px; }
+.logo {
+  width: 44px; height: 44px; border-radius: 16px;
+  background: linear-gradient(135deg, var(--cyan), var(--violet));
+  box-shadow: 0 12px 36px rgba(89,240,255,.22);
+  animation: floating 5s ease-in-out infinite;
+}
+.brand h1 { margin: 0; font-size: 1.4rem; line-height: 1; letter-spacing: -.04em; }
+.brand p { margin: 3px 0 0; color: var(--muted); font-size: .82rem; }
+
+.back-link {
+  color: rgba(255,255,255,.72);
+  font-size: .96rem;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  transition: .2s ease;
+}
+.back-link:hover {
+  color: white;
+  border-color: rgba(255,255,255,.12);
+  background: rgba(255,255,255,.05);
+  text-shadow: 0 0 12px rgba(89,240,255,.7);
+}
+
+main {
+  padding-top: 120px;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.signup-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0,1.05fr) minmax(0,.95fr);
+  gap: 22px;
+  align-items: stretch;
+  padding: 36px 0 28px;
+}
+
+.hero-card, .form-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 34px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+  min-width: 0;
+  animation: fadeUp .8s ease;
+}
+
+.hero-card {
+  padding: 34px;
+  position: relative;
+}
+
+.hero-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(89,240,255,.08), rgba(203,107,255,.06));
+  pointer-events: none;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--line);
+  color: var(--cyan);
+  font-size: .92rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  backdrop-filter: blur(14px);
+  position: relative;
+  z-index: 1;
+}
+
+.hero-card h2 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: clamp(2.6rem, 5vw, 4.9rem);
+  line-height: .96;
+  letter-spacing: -.08em;
+}
+
+.hero-card h2 .grad {
+  background: linear-gradient(135deg, #ffffff 0%, var(--cyan) 38%, var(--violet) 72%, var(--pink) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-card p {
+  position: relative;
+  z-index: 1;
+  color: var(--muted);
+  line-height: 1.75;
+  font-size: 1.02rem;
+  margin: 18px 0 0;
+  max-width: 620px;
+}
+
+.feature-list {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.feature-item {
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.10);
+}
+
+.feature-item strong { display: block; margin-bottom: 4px; }
+.feature-item span { color: var(--muted); line-height: 1.65; }
+
+.form-card {
+  padding: 30px;
+}
+
+.form-head {
+  margin-bottom: 22px;
+}
+
+.form-head h3 {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: -.05em;
+}
+
+.form-head p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.field label {
+  font-size: .92rem;
+  color: rgba(255,255,255,.78);
+}
+
+.field input {
+  width: 100%;
+  padding: 15px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  color: white;
+  outline: none;
+  font-size: 1rem;
+  transition: .2s ease;
+}
+
+.field input:focus {
+  border-color: rgba(89,240,255,.55);
+  box-shadow: 0 0 0 3px rgba(89,240,255,.12);
+  background: rgba(255,255,255,.08);
+}
+
+.helper {
+  margin-top: 8px;
+  color: rgba(255,255,255,.5);
+  font-size: .88rem;
+  line-height: 1.5;
+}
+
+.progress {
+  margin-top: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+.progress > div {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--cyan), var(--violet));
+  transition: width .25s ease;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 0;
+  cursor: pointer;
+  font-weight: 800;
+  border-radius: 18px;
+  padding: 14px 20px;
+  color: #071018;
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  box-shadow: 0 16px 40px rgba(89,240,255,.18);
+  transition: transform .18s ease, filter .18s ease;
+  white-space: nowrap;
+  animation: pulseGlow 4s infinite;
+  width: 100%;
+}
+
+.btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.btn.secondary {
+  color: #fff;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--line);
+  box-shadow: none;
+  backdrop-filter: blur(14px);
+}
+
+.message {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.10);
+  color: var(--muted);
+  line-height: 1.6;
+  min-height: 52px;
+  overflow-wrap: anywhere;
+}
+
+.small-links {
+  margin-top: 14px;
+  color: rgba(255,255,255,.62);
+  font-size: .95rem;
+  line-height: 1.7;
+}
+
+.small-links a {
+  color: var(--cyan);
+  font-weight: 700;
+}
+
+footer {
+  padding: 10px 0 28px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  background: rgba(0,0,0,.10);
+  backdrop-filter: blur(16px);
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  color: rgba(255,255,255,.54);
+  font-size: .95rem;
+}
+
+@media (max-width: 980px) {
+  .topbar-inner, .footer-inner, .container {
+    width: min(1180px, calc(100% - 20px));
+  }
+  .topbar-inner {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+  main {
+    padding-top: 136px;
+    align-items: start;
+  }
+  .signup-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 18px 0 24px;
+  }
+  .hero-card, .form-card {
+    border-radius: 28px;
+  }
+  .hero-card {
+    padding: 26px;
+  }
+  .form-card {
+    padding: 24px;
+  }
+  .hero-card h2 {
+    font-size: clamp(2.3rem, 10vw, 4rem);
+  }
+  .form-head h3 {
+    font-size: 1.7rem;
+  }
+}
+
   </style>
 </head>
-
 <body>
+  <div class="wrap">
+    <div class="glow one"></div>
+    <div class="glow two"></div>
+    <div class="glow three"></div><header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <h1>Novibe</h1>
+        <p>© Novibe Corporation</p>
+      </div>
+    </div>
 
-<div class="box">
-  <h1>Créer un compte</h1>
+    <a class="back-link" href="/">Retour à l’accueil</a>
+  </div>
+</header>
 
-  <input type="email" id="email" placeholder="Email" />
-  <input type="password" id="password" placeholder="Mot de passe" />
+<main class="container">
+  <section class="signup-grid">
+    <div class="hero-card">
+      <div class="pill">Créer un compte Novibe</div>
+      <h2>
+        Rejoins <span class="grad">Novibe</span>
+        <br />
+        en quelques secondes.
+      </h2>
+      <p>
+        Inscription avec email et mot de passe obligatoire, dans une interface moderne qui reprend le style de la page d’accueil.
+        Une fois connecté, tu pourras accéder aux outils Novibe, au futur éditeur, et à ton espace utilisateur.
+      </p>
 
-  <button id="signup">S'inscrire</button>
+      <div class="feature-list">
+        <div class="feature-item">
+          <strong>Compte sécurisé</strong>
+          <span>Email + mot de passe obligatoires pour créer le compte.</span>
+        </div>
+        <div class="feature-item">
+          <strong>Style Novibe</strong>
+          <span>Dégradés, effet glassmorphism, et interface premium cohérente avec l’accueil.</span>
+        </div>
+        <div class="feature-item">
+          <strong>Prêt pour l’app</strong>
+          <span>Connexion vers /login et redirection propre après création du compte.</span>
+        </div>
+      </div>
+    </div>
 
-  <div class="msg" id="msg"></div>
-</div>
+    <div class="form-card">
+      <div class="form-head">
+        <h3>Inscription</h3>
+        <p>Crée ton compte Novibe avec ton email et un mot de passe.</p>
+      </div>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-  import {
-    getAuth,
-    createUserWithEmailAndPassword
-  } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+      <div class="field">
+        <label for="email">Adresse email</label>
+        <input id="email" type="email" placeholder="exemple@email.com" autocomplete="email" />
+      </div>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDdMYtSr2FeNGay_Nwv8oLMXg7WVQspOJ8",
-    authDomain: "novibe-a5c1f.firebaseapp.com",
-    projectId: "novibe-a5c1f",
-    storageBucket: "novibe-a5c1f.firebasestorage.app",
-    messagingSenderId: "312673438609",
-    appId: "1:312673438609:web:2fbf719814a6c8c61a2830"
-  };
+      <div class="field">
+        <label for="password">Mot de passe</label>
+        <input id="password" type="password" placeholder="Au moins 6 caractères" autocomplete="new-password" />
+        <div class="helper">Le mot de passe Firebase doit contenir au moins 6 caractères.</div>
+        <div class="progress" aria-hidden="true"><div id="strengthBar"></div></div>
+      </div>
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+      <div class="field">
+        <label for="confirm">Confirmer le mot de passe</label>
+        <input id="confirm" type="password" placeholder="Répète le mot de passe" autocomplete="new-password" />
+      </div>
 
-  const email = document.getElementById("email");
-  const password = document.getElementById("password");
-  const msg = document.getElementById("msg");
+      <div class="actions">
+        <button id="signupBtn" class="btn" type="button">S'inscrire</button>
+        <a class="btn secondary" href="/login">Déjà un compte ? Connexion</a>
+      </div>
 
-  document.getElementById("signup").addEventListener("click", async () => {
-    try {
-      await createUserWithEmailAndPassword(auth, email.value, password.value);
+      <div id="message" class="message">Remplis les champs pour créer ton compte.</div>
+      <div class="small-links">
+        En créant un compte, tu acceptes d’utiliser Novibe de manière responsable.
+      </div>
+    </div>
+  </section>
+</main>
 
-      msg.textContent = "✔ Compte créé avec succès !";
-      setTimeout(() => location.href = "/", 1200);
+<footer>
+  <div class="footer-inner container">
+    <div><strong style="color:white;">Novibe</strong> — © Novibe Corporation</div>
+    <div>Signup style accueil, compatible Firebase Authentication.</div>
+  </div>
+</footer>
 
-    } catch (e) {
-      msg.textContent = "Erreur : " + e.message;
+  </div>  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDdMYtSr2FeNGay_Nwv8oLMXg7WVQspOJ8",
+      authDomain: "novibe-a5c1f.firebaseapp.com",
+      projectId: "novibe-a5c1f",
+      storageBucket: "novibe-a5c1f.firebasestorage.app",
+      messagingSenderId: "312673438609",
+      appId: "1:312673438609:web:2fbf719814a6c8c61a2830"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const confirm = document.getElementById('confirm');
+    const signupBtn = document.getElementById('signupBtn');
+    const message = document.getElementById('message');
+    const strengthBar = document.getElementById('strengthBar');
+
+    function setMessage(text, isError = false) {
+      message.textContent = text;
+      message.style.color = isError ? '#ffb4b4' : 'rgba(255,255,255,.72)';
+      message.style.borderColor = isError ? 'rgba(255,107,107,.35)' : 'rgba(255,255,255,.10)';
     }
-  });
-</script>
 
-</body>
+    function updateStrength() {
+      const value = password.value || '';
+      const len = value.length;
+      let pct = 0;
+      if (len >= 6) pct = 35;
+      if (len >= 8) pct = 55;
+      if (len >= 10) pct = 75;
+      if (len >= 12) pct = 100;
+      strengthBar.style.width = pct + '%';
+    }
+
+    password.addEventListener('input', updateStrength);
+
+    signupBtn.addEventListener('click', async () => {
+      const mail = email.value.trim();
+      const pass = password.value;
+      const pass2 = confirm.value;
+
+      if (!mail || !pass || !pass2) {
+        setMessage('Remplis tous les champs.', true);
+        return;
+      }
+
+      if (pass !== pass2) {
+        setMessage('Les mots de passe ne correspondent pas.', true);
+        return;
+      }
+
+      if (pass.length < 6) {
+        setMessage('Le mot de passe doit contenir au moins 6 caractères.', true);
+        return;
+      }
+
+      signupBtn.disabled = true;
+      signupBtn.textContent = 'Création...';
+
+      try {
+        await createUserWithEmailAndPassword(auth, mail, pass);
+        setMessage('Compte créé avec succès. Redirection...');
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1200);
+      } catch (error) {
+        setMessage(error?.message || 'Une erreur est survenue.', true);
+      } finally {
+        signupBtn.disabled = false;
+        signupBtn.textContent = "S'inscrire";
+      }
+    });
+  </script></body>
 </html>
