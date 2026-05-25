@@ -671,4 +671,26 @@ img, video, canvas, svg {
       es: 'Crea. <span class="grad">Aloja.</span><br>Programa con estilo.',
       de: 'Erstellen. <span class="grad">Hosten.</span><br>Mit Stil coden.',
       zh: '创建。<span class="grad">托管。</span><br>优雅编码。',
-      ja: '作成。<span class="grad">ホスト。</span>
+      ja: '作成。<span class="grad">ホスト。</span><br>スタイリッシュにコード。',
+      it: 'Crea. <span class="grad">Ospita.</span><br>Programma con stile.'
+    };
+
+    heroTitle.innerHTML = titles[lang] || titles.fr;
+
+    localStorage.setItem('novibe-language', lang);
+  }
+
+  const savedLang = localStorage.getItem('novibe-language');
+  const deviceLang = navigator.language.slice(0,2);
+  const defaultLang = savedLang || (translations[deviceLang] ? deviceLang : 'fr');
+
+  select.value = defaultLang;
+  applyLanguage(defaultLang);
+
+  select.addEventListener('change', (event) => {
+    applyLanguage(event.target.value);
+  });
+</script>
+
+</body>
+</html>
