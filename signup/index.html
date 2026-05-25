@@ -702,4 +702,164 @@ footer.signup-footer {
       fr: {
         nav_hosting: 'Hosting',
         nav_features: 'Fonctions',
- 
+        nav_about: 'À propos',
+        nav_language: 'Langue',
+
+        login: 'Connexion',
+        signup: 'Inscription',
+
+        hero_badge: 'Créer un compte Novibe',
+        hero_title: 'Rejoins <span class="grad">Novibe</span><br>en quelques secondes.',
+        hero_text: 'Inscription avec email et mot de passe obligatoire.',
+
+        hero_point_1_title: 'Compte sécurisé',
+        hero_point_1_text: 'Email + mot de passe obligatoires pour créer le compte.',
+        hero_point_2_title: 'Interface cohérente',
+        hero_point_2_text: 'Même design que la plateforme principale.',
+        hero_point_3_title: 'Prêt pour l’app',
+        hero_point_3_text: 'Connexion directe vers ton espace utilisateur.',
+
+        form_title: 'Inscription',
+        form_text: 'Crée ton compte Novibe.',
+        label_email: 'Adresse email',
+        label_password: 'Mot de passe',
+        label_confirm: 'Confirmer le mot de passe',
+        password_help: 'Minimum 6 caractères requis.',
+
+        button_signup: "S'inscrire",
+        button_login: 'Déjà un compte ? Connexion',
+
+        message_default: 'Remplis les champs pour créer ton compte.',
+        footer_left: 'Novibe — © Novibe Corporation',
+        footer_right: 'Signup avec Firebase Authentication.',
+        language_label: 'Langue :',
+
+        terms: "En créant un compte, tu acceptes les conditions d'utilisation."
+      },
+
+      en: {
+        nav_hosting: 'Hosting',
+        nav_features: 'Features',
+        nav_about: 'About',
+        nav_language: 'Language',
+
+        login: 'Login',
+        signup: 'Sign up',
+
+        hero_badge: 'Create a Novibe account',
+        hero_title: 'Join <span class="grad">Novibe</span><br>in seconds.',
+        hero_text: 'Sign up with email and password required.',
+
+        hero_point_1_title: 'Secure account',
+        hero_point_1_text: 'Email + password required to create account.',
+        hero_point_2_title: 'Clean interface',
+        hero_point_2_text: 'Same design system as the main platform.',
+        hero_point_3_title: 'Ready for app',
+        hero_point_3_text: 'Direct access to your dashboard.',
+
+        form_title: 'Sign up',
+        form_text: 'Create your Novibe account.',
+        label_email: 'Email address',
+        label_password: 'Password',
+        label_confirm: 'Confirm password',
+        password_help: 'Minimum 6 characters required.',
+
+        button_signup: "Sign up",
+        button_login: 'Already have an account? Login',
+
+        message_default: 'Fill in the fields to create your account.',
+        footer_left: 'Novibe — © Novibe Corporation',
+        footer_right: 'Signup with Firebase Authentication.',
+        language_label: 'Language:',
+
+        terms: 'By creating an account, you agree to the terms of use.'
+      }
+    };
+
+    function applyLanguage(lang) {
+      localStorage.setItem("lang", lang);
+      document.documentElement.lang = lang;
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (translations[lang][key]) {
+          el.innerText = translations[lang][key];
+        }
+      });
+
+      document.querySelectorAll("[data-i18n-html]").forEach(el => {
+        const key = el.getAttribute("data-i18n-html");
+        if (translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+    }
+
+    const langSelect = document.getElementById("language-select");
+    langSelect.value = localStorage.getItem("lang") || "fr";
+    applyLanguage(langSelect.value);
+
+    langSelect.addEventListener("change", (e) => {
+      applyLanguage(e.target.value);
+    });
+
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const confirm = document.getElementById("confirm");
+    const btn = document.getElementById("signupBtn");
+    const message = document.getElementById("message");
+    const strengthBar = document.getElementById("strengthBar");
+
+    function updateStrength(pwd) {
+      let score = 0;
+      if (pwd.length >= 6) score++;
+      if (pwd.length >= 10) score++;
+      if (/[A-Z]/.test(pwd)) score++;
+      if (/[0-9]/.test(pwd)) score++;
+
+      const percent = (score / 4) * 100;
+      strengthBar.style.width = percent + "%";
+    }
+
+    password.addEventListener("input", () => {
+      updateStrength(password.value);
+    });
+
+    btn.addEventListener("click", async () => {
+      const em = email.value.trim();
+      const pw = password.value;
+      const cpw = confirm.value;
+
+      if (!em || !pw || !cpw) {
+        message.textContent = "❌ Remplis tous les champs.";
+        return;
+      }
+
+      if (pw !== cpw) {
+        message.textContent = "❌ Les mots de passe ne correspondent pas.";
+        return;
+      }
+
+      if (pw.length < 6) {
+        message.textContent = "❌ Mot de passe trop court (min 6).";
+        return;
+      }
+
+      try {
+        message.textContent = "⏳ Création du compte...";
+
+        await createUserWithEmailAndPassword(auth, em, pw);
+
+        message.textContent = "✅ Compte créé avec succès !";
+
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 1200);
+
+      } catch (err) {
+        message.textContent = "❌ " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
