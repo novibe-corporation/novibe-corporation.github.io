@@ -17,7 +17,6 @@
       --violet: #cb6bff;
       --pink: #ff6bd6;
       --shadow: 0 24px 60px rgba(0,0,0,.35);
-      --radius-lg: 24px;
     }
 
     * {
@@ -49,11 +48,11 @@
       background: rgba(7,11,20,.6);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line);
-      z-index: 20;
+      z-index: 50;
     }
 
     .topbar-inner {
-      width: min(1180px, calc(100% - 32px));
+      width: min(1280px, calc(100% - 32px));
       margin: auto;
       display: flex;
       justify-content: space-between;
@@ -73,17 +72,17 @@
       height:44px;
       border-radius:14px;
       background: linear-gradient(135deg,var(--cyan),var(--violet));
-      box-shadow: 0 10px 30px rgba(89,240,255,.25);
+      box-shadow: 0 12px 30px rgba(89,240,255,.25);
     }
 
     nav {
       display:flex;
-      gap:20px;
+      gap:22px;
     }
 
     nav a {
-      color: rgba(255,255,255,.7);
-      font-size: .95rem;
+      color: rgba(255,255,255,.72);
+      font-size: .96rem;
       transition: .2s;
     }
 
@@ -121,85 +120,120 @@
 
     main {
       padding-top: 110px;
-      width: min(1400px, calc(100% - 32px));
+      width: min(1450px, calc(100% - 32px));
       margin: auto;
       padding-bottom: 40px;
     }
 
+    .hero {
+      margin-bottom: 22px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 28px;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 3rem;
+      line-height: 1;
+      letter-spacing: -.06em;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg,var(--cyan),var(--violet));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      margin-top: 16px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 800px;
+    }
+
+    /* ===== EDITOR ===== */
+
     .editor-layout {
       display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 18px;
+      grid-template-columns: 320px 1fr;
+      gap: 20px;
     }
 
     .sidebar,
-    .editor-box {
+    .editor-panel {
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 26px;
-      box-shadow: var(--shadow);
+      border-radius: 28px;
       backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
     }
 
     .sidebar {
-      padding: 22px;
+      padding: 24px;
       height: fit-content;
+      position: sticky;
+      top: 110px;
     }
 
     .sidebar h2 {
       margin-top: 0;
-      font-size: 1.3rem;
+      margin-bottom: 12px;
+      font-size: 1.4rem;
     }
 
     .sidebar p {
       color: var(--muted);
       line-height: 1.6;
-      font-size: .95rem;
     }
 
-    .tool-list {
-      margin-top: 22px;
+    .side-list {
+      margin-top: 24px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
-    .tool-item {
-      padding: 14px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.05);
+    .side-item {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.04);
       border: 1px solid rgba(255,255,255,.08);
     }
 
-    .tool-item strong {
+    .side-item strong {
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
-    .tool-item span {
+    .side-item span {
       color: var(--muted);
-      font-size: .9rem;
+      font-size: .92rem;
       line-height: 1.5;
     }
 
-    .editor-box {
+    .editor-panel {
       overflow: hidden;
     }
 
-    .editor-topbar {
+    .editor-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 18px 20px;
       border-bottom: 1px solid var(--line);
       background: rgba(255,255,255,.03);
+      gap: 14px;
       flex-wrap: wrap;
-      gap: 12px;
     }
 
-    .editor-topbar h1 {
+    .editor-top h2 {
       margin: 0;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
 
     .editor-actions {
@@ -209,47 +243,82 @@
     }
 
     .editor-content {
-      padding: 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 720px;
+    }
+
+    .code-side {
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .preview-side {
+      display: flex;
+      flex-direction: column;
+      background: rgba(255,255,255,.02);
+    }
+
+    .panel-title {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      color: rgba(255,255,255,.72);
+      font-size: .92rem;
+      background: rgba(255,255,255,.02);
     }
 
     textarea {
+      flex: 1;
       width: 100%;
-      height: 520px;
-      resize: vertical;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: rgba(0,0,0,.28);
+      border: none;
+      resize: none;
+      background: transparent;
       color: white;
-      padding: 18px;
-      outline: none;
+      padding: 20px;
       font-family: Consolas, monospace;
       font-size: .95rem;
-      line-height: 1.6;
-    }
-
-    .preview-box {
-      margin-top: 18px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      overflow: hidden;
-      background: white;
-      height: 420px;
+      line-height: 1.7;
+      outline: none;
     }
 
     iframe {
+      flex: 1;
       width: 100%;
-      height: 100%;
       border: none;
       background: white;
     }
 
-    .message {
-      margin-top: 14px;
+    .status {
+      padding: 14px 18px;
+      border-top: 1px solid var(--line);
       color: var(--muted);
-      min-height: 24px;
+      font-size: .92rem;
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: 1100px) {
+
+      .editor-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: relative;
+        top: 0;
+      }
+
+      .editor-content {
+        grid-template-columns: 1fr;
+      }
+
+      .code-side {
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+        min-height: 400px;
+      }
+    }
+
+    @media (max-width: 850px) {
 
       .topbar-inner {
         flex-wrap: wrap;
@@ -261,12 +330,12 @@
         display: none;
       }
 
-      .editor-layout {
-        grid-template-columns: 1fr;
+      .hero h1 {
+        font-size: 2.3rem;
       }
 
-      textarea {
-        height: 420px;
+      main {
+        width: min(1450px, calc(100% - 20px));
       }
     }
   </style>
@@ -279,6 +348,7 @@
 
     <div class="brand">
       <div class="logo"></div>
+
       <div>
         <strong>Novibe</strong><br>
         <small>© Corporation</small>
@@ -289,6 +359,7 @@
       <a href="/home">Home</a>
       <a href="/sites">Sites</a>
       <a href="/wiki">Wiki</a>
+      <a href="/editor">Editor</a>
     </nav>
 
     <div class="auth-buttons">
@@ -301,54 +372,71 @@
 
 <main>
 
-  <div class="editor-layout">
+  <section class="hero">
+    <h1>Novibe <span>Editor</span></h1>
+
+    <p>
+      Éditeur de code moderne intégré directement dans Novibe.
+      Code ton site, teste ton HTML/CSS/JavaScript et visualise le rendu instantanément.
+    </p>
+  </section>
+
+  <section class="editor-layout">
 
     <aside class="sidebar">
 
-      <h2>Novibe Editor</h2>
+      <h2>Outils</h2>
 
       <p>
-        Éditeur intégré moderne pour coder directement sur Novibe.
+        Utilise l’éditeur Novibe pour créer rapidement des pages web modernes.
       </p>
 
-      <div class="tool-list">
+      <div class="side-list">
 
-        <div class="tool-item">
+        <div class="side-item">
           <strong>HTML</strong>
-          <span>Structure de la page web</span>
+          <span>Structure de ton site web.</span>
         </div>
 
-        <div class="tool-item">
+        <div class="side-item">
           <strong>CSS</strong>
-          <span>Design et interface utilisateur</span>
+          <span>Design moderne et responsive.</span>
         </div>
 
-        <div class="tool-item">
+        <div class="side-item">
           <strong>JavaScript</strong>
-          <span>Fonctions et interactions</span>
+          <span>Interactions et animations.</span>
         </div>
 
-        <div class="tool-item">
+        <div class="side-item">
           <strong>Live Preview</strong>
-          <span>Aperçu instantané du rendu</span>
+          <span>Visualisation instantanée.</span>
         </div>
 
       </div>
 
     </aside>
 
-    <section class="editor-box">
+    <section class="editor-panel">
 
-      <div class="editor-topbar">
-        <h1>editor.html</h1>
+      <div class="editor-top">
+
+        <h2>editor.html</h2>
 
         <div class="editor-actions">
           <button class="btn secondary" id="clearBtn">Effacer</button>
           <button class="btn" id="runBtn">Exécuter</button>
         </div>
+
       </div>
 
       <div class="editor-content">
+
+        <div class="code-side">
+
+          <div class="panel-title">
+            Code source
+          </div>
 
 <textarea id="code"><!DOCTYPE html>
 <html>
@@ -373,24 +461,33 @@
 <body>
 
   <h1>Bienvenue sur Novibe</h1>
+
   <p>Ton site fonctionne.</p>
 
 </body>
 </html></textarea>
 
-        <div class="message" id="message">
-          Éditeur prêt.
         </div>
 
-        <div class="preview-box">
+        <div class="preview-side">
+
+          <div class="panel-title">
+            Aperçu en direct
+          </div>
+
           <iframe id="preview"></iframe>
+
         </div>
 
       </div>
 
+      <div class="status" id="status">
+        Éditeur prêt.
+      </div>
+
     </section>
 
-  </div>
+  </section>
 
 </main>
 
@@ -404,14 +501,15 @@
   const preview = document.getElementById("preview");
   const runBtn = document.getElementById("runBtn");
   const clearBtn = document.getElementById("clearBtn");
-  const message = document.getElementById("message");
+  const status = document.getElementById("status");
   const logoutBtn = document.getElementById("logoutBtn");
 
   function runCode() {
+
     preview.srcdoc = code.value;
 
-    message.textContent = "Aperçu mis à jour.";
-    message.style.color = "#59f0ff";
+    status.textContent = "Aperçu mis à jour.";
+    status.style.color = "#59f0ff";
   }
 
   runBtn.addEventListener("click", runCode);
@@ -422,8 +520,8 @@
 
     preview.srcdoc = "";
 
-    message.textContent = "Éditeur vidé.";
-    message.style.color = "#ff6bd6";
+    status.textContent = "Éditeur vidé.";
+    status.style.color = "#ff6bd6";
   });
 
   logoutBtn.addEventListener("click", () => {
