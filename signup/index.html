@@ -650,4 +650,80 @@ footer {
 
     function setMessage(text, isError = false) {
       els.message.textContent = text;
-      els.message.style.co
+      els.message.style.color = isError ? "#ff6b6b" : "var(--muted)";
+      els.message.style.borderColor = isError ? "rgba(255,107,107,.35)" : "rgba(255,255,255,.10)";
+      els.message.style.transform = "scale(1.02)";
+
+      setTimeout(() => {
+        els.message.style.transform = "scale(1)";
+      }, 150);
+    }
+
+    function updateStrength() {
+      const len = els.password.value.length;
+      let pct = 0;
+      if (len >= 6) pct = 30;
+      if (len >= 8) pct = 55;
+      if (len >= 10) pct = 75;
+      if (len >= 12) pct = 100;
+      els.strengthBar.style.width = pct + "%";
+    }
+
+    function shake(el) {
+      el.style.animation = "none";
+      void el.offsetWidth;
+      el.style.animation = "shake .35s ease";
+    }
+
+    const savedLang = localStorage.getItem(storageKey);
+    const browserLang = (navigator.language || "fr").slice(0, 2).toLowerCase();
+    const initialLang = savedLang || (translations[browserLang] ? browserLang : "fr");
+
+    applyLanguage(initialLang);
+    els.languageSelect.addEventListener("change", (e) => applyLanguage(e.target.value));
+    els.password.addEventListener("input", updateStrength);
+
+    els.signupBtn.addEventListener("click", async () => {
+      const mail = els.email.value.trim();
+      const pass = els.password.value;
+      const pass2 = els.confirm.value;
+      const lang = els.languageSelect.value;
+
+      if (!mail || !pass || !pass2) {
+        setMessage(lang === "en" ? "Fill in all fields." : "Remplis tous les champs.", true);
+        shake(els.signupBtn);
+        return;
+      }
+
+      if (pass !== pass2) {
+        setMessage(lang === "en" ? "Passwords do not match." : "Les mots de passe ne correspondent pas.", true);
+        shake(els.confirm);
+        return;
+      }
+
+      if (pass.length < 6) {
+        setMessage(lang === "en" ? "Password must be at least 6 characters." : "Le mot de passe doit contenir au moins 6 caractères.", true);
+        shake(els.password);
+        return;
+      }
+
+      els.signupBtn.disabled = true;
+      els.signupBtn.textContent = lang === "en" ? "Creating..." : "Création...";
+      setMessage(lang === "en" ? "Creating your account..." : "Création du compte...");
+
+      try {
+        await createUserWithEmailAndPassword(auth, mail, pass);
+        setMessage(lang === "en" ? "Account created. Redirecting..." : "Compte créé avec succès. Redirection...");
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 1200);
+      } catch (error) {
+        setMessage(error?.message || (lang === "en" ? "An error occurred." : "Une erreur est survenue."), true);
+      } finally {
+        els.signupBtn.disabled = false;
+        els.signupBtn.textContent = lang === "en" ? "Create account" : "S'inscrire";
+      }
+    });
+  </script>
+</body>
+</html>
