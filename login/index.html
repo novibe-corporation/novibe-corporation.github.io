@@ -61,55 +61,49 @@
     .glow.two { bottom: -140px; right: -60px; width: 420px; height: 420px; background: rgba(203,107,255,.22); animation-duration: 9s; }
     .glow.three { top: 30%; left: 46%; width: 300px; height: 300px; background: rgba(90,167,255,.16); animation-duration: 10s; }
 
-    /* HEADER — EXACT /signup */
+    /* HEADER MINIMAL (comme /home) */
     .topbar {
       position: fixed;
       top: 0;
-      left: 0;
       width: 100%;
-      z-index: 20;
-      backdrop-filter: blur(10px);
-      background: rgba(7,11,20,.58);
+      backdrop-filter: blur(12px);
+      background: rgba(7,11,20,.7);
       border-bottom: 1px solid var(--line);
+      z-index: 10;
     }
 
     .topbar-inner {
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
+      max-width: 1180px;
+      margin: auto;
+      padding: 16px 20px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 20px;
-      padding: 18px 0;
+      align-items: center;
     }
 
-    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
     .logo {
-      width: 44px; height: 44px; border-radius: 16px;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
       background: linear-gradient(135deg, var(--cyan), var(--violet));
       box-shadow: 0 12px 36px rgba(89,240,255,.22);
       animation: floating 5s ease-in-out infinite;
     }
-    .brand h1 { margin: 0; font-size: 1.4rem; }
-    .brand p { margin: 3px 0 0; color: var(--muted); font-size: .82rem; }
 
-    .nav-links {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
+    .brand h1 {
+      margin: 0;
+      font-size: 1.4rem;
+      font-weight: 800;
     }
-    .nav-links a {
-      color: rgba(255,255,255,.72);
-      font-size: .96rem;
-      transition: .2s ease;
-    }
-    .nav-links a:hover { color: #fff; }
 
     .auth-buttons {
       display: flex;
-      align-items: center;
       gap: 12px;
     }
 
@@ -117,8 +111,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 14px 20px;
-      border-radius: 18px;
+      padding: 12px 18px;
+      border-radius: 16px;
       font-weight: 800;
       border: none;
       cursor: pointer;
@@ -219,23 +213,13 @@
 <div class="glow two"></div>
 <div class="glow three"></div>
 
-<!-- HEADER EXACT /signup -->
+<!-- HEADER MINIMAL -->
 <header class="topbar">
   <div class="topbar-inner">
     <div class="brand">
       <div class="logo"></div>
-      <div>
-        <h1>Novibe</h1>
-        <p>© Novibe Corporation</p>
-      </div>
+      <h1>Novibe</h1>
     </div>
-
-    <nav class="nav-links">
-      <a href="/#hosting">Hosting</a>
-      <a href="/#features">Fonctions</a>
-      <a href="/#about">À propos</a>
-      <a href="#lang-section">Langue</a>
-    </nav>
 
     <div class="auth-buttons">
       <a class="btn secondary" href="/signup">Inscription</a>
@@ -320,7 +304,6 @@
     try {
       await signInWithEmailAndPassword(auth, email, pass);
 
-      // IMPORTANT
       localStorage.setItem("novibe-auth", "true");
 
       setMessage("Connecté. Redirection...");
