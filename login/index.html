@@ -34,7 +34,6 @@
 
     a { text-decoration: none; color: inherit; }
 
-    /* ===== TOPBAR ===== */
     .topbar {
       position: fixed;
       top: 0;
@@ -55,6 +54,7 @@
     }
 
     .brand { display:flex; align-items:center; gap:12px; }
+
     .logo {
       width:44px;height:44px;border-radius:14px;
       background: linear-gradient(135deg,var(--cyan),var(--violet));
@@ -92,7 +92,6 @@
       color: white;
     }
 
-    /* ===== LOGIN ===== */
     main {
       padding-top: 110px;
       display:flex;
@@ -164,7 +163,9 @@
 
     <div class="auth-buttons">
       <a class="btn secondary" href="/signup">Signup</a>
-      <a class="btn" href="/">Home</a>
+
+      <!-- MODIF ICI -->
+      <a class="btn" href="/signup">Inscription</a>
     </div>
   </div>
 </header>
