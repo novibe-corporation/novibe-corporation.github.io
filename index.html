@@ -464,66 +464,8 @@ main { padding-top: 128px; }
       <span data-i18n="hosting_point_3_text">Une interface conçue pour les créateurs, les développeurs et les projets de communauté.</span>  
     </div>  
   </div>  
-</div>
-
-<script>
-const loginBtn = document.querySelector('.login-btn');
-const signupBtn = document.querySelector('.signup-btn');
-
-function isAuth() {
-  return localStorage.getItem('novibe-auth') === 'true';
-}
-
-function setAuth(v) {
-  localStorage.setItem('novibe-auth', v ? 'true' : 'false');
-  updateAuthUI();
-}
-
-function updateAuthUI() {
-  const auth = isAuth();
-
-  if (!loginBtn || !signupBtn) return;
-
-  if (auth) {
-    loginBtn.textContent = "Profil";
-    signupBtn.textContent = "Déconnexion";
-
-    loginBtn.href = "#profile";
-    signupBtn.href = "#logout";
-  } else {
-    loginBtn.textContent = "Connexion";
-    signupBtn.textContent = "Inscription";
-
-    loginBtn.href = "/login";
-    signupBtn.href = "/signup";
-  }
-}
-
-// Connexion / Profil
-loginBtn.addEventListener('click', (e) => {
-  if (!isAuth()) {
-    e.preventDefault();
-    setAuth(true);
-  } else {
-    e.preventDefault();
-    alert("Profil à créer");
-  }
-});
-
-// Inscription / Déconnexion
-signupBtn.addEventListener('click', (e) => {
-  if (!isAuth()) {
-    e.preventDefault();
-    setAuth(true);
-  } else {
-    e.preventDefault();
-    setAuth(false);
-  }
-});
-
-document.addEventListener("DOMContentLoaded", updateAuthUI);
-</script>
-  </section>
+  
+</section>
     <section id="about" class="about">  
     <div class="about-box">  
       <div class="pill" data-i18n="about_badge" style="margin-bottom:18px;">À propos de Novibe</div>  
