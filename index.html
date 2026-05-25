@@ -533,4 +533,133 @@ footer {
         editor_preview_line: 'Bienvenue sur Novibe.',
         features_title: 'Fonctionnalités principales',
         features_text: 'Une plateforme pensée pour publier, coder et organiser des projets web avec une interface moderne et propre.',
-        feature_1_title: 'Hé
+        feature_1_title: 'Hébergement de sites',
+        feature_1_text: 'Publie des pages avec une structure claire comme /sites/nomdusite/pagedusite, idéale pour les projets indépendants.',
+        feature_2_title: 'Éditeur intégré',
+        feature_2_text: 'Travaille directement dans le navigateur avec HTML, CSS, JavaScript, JSON, Python, Java et C++.',
+        feature_3_title: 'Interface futuriste',
+        feature_3_text: 'Dégradés, effet glassmorphism, cartes lumineuses et ambiance new website pour une identité premium.',
+        feature_4_title: 'Plateforme indépendante',
+        feature_4_text: 'Novibe est conçue comme une corporation autonome qui aide les créateurs à lancer leurs idées plus vite.',
+        hosting_title: 'Système d’hébergement',
+        hosting_text: 'Novibe permet d’héberger des sites web avec une logique simple et moderne. Chaque projet peut disposer de ses propres pages, de son propre chemin d’accès et d’une gestion claire des contenus.',
+        hosting_point_1_title: 'Déploiement rapide',
+        hosting_point_1_text: 'Publie une page sans complexité inutile et garde une structure lisible.',
+        hosting_point_2_title: 'Multi-langage',
+        hosting_point_2_text: 'Prend en charge plusieurs langages pour le front-end et le code logique.',
+        hosting_point_3_title: 'Expérience fluide',
+        hosting_point_3_text: 'Une interface conçue pour les créateurs, les développeurs et les projets de communauté.',
+        about_badge: 'À propos de Novibe',
+        about_title: 'Indépendante. Moderne. Créative.',
+        about_text: 'Novibe Corporation est une corporation indépendante dédiée à l’hébergement de sites web et à la création d’outils de développement intégrés. Le but est de réunir hébergement, édition de code et interface moderne dans un seul environnement simple et élégant.',
+        footer_left: 'Novibe — © Novibe Corporation',
+        footer_right: 'Site conceptuel moderne avec dégradés, hébergement web et éditeur intégré.',
+        language_label: 'Langue :'
+      },
+
+      en: {
+        nav_hosting: 'Hosting',
+        nav_features: 'Features',
+        nav_about: 'About',
+        nav_language: 'Language',
+        login: 'Login',
+        signup: 'Signup',
+        hero_badge: 'New generation website',
+        hero_title: 'Create. <span class="grad">Host.</span><br>Code with style.',
+        hero_text: 'Novibe is an independent corporation designed to host websites with a modern structure such as /sites/yoursite/page while integrating a built-in code editor directly into the platform.',
+        hero_cta_primary: 'Discover',
+        hero_cta_secondary: 'View hosting',
+        metric_1: 'Hosting stability',
+        metric_2: 'Continuous cloud access',
+        metric_3: 'Unlimited creativity',
+        editor_title: 'novibe-editor',
+        editor_preview_title: 'My Website',
+        editor_preview_line: 'Welcome to Novibe.',
+        features_title: 'Main Features',
+        features_text: 'A platform designed to publish, code and organize web projects with a modern interface.',
+        feature_1_title: 'Website Hosting',
+        feature_1_text: 'Publish pages with a clean structure like /sites/yoursite/page.',
+        feature_2_title: 'Integrated Editor',
+        feature_2_text: 'Work directly in your browser with HTML, CSS, JavaScript, JSON, Python, Java and C++.',
+        feature_3_title: 'Futuristic Interface',
+        feature_3_text: 'Gradients, glassmorphism effects and glowing cards for a premium identity.',
+        feature_4_title: 'Independent Platform',
+        feature_4_text: 'Novibe helps creators launch ideas faster.',
+        hosting_title: 'Hosting System',
+        hosting_text: 'Novibe provides a modern hosting logic with clean project structures.',
+        hosting_point_1_title: 'Fast deployment',
+        hosting_point_1_text: 'Publish quickly with a readable structure.',
+        hosting_point_2_title: 'Multi-language',
+        hosting_point_2_text: 'Supports multiple programming languages.',
+        hosting_point_3_title: 'Smooth experience',
+        hosting_point_3_text: 'Built for creators and developers.',
+        about_badge: 'About Novibe',
+        about_title: 'Independent. Modern. Creative.',
+        about_text: 'Novibe Corporation is dedicated to hosting websites and integrated development tools.',
+        footer_left: 'Novibe — © Novibe Corporation',
+        footer_right: 'Modern concept website with gradients and integrated editor.',
+        language_label: 'Language:'
+      }
+    };
+
+    const languageSelect = document.getElementById('language-select');
+
+    function applyLanguage(lang) {
+      const current = translations[lang] || translations.fr;
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if(current[key]) {
+          el.textContent = current[key];
+        }
+      });
+
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if(current[key]) {
+          el.innerHTML = current[key];
+        }
+      });
+
+      document.documentElement.lang = lang;
+      localStorage.setItem('novibe-language', lang);
+    }
+
+    const savedLanguage = localStorage.getItem('novibe-language');
+    const browserLanguage = navigator.language.slice(0,2);
+
+    const defaultLanguage =
+      translations[savedLanguage]
+      ? savedLanguage
+      : translations[browserLanguage]
+      ? browserLanguage
+      : 'fr';
+
+    languageSelect.value = defaultLanguage;
+    applyLanguage(defaultLanguage);
+
+    languageSelect.addEventListener('change', e => {
+      applyLanguage(e.target.value);
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          entry.target.animate([
+            { opacity: 0, transform: 'translateY(30px)' },
+            { opacity: 1, transform: 'translateY(0)' }
+          ], {
+            duration: 700,
+            easing: 'ease',
+            fill: 'forwards'
+          });
+        }
+      });
+    });
+
+    document.querySelectorAll('.card, .panel, .metric, .about-box').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
