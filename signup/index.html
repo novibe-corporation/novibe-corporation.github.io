@@ -52,6 +52,15 @@ img, video, canvas, svg { max-width: 100%; height: auto; }
   50% { box-shadow: 0 0 24px rgba(89,240,255,.28); }
   100% { box-shadow: 0 0 0 rgba(89,240,255,.2); }
 }
+@keyframes softZoom {
+  from { transform: scale(.98); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes pulseLine {
+  0% { width: 0%; }
+  50% { width: 65%; }
+  100% { width: 0%; }
+}
 
 .wrap {
   min-height: 100vh;
@@ -66,10 +75,11 @@ img, video, canvas, svg { max-width: 100%; height: auto; }
   pointer-events: none;
   z-index: 0;
   opacity: .9;
+  animation: floating 8s ease-in-out infinite;
 }
 .glow.one { top: -120px; left: -60px; width: 360px; height: 360px; background: rgba(89,240,255,.25); }
-.glow.two { bottom: -140px; right: -60px; width: 420px; height: 420px; background: rgba(203,107,255,.22); }
-.glow.three { top: 30%; left: 46%; width: 300px; height: 300px; background: rgba(90,167,255,.16); }
+.glow.two { bottom: -140px; right: -60px; width: 420px; height: 420px; background: rgba(203,107,255,.22); animation-duration: 9s; }
+.glow.three { top: 30%; left: 46%; width: 300px; height: 300px; background: rgba(90,167,255,.16); animation-duration: 10s; }
 
 .topbar {
   position: fixed;
@@ -132,7 +142,7 @@ img, video, canvas, svg { max-width: 100%; height: auto; }
   border-radius: 18px; padding: 14px 20px; color: #071018;
   background: linear-gradient(135deg, var(--cyan), var(--blue));
   box-shadow: 0 16px 40px rgba(89,240,255,.18);
-  transition: transform .18s ease, filter .18s ease;
+  transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
   white-space: nowrap;
   animation: pulseGlow 4s infinite;
 }
@@ -146,220 +156,14 @@ img, video, canvas, svg { max-width: 100%; height: auto; }
 }
 
 main { padding-top: 110px; }
-section {
-  width: 100%;
-  padding: clamp(64px, 8vw, 96px) 0;
-  scroll-margin-top: 100px;
-  overflow: clip;
-}
-
-.hero {
-  display: grid;
-  grid-template-columns: minmax(0,1.05fr) minmax(0,.95fr);
-  gap: 34px;
-  align-items: center;
-  min-width: 0;
-  padding: 76px 0 80px;
-}
-.pill {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 10px 16px; border-radius: 999px;
-  background: rgba(255,255,255,.06); border: 1px solid var(--line);
-  color: var(--cyan); font-size: .92rem; font-weight: 700;
-  margin-bottom: 20px;
-  backdrop-filter: blur(14px);
-}
-.hero h2 {
-  margin: 0;
-  font-size: clamp(3rem, 6vw, 5.8rem);
-  line-height: .95;
-  letter-spacing: -.08em;
-}
-.hero h2 .grad {
-  background: linear-gradient(135deg, #ffffff 0%, var(--cyan) 38%, var(--violet) 72%, var(--pink) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.hero p {
-  max-width: 640px;
-  color: var(--muted);
-  font-size: 1.08rem;
-  line-height: 1.75;
-  margin: 24px 0 0;
-}
-.actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
-.metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 34px; }
-.metric, .card, .panel, .about-box, .lang-box {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
-  min-width: 0;
-}
-.metric { padding: 18px; animation: fadeUp .9s ease; transition: transform .25s ease; }
-.metric:hover { transform: translateY(-6px); }
-.metric strong { display: block; font-size: 2rem; line-height: 1; margin-bottom: 6px; }
-.metric span { color: var(--muted); font-size: .92rem; }
-.metric:nth-child(1) strong { color: var(--cyan); }
-.metric:nth-child(2) strong { color: var(--violet); }
-.metric:nth-child(3) strong { color: var(--blue); }
-
-.terminal {
-  position: relative;
-  overflow: hidden;
-  padding: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-  border-radius: 38px;
-  border: 1px solid rgba(255,255,255,.10);
-  box-shadow: 0 16px 40px rgba(0,0,0,.35);
-  animation: fadeUp 1s ease, floating 6s ease-in-out infinite;
-}
-.terminal:before {
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(89,240,255,.12), rgba(203,107,255,.10));
-  pointer-events: none;
-}
-.terminal-top {
-  display: flex; align-items: center; gap: 8px;
-  padding: 18px 20px;
-  border-bottom: 1px solid rgba(255,255,255,.10);
-  background: rgba(255,255,255,.05);
-  position: relative;
-}
-.dot { width: 12px; height: 12px; border-radius: 999px; }
-.dot.red { background: #ff6a5f; }
-.dot.yellow { background: #ffd15d; }
-.dot.green { background: #4be68f; }
-.terminal-title { margin-left: 10px; color: rgba(255,255,255,.54); font-size: .9rem; }
-.terminal-body {
-  padding: 22px;
-  position: relative;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: .98rem;
-  line-height: 1.75;
-  overflow: auto;
-  overflow-y: hidden;
-  max-width: 100%;
-  word-break: break-word;
-}
-.line { white-space: pre-wrap; }
-.c1 { color: var(--cyan); }
-.c2 { color: var(--violet); }
-.c3 { color: #ffd66b; }
-.c4 { color: #8ef0a9; }
-.c5 { color: #fff; }
-
-.section-head { text-align: center; margin-bottom: 26px; }
-.section-head h3 { margin: 0; font-size: clamp(2rem, 4vw, 3.4rem); letter-spacing: -.06em; }
-.section-head p { color: var(--muted); margin: 12px auto 0; max-width: 760px; line-height: 1.7; }
-
-.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
-.card {
-  padding: 22px;
-  transition: transform .25s ease, border-color .25s ease, background .25s ease;
-  animation: fadeUp .8s ease;
-}
-.card:hover { transform: translateY(-8px) scale(1.02); border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.09); }
-.card .icon {
-  width: 56px; height: 56px; border-radius: 20px; margin-bottom: 18px;
-  background: linear-gradient(135deg, rgba(89,240,255,.95), rgba(203,107,255,.95));
-  box-shadow: 0 10px 34px rgba(89,240,255,.18);
-}
-.card:nth-child(2) .icon { background: linear-gradient(135deg, rgba(203,107,255,.95), rgba(255,107,214,.95)); }
-.card:nth-child(3) .icon { background: linear-gradient(135deg, rgba(90,167,255,.95), rgba(89,240,255,.95)); }
-.card:nth-child(4) .icon { background: linear-gradient(135deg, rgba(89,240,255,.95), rgba(90,167,255,.95)); }
-.card h4 { margin: 0 0 10px; font-size: 1.18rem; }
-.card p { margin: 0; color: var(--muted); line-height: 1.7; }
-
-.split { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: start; }
-.panel { padding: 26px; }
-.panel h4 { margin: 0 0 12px; font-size: 1.4rem; }
-.panel p { margin: 0; color: var(--muted); line-height: 1.75; }
-.codepath {
-  margin-top: 18px;
-  padding: 15px 16px;
-  border-radius: 18px;
-  background: rgba(0,0,0,.26);
-  border: 1px solid rgba(255,255,255,.10);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  color: var(--cyan);
-  overflow-x: auto;
-  word-break: break-all;
-  overflow-wrap: anywhere;
-  max-width: 100%;
-}
-.list { display: grid; gap: 12px; }
-.list-item {
-  padding: 16px 18px;
-  border-radius: 18px;
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.10);
-}
-.list-item strong { display: block; margin-bottom: 4px; }
-.list-item span { color: var(--muted); line-height: 1.65; }
-
-.about { text-align: center; }
-.about-box {
-  animation: fadeUp 1s ease;
-  padding: 36px;
-  border-radius: 40px;
-  background: linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
-  border: 1px solid rgba(255,255,255,.12);
-  backdrop-filter: blur(20px);
-  box-shadow: var(--shadow);
-}
-
-footer {
-  margin-top: 36px;
-  padding: 24px 0 36px;
-  border-top: 1px solid var(--line);
-  background: rgba(0,0,0,.16);
-  backdrop-filter: blur(16px);
-}
-.footer-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  color: rgba(255,255,255,.54);
-  font-size: .95rem;
-}
-.lang-box {
-  margin-top: 18px;
-  padding: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.lang-box label { color: rgba(255,255,255,.7); }
-.lang-box select {
-  padding: 12px 16px;
-  border-radius: 14px;
-  background: rgba(255,255,255,.08);
-  color: white;
-  border: 1px solid rgba(255,255,255,.12);
-  outline: none;
-}
-
-.auth-buttons {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: nowrap;
-}
 
 .signup-grid {
   display: grid;
   grid-template-columns: minmax(0,1.05fr) minmax(0,.95fr);
   gap: 22px;
   align-items: stretch;
-  padding: 0 0 10px;
+  min-width: 0;
+  padding: 64px 0 22px;
 }
 
 .hero-card, .form-card {
@@ -370,12 +174,12 @@ footer {
   backdrop-filter: blur(12px);
   overflow: hidden;
   min-width: 0;
-  animation: fadeUp .8s ease;
+  animation: fadeUp .8s ease, softZoom .8s ease;
+  position: relative;
 }
 
 .hero-card {
   padding: 34px;
-  position: relative;
 }
 
 .hero-card::before {
@@ -384,6 +188,17 @@ footer {
   inset: 0;
   background: linear-gradient(135deg, rgba(89,240,255,.08), rgba(203,107,255,.06));
   pointer-events: none;
+}
+
+.pill {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 16px; border-radius: 999px;
+  background: rgba(255,255,255,.06); border: 1px solid var(--line);
+  color: var(--cyan); font-size: .92rem; font-weight: 700;
+  margin-bottom: 20px;
+  backdrop-filter: blur(14px);
+  position: relative;
+  z-index: 1;
 }
 
 .hero-card h2 {
@@ -425,8 +240,11 @@ footer {
   border-radius: 18px;
   background: rgba(255,255,255,.05);
   border: 1px solid rgba(255,255,255,.10);
+  animation: fadeUp .8s ease;
 }
 
+.feature-item:nth-child(2) { animation-delay: .08s; }
+.feature-item:nth-child(3) { animation-delay: .16s; }
 .feature-item strong { display: block; margin-bottom: 4px; }
 .feature-item span { color: var(--muted); line-height: 1.65; }
 
@@ -436,6 +254,7 @@ footer {
 
 .form-head {
   margin-bottom: 22px;
+  animation: fadeUp .8s ease;
 }
 
 .form-head h3 {
@@ -454,8 +273,11 @@ footer {
   display: grid;
   gap: 8px;
   margin-top: 16px;
+  animation: fadeUp .8s ease;
 }
 
+.field:nth-of-type(2) { animation-delay: .06s; }
+.field:nth-of-type(3) { animation-delay: .12s; }
 .field label {
   font-size: .92rem;
   color: rgba(255,255,255,.78);
@@ -477,6 +299,7 @@ footer {
   border-color: rgba(89,240,255,.55);
   box-shadow: 0 0 0 3px rgba(89,240,255,.12);
   background: rgba(255,255,255,.08);
+  transform: translateY(-1px);
 }
 
 .helper {
@@ -513,6 +336,7 @@ footer {
   line-height: 1.6;
   min-height: 52px;
   overflow-wrap: anywhere;
+  animation: fadeUp .8s ease;
 }
 
 .small-links {
@@ -520,6 +344,7 @@ footer {
   color: rgba(255,255,255,.62);
   font-size: .95rem;
   line-height: 1.7;
+  animation: fadeUp .8s ease;
 }
 
 .small-links a {
@@ -532,13 +357,52 @@ footer {
   gap: 12px;
   margin-top: 20px;
   flex-wrap: wrap;
+  animation: fadeUp .8s ease;
 }
 
 .form-actions .btn {
   width: 100%;
 }
 
-footer.signup-footer {
+.lang-box {
+  margin-top: 18px;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  animation: fadeUp .8s ease;
+}
+
+.lang-box label { color: rgba(255,255,255,.7); }
+.lang-box select {
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.08);
+  color: white;
+  border: 1px solid rgba(255,255,255,.12);
+  outline: none;
+}
+
+footer {
+  margin-top: 28px;
+  padding: 0 0 30px;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  color: rgba(255,255,255,.54);
+  font-size: .95rem;
   padding-top: 12px;
 }
 
@@ -552,28 +416,19 @@ footer.signup-footer {
     text-align: center;
   }
   .nav-links { display: none; }
-  main {
-    padding-top: 136px;
-  }
-  .hero, .signup-grid, .split {
+  main { padding-top: 136px; }
+  .signup-grid {
     grid-template-columns: 1fr;
+    padding: 28px 0 18px;
+    gap: 16px;
   }
-  .hero {
-    padding: 48px 0 36px;
-    gap: 22px;
-  }
-  .metrics { grid-template-columns: 1fr; }
-  .actions { flex-direction: column; }
-  .btn { width: 100%; }
-  .terminal { width: 100%; }
-  .terminal-body { font-size: .88rem; }
-  .auth-buttons { width: 100%; }
-  .auth-buttons .btn { width: auto; flex: 1; }
   .hero-card, .form-card { border-radius: 28px; }
   .hero-card { padding: 26px; }
   .form-card { padding: 24px; }
   .hero-card h2 { font-size: clamp(2.3rem, 10vw, 4rem); }
   .form-head h3 { font-size: 1.7rem; }
+  .auth-buttons { width: 100%; }
+  .auth-buttons .btn { width: auto; flex: 1; }
 }
 
   </style>
@@ -661,14 +516,12 @@ footer.signup-footer {
       </div>
 
       <div id="message" class="message" data-i18n="message_default">Remplis les champs pour créer ton compte.</div>
-      <div class="small-links" data-i18n="terms">
-        En créant un compte, tu acceptes d’utiliser Novibe de manière responsable.
-      </div>
+      <div class="small-links" data-i18n="terms">En créant un compte, tu acceptes d’utiliser Novibe de manière responsable.</div>
     </div>
   </section>
 </main>
 
-<footer class="signup-footer">
+<footer>
   <div class="footer-inner">
     <div data-i18n="footer_left"><strong style="color:white;">Novibe</strong> — © Novibe Corporation</div>
     <div data-i18n="footer_right">Signup avec style cohérent et Firebase Authentication.</div>
@@ -704,162 +557,97 @@ footer.signup-footer {
         nav_features: 'Fonctions',
         nav_about: 'À propos',
         nav_language: 'Langue',
-
         login: 'Connexion',
         signup: 'Inscription',
-
         hero_badge: 'Créer un compte Novibe',
         hero_title: 'Rejoins <span class="grad">Novibe</span><br>en quelques secondes.',
-        hero_text: 'Inscription avec email et mot de passe obligatoire.',
-
+        hero_text: 'Inscription avec email et mot de passe obligatoire, dans une interface moderne et cohérente avec la plateforme Novibe. Une fois connecté, tu pourras accéder à ton espace et aux outils de la corporation.',
         hero_point_1_title: 'Compte sécurisé',
         hero_point_1_text: 'Email + mot de passe obligatoires pour créer le compte.',
         hero_point_2_title: 'Interface cohérente',
-        hero_point_2_text: 'Même design que la plateforme principale.',
+        hero_point_2_text: 'Même ambiance visuelle que la page d’accueil : dégradés, verre et lumière.',
         hero_point_3_title: 'Prêt pour l’app',
-        hero_point_3_text: 'Connexion directe vers ton espace utilisateur.',
-
+        hero_point_3_text: 'Connexion vers /login et redirection propre après création du compte.',
         form_title: 'Inscription',
-        form_text: 'Crée ton compte Novibe.',
+        form_text: 'Crée ton compte Novibe avec ton email et un mot de passe.',
         label_email: 'Adresse email',
         label_password: 'Mot de passe',
         label_confirm: 'Confirmer le mot de passe',
-        password_help: 'Minimum 6 caractères requis.',
-
+        password_help: 'Le mot de passe Firebase doit contenir au moins 6 caractères.',
         button_signup: "S'inscrire",
         button_login: 'Déjà un compte ? Connexion',
-
         message_default: 'Remplis les champs pour créer ton compte.',
+        terms: 'En créant un compte, tu acceptes d’utiliser Novibe de manière responsable.',
         footer_left: 'Novibe — © Novibe Corporation',
-        footer_right: 'Signup avec Firebase Authentication.',
-        language_label: 'Langue :',
-
-        terms: "En créant un compte, tu acceptes les conditions d'utilisation."
+        footer_right: 'Signup avec style cohérent et Firebase Authentication.',
+        language_label: 'Langue :'
       },
-
       en: {
         nav_hosting: 'Hosting',
         nav_features: 'Features',
         nav_about: 'About',
         nav_language: 'Language',
-
         login: 'Login',
-        signup: 'Sign up',
-
+        signup: 'Signup',
         hero_badge: 'Create a Novibe account',
         hero_title: 'Join <span class="grad">Novibe</span><br>in seconds.',
-        hero_text: 'Sign up with email and password required.',
-
+        hero_text: 'Sign up with email and password required, inside a modern interface that matches the Novibe platform. Once signed in, you can access your space and the corporation tools.',
         hero_point_1_title: 'Secure account',
-        hero_point_1_text: 'Email + password required to create account.',
-        hero_point_2_title: 'Clean interface',
-        hero_point_2_text: 'Same design system as the main platform.',
-        hero_point_3_title: 'Ready for app',
-        hero_point_3_text: 'Direct access to your dashboard.',
-
+        hero_point_1_text: 'Email + password are required to create the account.',
+        hero_point_2_title: 'Consistent interface',
+        hero_point_2_text: 'Same visual mood as the homepage: gradients, glass and light.',
+        hero_point_3_title: 'Ready for the app',
+        hero_point_3_text: 'Login link to /login and clean redirect after account creation.',
         form_title: 'Sign up',
-        form_text: 'Create your Novibe account.',
+        form_text: 'Create your Novibe account with your email and password.',
         label_email: 'Email address',
         label_password: 'Password',
         label_confirm: 'Confirm password',
-        password_help: 'Minimum 6 characters required.',
-
-        button_signup: "Sign up",
+        password_help: 'Firebase passwords must be at least 6 characters long.',
+        button_signup: 'Create account',
         button_login: 'Already have an account? Login',
-
         message_default: 'Fill in the fields to create your account.',
+        terms: 'By creating an account, you agree to use Novibe responsibly.',
         footer_left: 'Novibe — © Novibe Corporation',
-        footer_right: 'Signup with Firebase Authentication.',
-        language_label: 'Language:',
-
-        terms: 'By creating an account, you agree to the terms of use.'
+        footer_right: 'Signup with a consistent style and Firebase Authentication.',
+        language_label: 'Language :'
       }
     };
 
+    const els = {
+      languageSelect: document.getElementById('language-select'),
+      email: document.getElementById('email'),
+      password: document.getElementById('password'),
+      confirm: document.getElementById('confirm'),
+      signupBtn: document.getElementById('signupBtn'),
+      message: document.getElementById('message'),
+      strengthBar: document.getElementById('strengthBar')
+    };
+
+    const storageKey = 'novibe-language';
+
     function applyLanguage(lang) {
-      localStorage.setItem("lang", lang);
+      const t = translations[lang] || translations.fr;
       document.documentElement.lang = lang;
+      document.title = lang === 'en' ? 'Novibe — Signup' : 'Novibe — Inscription';
 
-      document.querySelectorAll("[data-i18n]").forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        if (translations[lang][key]) {
-          el.innerText = translations[lang][key];
-        }
+      document.querySelectorAll('[data-i18n]').forEach((el) => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.textContent = t[key];
       });
 
-      document.querySelectorAll("[data-i18n-html]").forEach(el => {
-        const key = el.getAttribute("data-i18n-html");
-        if (translations[lang][key]) {
-          el.innerHTML = translations[lang][key];
-        }
+      document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+        const key = el.getAttribute('data-i18n-html');
+        if (t[key] !== undefined) el.innerHTML = t[key];
       });
+
+      els.email.placeholder = lang === 'en' ? 'example@email.com' : 'exemple@email.com';
+      els.password.placeholder = lang === 'en' ? 'At least 6 characters' : 'Au moins 6 caractères';
+      els.confirm.placeholder = lang === 'en' ? 'Repeat password' : 'Répète le mot de passe';
+      els.languageSelect.value = lang;
+      localStorage.setItem(storageKey, lang);
     }
 
-    const langSelect = document.getElementById("language-select");
-    langSelect.value = localStorage.getItem("lang") || "fr";
-    applyLanguage(langSelect.value);
-
-    langSelect.addEventListener("change", (e) => {
-      applyLanguage(e.target.value);
-    });
-
-    const email = document.getElementById("email");
-    const password = document.getElementById("password");
-    const confirm = document.getElementById("confirm");
-    const btn = document.getElementById("signupBtn");
-    const message = document.getElementById("message");
-    const strengthBar = document.getElementById("strengthBar");
-
-    function updateStrength(pwd) {
-      let score = 0;
-      if (pwd.length >= 6) score++;
-      if (pwd.length >= 10) score++;
-      if (/[A-Z]/.test(pwd)) score++;
-      if (/[0-9]/.test(pwd)) score++;
-
-      const percent = (score / 4) * 100;
-      strengthBar.style.width = percent + "%";
-    }
-
-    password.addEventListener("input", () => {
-      updateStrength(password.value);
-    });
-
-    btn.addEventListener("click", async () => {
-      const em = email.value.trim();
-      const pw = password.value;
-      const cpw = confirm.value;
-
-      if (!em || !pw || !cpw) {
-        message.textContent = "❌ Remplis tous les champs.";
-        return;
-      }
-
-      if (pw !== cpw) {
-        message.textContent = "❌ Les mots de passe ne correspondent pas.";
-        return;
-      }
-
-      if (pw.length < 6) {
-        message.textContent = "❌ Mot de passe trop court (min 6).";
-        return;
-      }
-
-      try {
-        message.textContent = "⏳ Création du compte...";
-
-        await createUserWithEmailAndPassword(auth, em, pw);
-
-        message.textContent = "✅ Compte créé avec succès !";
-
-        setTimeout(() => {
-          window.location.href = "/login";
-        }, 1200);
-
-      } catch (err) {
-        message.textContent = "❌ " + err.message;
-      }
-    });
-  </script>
-</body>
-</html>
+    function setMessage(text, isError = false) {
+      els.message.textContent = text;
+      els.message.style.co
