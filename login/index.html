@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Novibe — Login</title>
 
   <style>
@@ -15,197 +15,220 @@
       --cyan: #59f0ff;
       --blue: #5aa7ff;
       --violet: #cb6bff;
-      --radius: 22px;
+      --pink: #ff6bd6;
+      --shadow: 0 24px 60px rgba(0,0,0,.35);
+      --radius-lg: 24px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; }
 
     body {
-      font-family: system-ui, sans-serif;
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text);
       background:
-        radial-gradient(circle at 20% 20%, rgba(89,240,255,.18), transparent 40%),
-        radial-gradient(circle at 80% 30%, rgba(203,107,255,.12), transparent 40%),
-        var(--bg);
-      color: white;
-      min-height: 100vh;
+        radial-gradient(circle at 12% 12%, rgba(89,240,255,.22), transparent 24%),
+        radial-gradient(circle at 82% 18%, rgba(203,107,255,.20), transparent 24%),
+        linear-gradient(180deg, #05070d 0%, #070b14 100%);
     }
 
-    a { color: inherit; text-decoration: none; }
+    a { text-decoration: none; color: inherit; }
 
-    /* ===== TOPBAR (Novibe identique) ===== */
+    /* ===== TOPBAR ===== */
     .topbar {
       position: fixed;
       top: 0;
       width: 100%;
-      backdrop-filter: blur(12px);
-      background: rgba(7,11,20,.7);
+      background: rgba(7,11,20,.6);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line);
-      z-index: 10;
+      z-index: 20;
     }
 
     .topbar-inner {
-      max-width: 1100px;
+      width: min(1180px, calc(100% - 32px));
       margin: auto;
-      padding: 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 16px 0;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 900;
-      letter-spacing: -.5px;
-    }
-
+    .brand { display:flex; align-items:center; gap:12px; }
     .logo {
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--cyan), var(--violet));
+      width:44px;height:44px;border-radius:14px;
+      background: linear-gradient(135deg,var(--cyan),var(--violet));
     }
 
-    .nav {
-      display: flex;
-      gap: 18px;
-      font-size: .95rem;
+    nav {
+      display:flex;
+      gap:20px;
+    }
+
+    nav a {
       color: rgba(255,255,255,.7);
+      font-size: .95rem;
     }
 
-    .nav a:hover {
+    nav a:hover { color: white; }
+
+    .auth-buttons {
+      display:flex;
+      gap:10px;
+    }
+
+    .btn {
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      background: linear-gradient(135deg,var(--cyan),var(--blue));
+    }
+
+    .btn.secondary {
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--line);
       color: white;
     }
 
-    /* ===== MAIN ===== */
+    /* ===== LOGIN ===== */
     main {
       padding-top: 110px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: calc(100vh - 110px);
-      padding-left: 20px;
-      padding-right: 20px;
+      display:flex;
+      justify-content:center;
     }
 
-    .card {
-      width: 360px;
-      padding: 26px;
-      border-radius: var(--radius);
+    .box {
+      width: min(520px, 92%);
+      margin-top: 60px;
+      padding: 28px;
+      border-radius: 26px;
       background: var(--panel);
       border: 1px solid var(--line);
+      box-shadow: var(--shadow);
       backdrop-filter: blur(12px);
-      box-shadow: 0 20px 60px rgba(0,0,0,.35);
     }
 
     h1 {
-      font-size: 1.8rem;
-      margin-bottom: 6px;
+      margin: 0 0 10px;
+      font-size: 2rem;
     }
 
     p {
       color: var(--muted);
-      margin-bottom: 18px;
-      font-size: .95rem;
+      margin-bottom: 20px;
+    }
+
+    .field {
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-bottom: 14px;
     }
 
     input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 12px;
+      padding: 14px;
       border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.15);
-      background: rgba(0,0,0,.25);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.05);
       color: white;
       outline: none;
     }
 
-    button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 14px;
-      border: none;
-      cursor: pointer;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--cyan), var(--blue));
-      color: #071018;
-      transition: .2s;
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-    }
-
-    .hint {
-      margin-top: 12px;
-      text-align: center;
-      font-size: .85rem;
-      color: rgba(255,255,255,.6);
+    .message {
+      margin-top: 14px;
+      color: var(--muted);
+      min-height: 40px;
     }
   </style>
 </head>
 
 <body>
 
-<!-- ===== HEADER NOVIBE ===== -->
 <header class="topbar">
   <div class="topbar-inner">
-
     <div class="brand">
       <div class="logo"></div>
-      Novibe
+      <div>
+        <strong>Novibe</strong><br>
+        <small>© Corporation</small>
+      </div>
     </div>
 
-    <nav class="nav">
-      <a href="/">Accueil</a>
-      <a href="/home">Home</a>
-      <a href="/wiki">Wiki</a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/#features">Features</a>
+      <a href="/#hosting">Hosting</a>
     </nav>
 
+    <div class="auth-buttons">
+      <a class="btn secondary" href="/signup">Signup</a>
+      <a class="btn" href="/">Home</a>
+    </div>
   </div>
 </header>
 
-<!-- ===== LOGIN ===== -->
 <main>
-
-  <div class="card">
+  <div class="box">
     <h1>Connexion</h1>
     <p>Accède à ton espace Novibe</p>
 
-    <input id="user" placeholder="Pseudo" />
-    <input id="pass" type="password" placeholder="Mot de passe" />
+    <div class="field">
+      <label>Email</label>
+      <input id="email" type="email" placeholder="email@novibe.com">
+    </div>
 
-    <button onclick="login()">Se connecter</button>
+    <div class="field">
+      <label>Mot de passe</label>
+      <input id="password" type="password" placeholder="••••••••">
+    </div>
 
-    <div class="hint">Prototype local (localStorage)</div>
+    <button class="btn" id="loginBtn" style="width:100%;">Se connecter</button>
+
+    <div class="message" id="message"></div>
   </div>
-
 </main>
 
-<script>
-  function login() {
-    const user = document.getElementById("user").value.trim();
-    const pass = document.getElementById("pass").value.trim();
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
-    if (!user || !pass) {
-      alert("Remplis tous les champs");
-      return;
-    }
+const firebaseConfig = {
+  apiKey: "AIzaSyDdMYtSr2FeNGay_Nwv8oLMXg7WVQspOJ8",
+  authDomain: "novibe-a5c1f.firebaseapp.com",
+  projectId: "novibe-a5c1f",
+  storageBucket: "novibe-a5c1f.firebasestorage.app",
+  messagingSenderId: "312673438609",
+  appId: "1:312673438609:web:2fbf719814a6c8c61a2830"
+};
 
-    // AUTH SIMPLE
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const btn = document.getElementById("loginBtn");
+const msg = document.getElementById("message");
+
+btn.addEventListener("click", async () => {
+  try {
+    await signInWithEmailAndPassword(auth, email.value, password.value);
+
     localStorage.setItem("novibe-auth", "true");
-    localStorage.setItem("novibe-user", user);
+
+    msg.textContent = "Connexion réussie...";
+    msg.style.color = "#59f0ff";
 
     setTimeout(() => {
-      window.location.replace("/home");
-    }, 50);
-  }
+      window.location.href = "/home";
+    }, 800);
 
-  // auto redirect si déjà connecté
-  if (localStorage.getItem("novibe-auth") === "true") {
-    window.location.replace("/home");
+  } catch (e) {
+    msg.textContent = "Erreur : " + e.message;
+    msg.style.color = "#ff6bd6";
   }
+});
 </script>
 
 </body>
