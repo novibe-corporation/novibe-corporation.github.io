@@ -17,22 +17,21 @@
       --violet: #cb6bff;
       --pink: #ff6bd6;
       --shadow: 0 24px 60px rgba(0,0,0,.35);
-      --radius-lg: 24px;
       --radius-xl: 34px;
     }
 
-    * { box-sizing: border-box; min-width: 0; }
-    html, body {
+    * { box-sizing: border-box; }
+
+    body {
       margin: 0;
-      background: var(--bg);
-      overflow-x: hidden;
       font-family: Inter, system-ui, sans-serif;
-      color: var(--text);
       background:
         radial-gradient(circle at 12% 12%, rgba(89,240,255,.22), transparent 24%),
         radial-gradient(circle at 82% 18%, rgba(203,107,255,.20), transparent 24%),
         radial-gradient(circle at 50% 75%, rgba(90,167,255,.14), transparent 30%),
         linear-gradient(180deg, #05070d 0%, #070b14 45%, #060913 100%);
+      color: var(--text);
+      overflow-x: hidden;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -48,7 +47,7 @@
       100% { transform: translateY(0); }
     }
 
-    /* GLOW BACKGROUND */
+    /* GLOW */
     .glow {
       position: fixed;
       border-radius: 999px;
@@ -75,12 +74,11 @@
 
     .topbar-inner {
       width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
+      margin: auto;
       padding: 18px 0;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      align-items: center;
     }
 
     .brand { display: flex; align-items: center; gap: 14px; }
@@ -90,84 +88,70 @@
       box-shadow: 0 12px 36px rgba(89,240,255,.22);
       animation: floating 5s ease-in-out infinite;
     }
-    .brand h1 { margin: 0; font-size: 1.4rem; letter-spacing: -.04em; }
-    .brand p { margin: 3px 0 0; color: var(--muted); font-size: .82rem; }
-
-    .auth-buttons {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
 
     .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      gap: 10px; border: 0; cursor: pointer; font-weight: 800;
-      border-radius: 18px; padding: 14px 20px; color: #071018;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 20px;
+      border-radius: 18px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
       background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: #071018;
       box-shadow: 0 16px 40px rgba(89,240,255,.18);
-      transition: transform .18s ease, filter .18s ease;
-      white-space: nowrap;
+      transition: .2s ease;
     }
-    .btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
 
     .btn.secondary {
-      color: #fff;
       background: rgba(255,255,255,.05);
       border: 1px solid var(--line);
+      color: white;
       box-shadow: none;
       backdrop-filter: blur(14px);
     }
 
-    main { padding-top: 110px; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: minmax(0,1.05fr) minmax(0,.95fr);
-      gap: 22px;
-      padding: 64px 0 22px;
+    main {
+      padding-top: 120px;
       width: min(1180px, calc(100% - 32px));
       margin: auto;
     }
 
-    .hero-card, .form-card {
+    /* EXACT SAME STRUCTURE AS SIGNUP */
+    .hero-card,
+    .form-card {
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 34px;
+      border-radius: var(--radius-xl);
       box-shadow: var(--shadow);
       backdrop-filter: blur(12px);
       padding: 34px;
+      margin-bottom: 22px;
       animation: fadeUp .8s ease;
-      position: relative;
     }
 
     .pill {
-      display: inline-flex; align-items: center; gap: 10px;
-      padding: 10px 16px; border-radius: 999px;
-      background: rgba(255,255,255,.06); border: 1px solid var(--line);
-      color: var(--cyan); font-size: .92rem; font-weight: 700;
+      display: inline-flex;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--line);
+      color: var(--cyan);
+      font-weight: 700;
       margin-bottom: 20px;
-      backdrop-filter: blur(14px);
     }
 
     .hero-card h2 {
-      margin: 0;
       font-size: clamp(2.6rem, 5vw, 4.2rem);
+      margin: 0;
       line-height: .96;
-      letter-spacing: -.08em;
-    }
-
-    .hero-card h2 .grad {
-      background: linear-gradient(135deg, #ffffff 0%, var(--cyan) 38%, var(--violet) 72%, var(--pink) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
     }
 
     .hero-card p {
       color: var(--muted);
-      line-height: 1.75;
-      font-size: 1.02rem;
       margin-top: 18px;
+      line-height: 1.7;
     }
 
     .field {
@@ -176,13 +160,7 @@
       margin-top: 16px;
     }
 
-    .field label {
-      font-size: .92rem;
-      color: rgba(255,255,255,.78);
-    }
-
     .field input {
-      width: 100%;
       padding: 15px 16px;
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,.12);
@@ -190,14 +168,6 @@
       color: white;
       outline: none;
       font-size: 1rem;
-      transition: .2s ease;
-    }
-
-    .field input:focus {
-      border-color: rgba(89,240,255,.55);
-      box-shadow: 0 0 0 3px rgba(89,240,255,.12);
-      background: rgba(255,255,255,.08);
-      transform: translateY(-1px);
     }
 
     .message {
@@ -208,7 +178,6 @@
       border: 1px solid rgba(255,255,255,.10);
       color: var(--muted);
       min-height: 52px;
-      line-height: 1.6;
     }
 
     .form-actions {
@@ -216,14 +185,6 @@
       gap: 12px;
       margin-top: 20px;
       flex-wrap: wrap;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 60px;
-      color: var(--muted);
-      font-size: .9rem;
-      padding-bottom: 40px;
     }
   </style>
 </head>
@@ -252,39 +213,37 @@
 </header>
 
 <main>
-  <section class="grid">
 
-    <div class="hero-card">
-      <div class="pill">Connexion Novibe</div>
-      <h2>Reviens sur <span class="grad">Novibe</span><br>en quelques secondes.</h2>
-      <p>Connecte-toi avec ton email et ton mot de passe dans une interface cohérente avec la plateforme.</p>
+  <!-- HERO (EN HAUT) -->
+  <div class="hero-card">
+    <div class="pill">Connexion Novibe</div>
+    <h2>Reviens sur <span class="grad">Novibe</span><br>en quelques secondes.</h2>
+    <p>Connecte-toi avec ton email et ton mot de passe dans une interface cohérente avec la plateforme.</p>
+  </div>
+
+  <!-- FORMULAIRE (EN DESSOUS) -->
+  <div class="form-card">
+
+    <div class="field">
+      <label for="email">Adresse email</label>
+      <input id="email" type="email" placeholder="exemple@email.com"/>
     </div>
 
-    <div class="form-card">
-      <div class="field">
-        <label for="email">Adresse email</label>
-        <input id="email" type="email" placeholder="exemple@email.com"/>
-      </div>
-
-      <div class="field">
-        <label for="password">Mot de passe</label>
-        <input id="password" type="password" placeholder="Ton mot de passe"/>
-      </div>
-
-      <div class="form-actions">
-        <button id="loginBtn" class="btn">Se connecter</button>
-        <a class="btn secondary" href="/signup">Créer un compte</a>
-      </div>
-
-      <div id="message" class="message">Entre tes identifiants pour te connecter.</div>
+    <div class="field">
+      <label for="password">Mot de passe</label>
+      <input id="password" type="password" placeholder="Ton mot de passe"/>
     </div>
 
-  </section>
+    <div class="form-actions">
+      <button id="loginBtn" class="btn">Se connecter</button>
+      <a class="btn secondary" href="/signup">Créer un compte</a>
+    </div>
+
+    <div id="message" class="message">Entre tes identifiants pour te connecter.</div>
+
+  </div>
+
 </main>
-
-<footer>
-  © Novibe Corporation — Login sécurisé
-</footer>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
@@ -329,7 +288,7 @@
     try {
       await signInWithEmailAndPassword(auth, email, pass);
 
-      // 🔥 IMPORTANT : marquer l'utilisateur comme connecté
+      // IMPORTANT : marquer l'utilisateur comme connecté
       localStorage.setItem("novibe-auth", "true");
 
       setMessage("Connecté. Redirection...");
