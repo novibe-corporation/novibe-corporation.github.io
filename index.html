@@ -3,7 +3,7 @@
 <head>  
   <meta charset="UTF-8" />  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
-  <title>Novibe — © Novibe Corporation</title>  
+  <title>Novibe — Home</title>  
   <style>  
     :root {  
       --bg: #070b14;  
@@ -337,7 +337,61 @@ main { padding-top: 128px; }
 .auth-buttons { width: 100%; }
 .auth-buttons .btn { width: auto; flex: 1; }
 }
+// =====================
+// AUTH BUTTON LOGIC
+// =====================
 
+const loginBtn = document.querySelector('.login-btn');
+const signupBtn = document.querySelector('.signup-btn');
+
+function isAuth() {
+  return localStorage.getItem('novibe-auth') === 'true';
+}
+
+function setAuth(v) {
+  localStorage.setItem('novibe-auth', v ? 'true' : 'false');
+  updateAuthUI();
+}
+
+function updateAuthUI() {
+  const auth = isAuth();
+
+  if (auth) {
+    loginBtn.textContent = "Profil";
+    signupBtn.textContent = "Déconnexion";
+    loginBtn.href = "#profile";
+    signupBtn.href = "#logout";
+  } else {
+    loginBtn.textContent = "Connexion";
+    signupBtn.textContent = "Inscription";
+    loginBtn.href = "/login";
+    signupBtn.href = "/signup";
+  }
+}
+
+// Connexion / Profil
+loginBtn.addEventListener('click', (e) => {
+  if (!isAuth()) {
+    e.preventDefault();
+    setAuth(true);
+  } else {
+    e.preventDefault();
+    alert("Profil à créer");
+  }
+});
+
+// Inscription / Déconnexion
+signupBtn.addEventListener('click', (e) => {
+  if (!isAuth()) {
+    e.preventDefault();
+    setAuth(true);
+  } else {
+    e.preventDefault();
+    setAuth(false);
+  }
+});
+
+updateAuthUI();
   </style>  
 </head>  
 <body>  
@@ -486,12 +540,7 @@ main { padding-top: 128px; }
     <label for="language-select" data-i18n="language_label">Langue :</label>  
     <select id="language-select" aria-label="Choisir la langue">  
       <option value="fr">Français</option>  
-      <option value="en">English</option>  
-      <option value="es">Español</option>  
-      <option value="de">Deutsch</option>  
-      <option value="zh">中文</option>  
-      <option value="ja">日本語</option>  
-      <option value="it">Italiano</option>  
+      <option value="en">English</option>
     </select>  
   </div>  
 </footer>    </div>  <script>  
