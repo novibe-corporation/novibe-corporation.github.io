@@ -22,7 +22,6 @@
     }* { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 html, body {
-  position: relative;
   max-width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
@@ -47,24 +46,6 @@ a { color: inherit; text-decoration: none; }
   position: relative;
   min-height: 100vh;
   overflow-x: hidden;
-}
-
-.side-mask {
-  position: fixed;
-  top: 0;
-  width: 18px;
-  height: 100vh;
-  background: #070b14;
-  z-index: 999;
-  pointer-events: none;
-}
-
-.side-mask.left {
-  left: 0;
-}
-
-.side-mask.right {
-  right: 0;
 }
 .glow {
   position: fixed;
@@ -450,10 +431,7 @@ img, video, canvas, svg {
 
   </style>
 </head>
-<body>
-  <div class="side-mask left"></div>
-  <div class="side-mask right"></div>
-  <div class="wrap">
+<body><div class="wrap">
     <div class="glow one"></div>
     <div class="glow two"></div>
     <div class="glow three"></div><div class="topbar">
