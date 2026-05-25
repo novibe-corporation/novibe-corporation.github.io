@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Connexion - Novibe</title>
+</head>
+
+<body style="background:#070b14;color:white;display:flex;justify-content:center;align-items:center;height:100vh;font-family:Arial;">
+
+<div style="width:90%;max-width:420px;padding:30px;background:rgba(255,255,255,0.06);border-radius:20px;">
+  <h1>Connexion</h1>
+
+  <input id="email" placeholder="Email" style="width:100%;padding:14px;margin-top:10px"/>
+  <input id="password" type="password" placeholder="Mot de passe" style="width:100%;padding:14px;margin-top:10px"/>
+
+  <button id="login" style="width:100%;margin-top:20px;padding:14px;background:linear-gradient(135deg,#59f0ff,#5aa7ff);border:none;border-radius:12px;">
+    Se connecter
+  </button>
+
+  <p id="msg"></p>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+  const app = initializeApp({
+    apiKey: "AIzaSyDdMYtSr2FeNGay_Nwv8oLMXg7WVQspOJ8",
+    authDomain: "novibe-a5c1f.firebaseapp.com",
+    projectId: "novibe-a5c1f",
+    storageBucket: "novibe-a5c1f.firebasestorage.app",
+    messagingSenderId: "312673438609",
+    appId: "1:312673438609:web:2fbf719814a6c8c61a2830"
+  });
+
+  const auth = getAuth(app);
+
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  const msg = document.getElementById("msg");
+
+  document.getElementById("login").onclick = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email.value, password.value);
+      msg.textContent = "✔ Connecté";
+      location.href = "/";
+    } catch (e) {
+      msg.textContent = e.message;
+    }
+  };
+</script>
+
+</body>
+</html>
