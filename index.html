@@ -22,8 +22,10 @@
     }* { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 html, body {
+  position: relative;
   max-width: 100%;
   overflow-x: hidden;
+  overflow-y: auto;
   background: #070b14;
 }
 
@@ -41,7 +43,29 @@ body {
 }
 
 a { color: inherit; text-decoration: none; }
-.wrap { position: relative; min-height: 100vh; overflow-x: clip; }
+.wrap {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.side-mask {
+  position: fixed;
+  top: 0;
+  width: 18px;
+  height: 100vh;
+  background: #070b14;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.side-mask.left {
+  left: 0;
+}
+
+.side-mask.right {
+  right: 0;
+}
 .glow {
   position: fixed;
   inset: auto;
@@ -427,6 +451,8 @@ img, video, canvas, svg {
   </style>
 </head>
 <body>
+  <div class="side-mask left"></div>
+  <div class="side-mask right"></div>
   <div class="wrap">
     <div class="glow one"></div>
     <div class="glow two"></div>
@@ -573,6 +599,46 @@ img, video, canvas, svg {
         Novibe Corporation est une corporation indépendante dédiée à l’hébergement de sites web et à la création d’outils de développement intégrés.
         Le but est de réunir hébergement, édition de code et interface moderne dans un seul environnement simple et élégant.
       </p>
+    </div>
+  </section>
+      <section id="editor-system">
+    <div class="section-head">
+      <h3>Novibe Code Studio</h3>
+      <p>Éditeur de code moderne intégré directement dans la plateforme avec système de connexion.</p>
+    </div>
+
+    <div class="split">
+      <div class="terminal">
+        <div class="terminal-top">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+          <span class="terminal-title">novibe-studio</span>
+        </div>
+
+        <div class="terminal-body">
+          <div class="line"><span class="c4">const</span> <span class="c5">app</span> = <span class="c1">"Novibe"</span></div>
+          <div class="line"><span class="c4">function</span> <span class="c3">launchSite</span>() {</div>
+          <div class="line">  <span class="c5">console.log</span>(<span class="c1">"Deploying website..."</span>)</div>
+          <div class="line">}</div>
+          <div class="line"></div>
+          <div class="line"><span class="c2">&lt;h1&gt;</span><span class="c5">Welcome to Novibe Studio</span><span class="c2">&lt;/h1&gt;</span></div>
+        </div>
+      </div>
+
+      <div class="panel" style="display:flex; flex-direction:column; gap:16px; justify-content:center;">
+        <h4>Connexion à Novibe</h4>
+        <p>Connecte-toi pour accéder à l’éditeur, héberger des sites et gérer tes projets cloud.</p>
+
+        <input type="text" placeholder="Nom d'utilisateur" style="padding:16px; border-radius:18px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.06); color:white; outline:none; font-size:1rem;">
+
+        <input type="password" placeholder="Mot de passe" style="padding:16px; border-radius:18px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.06); color:white; outline:none; font-size:1rem;">
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button class="btn" style="flex:1;">Login</button>
+          <button class="btn secondary" style="flex:1;">Signup</button>
+        </div>
+      </div>
     </div>
   </section>
 </main>
