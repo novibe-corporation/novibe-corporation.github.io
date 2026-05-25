@@ -451,7 +451,10 @@ img, video, canvas, svg {
       <a href="#about">À propos</a>
     </nav>
 
-    <a class="btn" href="#hosting">Lancer Novibe</a>
+    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+      <a class="btn secondary" href="#">Login</a>
+      <a class="btn" href="#">Signup</a>
+    </div>
   </div>
 </div>
 
@@ -579,46 +582,7 @@ img, video, canvas, svg {
       </p>
     </div>
   </section>
-      <section id="editor-system">
-    <div class="section-head">
-      <h3>Novibe Code Studio</h3>
-      <p>Éditeur de code moderne intégré directement dans la plateforme avec système de connexion.</p>
-    </div>
-
-    <div class="split">
-      <div class="terminal">
-        <div class="terminal-top">
-          <span class="dot red"></span>
-          <span class="dot yellow"></span>
-          <span class="dot green"></span>
-          <span class="terminal-title">novibe-studio</span>
-        </div>
-
-        <div class="terminal-body">
-          <div class="line"><span class="c4">const</span> <span class="c5">app</span> = <span class="c1">"Novibe"</span></div>
-          <div class="line"><span class="c4">function</span> <span class="c3">launchSite</span>() {</div>
-          <div class="line">  <span class="c5">console.log</span>(<span class="c1">"Deploying website..."</span>)</div>
-          <div class="line">}</div>
-          <div class="line"></div>
-          <div class="line"><span class="c2">&lt;h1&gt;</span><span class="c5">Welcome to Novibe Studio</span><span class="c2">&lt;/h1&gt;</span></div>
-        </div>
-      </div>
-
-      <div class="panel" style="display:flex; flex-direction:column; gap:16px; justify-content:center;">
-        <h4>Connexion à Novibe</h4>
-        <p>Connecte-toi pour accéder à l’éditeur, héberger des sites et gérer tes projets cloud.</p>
-
-        <input type="text" placeholder="Nom d'utilisateur" style="padding:16px; border-radius:18px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.06); color:white; outline:none; font-size:1rem;">
-
-        <input type="password" placeholder="Mot de passe" style="padding:16px; border-radius:18px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.06); color:white; outline:none; font-size:1rem;">
-
-        <div style="display:flex; gap:12px; flex-wrap:wrap;">
-          <button class="btn" style="flex:1;">Login</button>
-          <button class="btn secondary" style="flex:1;">Signup</button>
-        </div>
-      </div>
-    </div>
-  </section>
+      
 </main>
 
 <footer>
@@ -626,7 +590,85 @@ img, video, canvas, svg {
     <div><strong style="color:white;">Novibe</strong> — © Novibe Corporation</div>
     <div>Site conceptuel moderne avec dégradés, hébergement web et éditeur intégré.</div>
   </div>
+  <div style="margin-top:22px; display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:wrap;">
+      <label for="language-select" style="color:rgba(255,255,255,.7);">Langue :</label>
+      <select id="language-select" style="padding:12px 16px; border-radius:14px; background:rgba(255,255,255,.08); color:white; border:1px solid rgba(255,255,255,.12); outline:none;">
+        <option value="fr">Français</option>
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="de">Deutsch</option>
+        <option value="zh">中文</option>
+        <option value="ja">日本語</option>
+        <option value="it">Italiano</option>
+      </select>
+    </div>
 </footer>
+
+<script>
+  const translations = {
+    fr: {
+      login: 'Login',
+      signup: 'Signup',
+      title: 'Crée. Héberge. Code avec style.'
+    },
+    en: {
+      login: 'Login',
+      signup: 'Signup',
+      title: 'Create. Host. Code with style.'
+    },
+    es: {
+      login: 'Iniciar sesión',
+      signup: 'Registrarse',
+      title: 'Crea. Aloja. Programa con estilo.'
+    },
+    de: {
+      login: 'Anmelden',
+      signup: 'Registrieren',
+      title: 'Erstellen. Hosten. Mit Stil coden.'
+    },
+    zh: {
+      login: '登录',
+      signup: '注册',
+      title: '创建。托管。优雅编码。'
+    },
+    ja: {
+      login: 'ログイン',
+      signup: '登録',
+      title: '作成。ホスト。スタイリッシュにコード。'
+    },
+    it: {
+      login: 'Accesso',
+      signup: 'Registrati',
+      title: 'Crea. Ospita. Programma con stile.'
+    }
+  };
+
+  const select = document.getElementById('language-select');
+  const loginBtn = document.querySelector('.btn.secondary');
+  const signupBtn = document.querySelector('.btn');
+  const heroTitle = document.querySelector('.hero h2');
+
+  function applyLanguage(lang) {
+    const t = translations[lang] || translations.fr;
+
+    loginBtn.textContent = t.login;
+    signupBtn.textContent = t.signup;
+    heroTitle.innerHTML = t.title.replace('Héberge.', '<span class="grad">Héberge.</span>');
+
+    localStorage.setItem('novibe-language', lang);
+  }
+
+  const savedLang = localStorage.getItem('novibe-language');
+  const deviceLang = navigator.language.slice(0,2);
+  const defaultLang = savedLang || (translations[deviceLang] ? deviceLang : 'fr');
+
+  select.value = defaultLang;
+  applyLanguage(defaultLang);
+
+  select.addEventListener('change', () => {
+    applyLanguage(select.value);
+  });
+</script>
 
   </div>
 </body>
