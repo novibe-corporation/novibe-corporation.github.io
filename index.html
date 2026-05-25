@@ -375,7 +375,19 @@ img, video, canvas, svg {
   height: auto;
 }
 
+.auth-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 980px) {
+  .auth-buttons {
+    width: auto;
+    flex-direction: row;
+  }
+
   .container {
     width: min(1180px, calc(100% - 20px));
   }
@@ -451,9 +463,9 @@ img, video, canvas, svg {
       <a href="#about">À propos</a>
     </nav>
 
-    <div style="display:flex; gap:12px; flex-wrap:wrap;">
-      <a class="btn secondary" href="#">Login</a>
-      <a class="btn" href="#">Signup</a>
+    <div class="auth-buttons" style="display:flex; gap:12px; align-items:center; flex-wrap:nowrap;">
+      <a class="btn secondary login-btn" href="/login">Login</a>
+      <a class="btn signup-btn" href="/signup">Signup</a>
     </div>
   </div>
 </div>
@@ -644,8 +656,8 @@ img, video, canvas, svg {
   };
 
   const select = document.getElementById('language-select');
-  const loginBtn = document.querySelector('.btn.secondary');
-  const signupBtn = document.querySelector('.btn');
+  const loginBtn = document.querySelector('.login-btn');
+  const signupBtn = document.querySelector('.signup-btn');
   const heroTitle = document.querySelector('.hero h2');
 
   function applyLanguage(lang) {
@@ -653,23 +665,10 @@ img, video, canvas, svg {
 
     loginBtn.textContent = t.login;
     signupBtn.textContent = t.signup;
-    heroTitle.innerHTML = t.title.replace('Héberge.', '<span class="grad">Héberge.</span>');
-
-    localStorage.setItem('novibe-language', lang);
-  }
-
-  const savedLang = localStorage.getItem('novibe-language');
-  const deviceLang = navigator.language.slice(0,2);
-  const defaultLang = savedLang || (translations[deviceLang] ? deviceLang : 'fr');
-
-  select.value = defaultLang;
-  applyLanguage(defaultLang);
-
-  select.addEventListener('change', () => {
-    applyLanguage(select.value);
-  });
-</script>
-
-  </div>
-</body>
-</html>
+    const titles = {
+      fr: 'Crée. <span class="grad">Héberge.</span><br>Code avec style.',
+      en: 'Create. <span class="grad">Host.</span><br>Code with style.',
+      es: 'Crea. <span class="grad">Aloja.</span><br>Programa con estilo.',
+      de: 'Erstellen. <span class="grad">Hosten.</span><br>Mit Stil coden.',
+      zh: '创建。<span class="grad">托管。</span><br>优雅编码。',
+      ja: '作成。<span class="grad">ホスト。</span>
