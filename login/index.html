@@ -15,11 +15,11 @@
       --cyan:#59f0ff;
       --blue:#5aa7ff;
       --violet:#cb6bff;
-      --pink:#ff6bd6;
       --shadow:0 24px 60px rgba(0,0,0,.35);
     }
 
     *{box-sizing:border-box;min-width:0}
+
     body{
       margin:0;
       font-family:system-ui,Segoe UI,Arial;
@@ -55,7 +55,7 @@
     .glow.one{top:-120px;left:-60px;width:360px;height:360px;background:rgba(89,240,255,.25)}
     .glow.two{bottom:-140px;right:-60px;width:420px;height:420px;background:rgba(203,107,255,.22)}
 
-    /* TOPBAR IDENTIQUE SIGNUP */
+    /* TOPBAR CORRIGÉE (bouton ajouté) */
     .topbar{
       position:fixed;
       top:0;left:0;
@@ -75,6 +75,12 @@
       padding:18px 0;
     }
 
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
     .logo{
       width:44px;height:44px;
       border-radius:16px;
@@ -82,11 +88,26 @@
       animation:floating 5s infinite;
     }
 
+    .btn-top{
+      padding:10px 16px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      color:white;
+      text-decoration:none;
+      font-weight:600;
+      transition:.2s;
+    }
+
+    .btn-top:hover{
+      background:rgba(255,255,255,.12);
+    }
+
     main{
       padding-top:110px;
     }
 
-    /* GRID IDENTIQUE SIGNUP */
+    /* GRID FIX */
     .login-grid{
       display:grid;
       grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
@@ -94,6 +115,7 @@
       width:min(1180px,calc(100% - 32px));
       margin:0 auto;
       padding:64px 0;
+      align-items:stretch;
     }
 
     .hero-card,.form-card{
@@ -103,24 +125,15 @@
       box-shadow:var(--shadow);
       backdrop-filter:blur(12px);
       animation:fadeUp .8s ease;
-      overflow:hidden;
     }
 
     .hero-card{
       padding:34px;
+      position:relative;
+      overflow:hidden;
     }
 
-    .pill{
-      display:inline-flex;
-      padding:10px 16px;
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--line);
-      color:var(--cyan);
-      margin-bottom:18px;
-    }
-
-    h2{
+    .hero-card h2{
       margin:0;
       font-size:clamp(2.4rem,5vw,4.5rem);
       line-height:.95;
@@ -185,12 +198,6 @@
       min-height:50px;
     }
 
-    .small{
-      margin-top:12px;
-      text-align:center;
-      color:var(--muted);
-    }
-
     .lang{
       margin-top:14px;
       display:flex;
@@ -207,7 +214,7 @@
     }
 
     @media(max-width:980px){
-      .login-grid{grid-template-columns:1fr;padding:28px 0}
+      .login-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -217,58 +224,55 @@
   <div class="glow one"></div>
   <div class="glow two"></div>
 
+  <!-- TOPBAR FIX -->
   <header class="topbar">
     <div class="topbar-inner">
-      <div style="display:flex;gap:10px;align-items:center">
+      <div class="brand">
         <div class="logo"></div>
         <strong>Novibe</strong>
       </div>
-      <a href="/signup" style="color:var(--cyan)">Inscription</a>
+
+      <div style="display:flex;gap:10px">
+        <a class="btn-top" href="/signup">Inscription</a>
+        <a class="btn-top" href="/">Accueil</a>
+      </div>
     </div>
   </header>
 
   <main>
     <section class="login-grid">
 
-      <!-- HERO IDENTIQUE STYLE SIGNUP -->
+      <!-- HERO -->
       <div class="hero-card">
-        <div class="pill" data-i18n="hero">Connexion Novibe</div>
-
-        <h2>
-          <span class="grad" data-i18n="title">Connecte-toi</span><br>
-          à ton compte.
-        </h2>
-
+        <h2><span class="grad">Connexion</span><br>à Novibe</h2>
         <p style="color:var(--muted);line-height:1.7">
-          Accède à ton espace Novibe, tes outils et ton environnement utilisateur.
+          Accède à ton compte et retrouve ton espace utilisateur.
         </p>
       </div>
 
       <!-- FORM -->
       <div class="form-card">
 
-        <h3 data-i18n="form">Connexion</h3>
-
         <div class="field">
-          <label data-i18n="email">Email</label>
+          <label>Email</label>
           <input id="email" type="email"/>
         </div>
 
         <div class="field">
-          <label data-i18n="password">Mot de passe</label>
+          <label>Mot de passe</label>
           <input id="password" type="password"/>
         </div>
 
-        <button class="btn" id="loginBtn" data-i18n="btn">Se connecter</button>
-        <a class="btn secondary" href="/signup" data-i18n="signup">Créer un compte</a>
+        <button class="btn" id="loginBtn">Se connecter</button>
+        <a class="btn secondary" href="/signup">Créer un compte</a>
 
         <div class="message" id="msg">...</div>
 
         <div class="lang">
-          <span data-i18n="lang">Langue</span>
+          <span>Langue</span>
           <select id="lang">
-            <option value="fr">FR</option>
-            <option value="en">EN</option>
+            <option>FR</option>
+            <option>EN</option>
           </select>
         </div>
 
@@ -293,59 +297,20 @@ const app = initializeApp({
 
 const auth = getAuth(app);
 
-const t = {
-  fr:{
-    hero:"Connexion Novibe",
-    title:"Connecte-toi",
-    form:"Connexion",
-    email:"Email",
-    password:"Mot de passe",
-    btn:"Se connecter",
-    signup:"Créer un compte",
-    lang:"Langue",
-    ok:"Connexion réussie",
-    err:"Erreur de connexion"
-  },
-  en:{
-    hero:"Novibe Login",
-    title:"Sign in",
-    form:"Login",
-    email:"Email",
-    password:"Password",
-    btn:"Login",
-    signup:"Create account",
-    lang:"Language",
-    ok:"Login success",
-    err:"Login error"
-  }
-};
-
 const els={
   email:document.getElementById("email"),
   password:document.getElementById("password"),
   msg:document.getElementById("msg"),
-  btn:document.getElementById("loginBtn"),
-  lang:document.getElementById("lang")
+  btn:document.getElementById("loginBtn")
 };
-
-function apply(l){
-  document.querySelectorAll("[data-i18n]").forEach(e=>{
-    const k=e.getAttribute("data-i18n");
-    e.textContent=t[l][k];
-  });
-}
-
-apply("fr");
-
-els.lang.onchange=e=>apply(e.target.value);
 
 els.btn.onclick=async()=>{
   try{
     await signInWithEmailAndPassword(auth,els.email.value,els.password.value);
-    els.msg.textContent="OK";
-    setTimeout(()=>location.href="/",1200);
+    els.msg.textContent="Connexion réussie";
+    setTimeout(()=>location.href="/",1000);
   }catch(e){
-    els.msg.textContent="error";
+    els.msg.textContent="Erreur";
   }
 };
 </script>
