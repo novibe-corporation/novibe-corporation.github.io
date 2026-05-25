@@ -22,7 +22,6 @@
     }
 
     * { box-sizing: border-box; min-width: 0; }
-    html { scroll-behavior: smooth; }
     html, body {
       max-width: 100%;
       overflow-x: hidden;
@@ -31,7 +30,7 @@
 
     body {
       margin: 0;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Inter, system-ui, sans-serif;
       color: var(--text);
       background:
         radial-gradient(circle at 12% 12%, rgba(89,240,255,.22), transparent 24%),
@@ -42,7 +41,6 @@
 
     a { color: inherit; text-decoration: none; }
 
-    /* GLOW BACKGROUND */
     .wrap { min-height: 100vh; position: relative; overflow-x: clip; }
     .glow {
       position: fixed;
@@ -63,7 +61,7 @@
       100% { transform: translateY(0); }
     }
 
-    /* HEADER — OPTION B */
+    /* HEADER */
     .topbar {
       position: fixed;
       top: 0;
@@ -80,7 +78,7 @@
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
       gap: 12px;
       padding: 18px 0;
     }
@@ -115,7 +113,8 @@
 
     .auth-buttons {
       display: flex;
-      gap: 12px;
+      gap: 16px;
+      justify-content: center;
     }
 
     .btn {
@@ -127,11 +126,12 @@
       cursor: pointer;
       font-weight: 800;
       border-radius: 18px;
-      padding: 14px 20px;
+      padding: 14px 26px;
       color: #071018;
       background: linear-gradient(135deg, var(--cyan), var(--blue));
       box-shadow: 0 16px 40px rgba(89,240,255,.18);
-      white-space: nowrap;
+      transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+      animation: pulseGlow 4s infinite;
     }
 
     .btn.secondary {
@@ -142,9 +142,19 @@
       backdrop-filter: blur(14px);
     }
 
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 0 rgba(89,240,255,.2); }
+      50% { box-shadow: 0 0 24px rgba(89,240,255,.28); }
+      100% { box-shadow: 0 0 0 rgba(89,240,255,.2); }
+    }
+
     main { padding-top: 140px; }
 
-    /* LOGIN CARD */
     .card {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -211,7 +221,6 @@
 
     <header class="topbar">
       <div class="topbar-inner">
-
         <div class="brand">
           <div class="logo"></div>
           <div>
@@ -221,10 +230,9 @@
         </div>
 
         <div class="auth-buttons">
-          <a class="btn secondary" href="/signup">Inscription</a>
+          <a class="btn secondary" href="/signup">Connexion</a>
           <a class="btn" href="/">Accueil</a>
         </div>
-
       </div>
     </header>
 
@@ -240,72 +248,4 @@
 
         <div class="field">
           <label for="password">Mot de passe</label>
-          <input id="password" type="password" placeholder="Ton mot de passe" />
-        </div>
-
-        <button id="loginBtn" class="btn" style="margin-top:16px;">Se connecter</button>
-        <a class="btn secondary" href="/signup" style="margin-top:10px;">Créer un compte</a>
-
-        <div id="message" class="message">Entre tes identifiants pour te connecter.</div>
-      </div>
-
-      <footer>© Novibe Corporation — Login sécurisé</footer>
-    </main>
-  </div>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyDdMYtSr2FeNGay_Nwv8oLMXg7WVQspOJ8",
-    authDomain: "novibe-a5c1f.firebaseapp.com",
-    projectId: "novibe-a5c1f",
-    storageBucket: "novibe-a5c1f.firebasestorage.app",
-    messagingSenderId: "312673438609",
-    appId: "1:312673438609:web:2fbf719814a6c8c61a2830"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  const emailEl = document.getElementById("email");
-  const passwordEl = document.getElementById("password");
-  const loginBtn = document.getElementById("loginBtn");
-  const messageEl = document.getElementById("message");
-
-  function setMessage(text, isError = false) {
-    messageEl.textContent = text;
-    messageEl.style.color = isError ? "#ff6b6b" : "var(--muted)";
-    messageEl.style.borderColor = isError ? "rgba(255,107,107,.35)" : "rgba(255,255,255,.12)";
-  }
-
-  loginBtn.addEventListener("click", async () => {
-    const email = emailEl.value.trim();
-    const pass = passwordEl.value;
-
-    if (!email || !pass) {
-      setMessage("Remplis tous les champs.", true);
-      return;
-    }
-
-    setMessage("Connexion en cours...");
-    loginBtn.disabled = true;
-    loginBtn.textContent = "Connexion...";
-
-    try {
-      await signInWithEmailAndPassword(auth, email, pass);
-      localStorage.setItem("novibe-auth", "true");
-      setMessage("Connecté. Redirection...");
-      setTimeout(() => window.location.href = "/home", 1000);
-    } catch (error) {
-      setMessage(error?.message || "Une erreur est survenue.", true);
-    } finally {
-      loginBtn.disabled = false;
-      loginBtn.textContent = "Se connecter";
-    }
-  });
-</script>
-
-</body>
-</html>
+          <input id="password" type="password" placeholder="Ton
