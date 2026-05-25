@@ -639,16 +639,10 @@ main { padding-top: 128px; }
     });
 
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-
+  </script>
+<script>
 const loginBtn = document.querySelector('.login-btn');
 const signupBtn = document.querySelector('.signup-btn');
-
-if (!loginBtn || !signupBtn) {
-  console.error("Boutons introuvables");
-  return;
-}
 
 function isAuth() {
   return localStorage.getItem('novibe-auth') === 'true';
@@ -662,19 +656,24 @@ function setAuth(v) {
 function updateAuthUI() {
   const auth = isAuth();
 
+  if (!loginBtn || !signupBtn) return;
+
   if (auth) {
     loginBtn.textContent = "Profil";
     signupBtn.textContent = "Déconnexion";
+
     loginBtn.href = "#profile";
     signupBtn.href = "#logout";
   } else {
     loginBtn.textContent = "Connexion";
     signupBtn.textContent = "Inscription";
+
     loginBtn.href = "/login";
     signupBtn.href = "/signup";
   }
 }
 
+// Connexion / Profil
 loginBtn.addEventListener('click', (e) => {
   if (!isAuth()) {
     e.preventDefault();
@@ -685,6 +684,7 @@ loginBtn.addEventListener('click', (e) => {
   }
 });
 
+// Inscription / Déconnexion
 signupBtn.addEventListener('click', (e) => {
   if (!isAuth()) {
     e.preventDefault();
@@ -695,9 +695,7 @@ signupBtn.addEventListener('click', (e) => {
   }
 });
 
-updateAuthUI();
-
-});
-  </script>
+document.addEventListener("DOMContentLoaded", updateAuthUI);
+</script>
 </body>
 </html>
