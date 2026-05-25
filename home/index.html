@@ -15,21 +15,50 @@
       --cyan: #59f0ff;
       --violet: #cb6bff;
       --blue: #5aa7ff;
-      --radius: 22px;
+      --shadow: 0 24px 60px rgba(0,0,0,.35);
+      --radius: 24px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: system-ui, sans-serif;
-      background: radial-gradient(circle at 20% 20%, rgba(89,240,255,.15), transparent 40%),
-                  radial-gradient(circle at 80% 30%, rgba(203,107,255,.12), transparent 40%),
-                  var(--bg);
+      font-family: Inter, system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(89,240,255,.22), transparent 24%),
+        radial-gradient(circle at 82% 18%, rgba(203,107,255,.20), transparent 24%),
+        radial-gradient(circle at 50% 75%, rgba(90,167,255,.14), transparent 30%),
+        linear-gradient(180deg, #05070d 0%, #070b14 45%, #060913 100%);
       color: var(--text);
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
     a { color: inherit; text-decoration: none; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes floating {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* GLOW BACKGROUND */
+    .glow {
+      position: fixed;
+      border-radius: 999px;
+      filter: blur(50px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: .9;
+      animation: floating 8s ease-in-out infinite;
+    }
+    .glow.one { top: -120px; left: -60px; width: 360px; height: 360px; background: rgba(89,240,255,.25); }
+    .glow.two { bottom: -140px; right: -60px; width: 420px; height: 420px; background: rgba(203,107,255,.22); animation-duration: 9s; }
+    .glow.three { top: 30%; left: 46%; width: 300px; height: 300px; background: rgba(90,167,255,.16); animation-duration: 10s; }
 
     /* TOP BAR */
     .topbar {
@@ -43,60 +72,85 @@
     }
 
     .topbar-inner {
-      max-width: 1100px;
+      max-width: 1180px;
       margin: auto;
-      padding: 16px;
+      padding: 18px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
       font-weight: 800;
-      letter-spacing: -.5px;
+      font-size: 1.4rem;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+      box-shadow: 0 12px 36px rgba(89,240,255,.22);
+      animation: floating 5s ease-in-out infinite;
     }
 
     .logout {
-      padding: 10px 14px;
-      border-radius: 14px;
+      padding: 12px 18px;
+      border-radius: 16px;
       border: 1px solid var(--line);
       background: rgba(255,255,255,.05);
       cursor: pointer;
       color: white;
+      font-weight: 700;
+      backdrop-filter: blur(12px);
+      transition: .2s ease;
+    }
+    .logout:hover {
+      background: rgba(255,255,255,.12);
+      transform: translateY(-2px);
     }
 
     /* MAIN */
     .container {
-      max-width: 1100px;
+      max-width: 1180px;
       margin: auto;
-      padding: 110px 20px 40px;
+      padding: 130px 20px 40px;
+      position: relative;
+      z-index: 2;
     }
 
     .title {
-      font-size: 2.8rem;
+      font-size: 3rem;
       font-weight: 900;
       margin-bottom: 10px;
+      animation: fadeUp .8s ease;
     }
 
     .subtitle {
       color: var(--muted);
       margin-bottom: 40px;
+      animation: fadeUp .9s ease;
     }
 
     /* GRID */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
     }
 
     .card {
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 20px;
-      transition: .2s;
-      backdrop-filter: blur(10px);
+      padding: 26px;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      animation: fadeUp 1s ease;
+      transition: .25s ease;
     }
 
     .card:hover {
@@ -105,31 +159,39 @@
     }
 
     .icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 16px;
-      margin-bottom: 14px;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      margin-bottom: 16px;
       background: linear-gradient(135deg, var(--cyan), var(--violet));
+      box-shadow: 0 12px 36px rgba(89,240,255,.22);
     }
 
     .card h3 {
       margin-bottom: 8px;
+      font-size: 1.3rem;
     }
 
     .card p {
       color: var(--muted);
       font-size: .95rem;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .btn {
       display: inline-block;
-      margin-top: 14px;
-      padding: 10px 14px;
-      border-radius: 14px;
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 16px;
       background: linear-gradient(135deg, var(--cyan), var(--blue));
       color: #000;
-      font-weight: 700;
+      font-weight: 800;
+      transition: .2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
     }
 
     footer {
@@ -137,11 +199,17 @@
       margin-top: 60px;
       color: var(--muted);
       font-size: .9rem;
+      padding-bottom: 40px;
     }
   </style>
 </head>
 
 <body>
+
+<!-- GLOW BACKGROUND -->
+<div class="glow one"></div>
+<div class="glow two"></div>
+<div class="glow three"></div>
 
 <script>
   function isAuth() {
@@ -160,7 +228,10 @@
 
 <header class="topbar">
   <div class="topbar-inner">
-    <div class="brand">Novibe Home</div>
+    <div class="brand">
+      <div class="logo"></div>
+      Novibe Home
+    </div>
     <button class="logout" onclick="logout()">Déconnexion</button>
   </div>
 </header>
@@ -172,7 +243,6 @@
 
   <div class="grid">
 
-    <!-- EDITOR -->
     <div class="card">
       <div class="icon"></div>
       <h3>Éditeur</h3>
@@ -180,7 +250,6 @@
       <a class="btn" href="/editor">Ouvrir</a>
     </div>
 
-    <!-- SITES -->
     <div class="card">
       <div class="icon"></div>
       <h3>Sites</h3>
@@ -188,7 +257,6 @@
       <a class="btn" href="/sites">Explorer</a>
     </div>
 
-    <!-- CREATE -->
     <div class="card">
       <div class="icon"></div>
       <h3>Hébergeur</h3>
@@ -196,7 +264,6 @@
       <a class="btn" href="/create">Créer</a>
     </div>
 
-    <!-- WIKI -->
     <div class="card">
       <div class="icon"></div>
       <h3>Wiki</h3>
