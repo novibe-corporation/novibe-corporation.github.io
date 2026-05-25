@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Novibe — Home</title>
 
   <style>
@@ -10,43 +12,51 @@
       --bg: #070b14;
       --panel: rgba(255,255,255,.06);
       --line: rgba(255,255,255,.12);
-      --text: #fff;
-      --muted: rgba(255,255,255,.65);
+      --text: #ffffff;
+      --muted: rgba(255,255,255,.68);
       --cyan: #59f0ff;
-      --violet: #cb6bff;
       --blue: #5aa7ff;
+      --violet: #cb6bff;
+      --pink: #ff6bd6;
       --shadow: 0 24px 60px rgba(0,0,0,.35);
-      --radius: 24px;
+      --radius-lg: 24px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    html,
+    body {
+      margin: 0;
+      max-width: 100%;
+      overflow-x: hidden;
+      background: var(--bg);
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text);
+      scroll-behavior: smooth;
+    }
 
     body {
-      font-family: Inter, system-ui, sans-serif;
       background:
         radial-gradient(circle at 12% 12%, rgba(89,240,255,.22), transparent 24%),
         radial-gradient(circle at 82% 18%, rgba(203,107,255,.20), transparent 24%),
         radial-gradient(circle at 50% 75%, rgba(90,167,255,.14), transparent 30%),
         linear-gradient(180deg, #05070d 0%, #070b14 45%, #060913 100%);
-      color: var(--text);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .wrap {
       min-height: 100vh;
-      overflow-x: hidden;
+      position: relative;
+      overflow-x: clip;
     }
 
-    a { color: inherit; text-decoration: none; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes floating {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
-    }
-
-    /* GLOW BACKGROUND */
     .glow {
       position: fixed;
       border-radius: 999px;
@@ -54,139 +64,127 @@
       pointer-events: none;
       z-index: 0;
       opacity: .9;
-      animation: floating 8s ease-in-out infinite;
     }
-    .glow.one { top: -120px; left: -60px; width: 360px; height: 360px; background: rgba(89,240,255,.25); }
-    .glow.two { bottom: -140px; right: -60px; width: 420px; height: 420px; background: rgba(203,107,255,.22); animation-duration: 9s; }
-    .glow.three { top: 30%; left: 46%; width: 300px; height: 300px; background: rgba(90,167,255,.16); animation-duration: 10s; }
 
-    /* TOP BAR */
+    .glow.one {
+      top: -120px;
+      left: -60px;
+      width: 360px;
+      height: 360px;
+      background: rgba(89,240,255,.25);
+    }
+
+    .glow.two {
+      bottom: -140px;
+      right: -60px;
+      width: 420px;
+      height: 420px;
+      background: rgba(203,107,255,.22);
+    }
+
+    .glow.three {
+      top: 30%;
+      left: 46%;
+      width: 300px;
+      height: 300px;
+      background: rgba(90,167,255,.16);
+    }
+
+    /* ===== HEADER ===== */
+
     .topbar {
       position: fixed;
       top: 0;
+      left: 0;
       width: 100%;
-      backdrop-filter: blur(12px);
-      background: rgba(7,11,20,.7);
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(7,11,20,.58);
       border-bottom: 1px solid var(--line);
-      z-index: 10;
+    }
+
+    .topbar-inner,
+    .container,
+    .footer-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
     }
 
     .topbar-inner {
-      max-width: 1180px;
-      margin: auto;
-      padding: 18px 20px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 0;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      font-size: 1.4rem;
+      gap: 14px;
     }
 
     .logo {
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       border-radius: 16px;
       background: linear-gradient(135deg, var(--cyan), var(--violet));
       box-shadow: 0 12px 36px rgba(89,240,255,.22);
-      animation: floating 5s ease-in-out infinite;
     }
 
-    .logout {
-      padding: 12px 18px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.05);
-      cursor: pointer;
-      color: white;
-      font-weight: 700;
-      backdrop-filter: blur(12px);
+    .brand h1 {
+      margin: 0;
+      font-size: 1.4rem;
+      line-height: 1;
+      letter-spacing: -.04em;
+    }
+
+    .brand p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 26px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    nav a {
+      color: rgba(255,255,255,.72);
+      font-size: .96rem;
       transition: .2s ease;
     }
-    .logout:hover {
-      background: rgba(255,255,255,.12);
-      transform: translateY(-2px);
+
+    nav a:hover {
+      color: #fff;
+      text-shadow: 0 0 12px rgba(89,240,255,.7);
     }
 
-    /* MAIN */
-    .container {
-      max-width: 1180px;
-      margin: auto;
-      padding: 130px 20px 40px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .title {
-      font-size: 3rem;
-      font-weight: 900;
-      margin-bottom: 10px;
-      animation: fadeUp .8s ease;
-    }
-
-    .subtitle {
-      color: var(--muted);
-      margin-bottom: 40px;
-      animation: fadeUp .9s ease;
-    }
-
-    /* GRID */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 22px;
-    }
-
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 26px;
-      backdrop-filter: blur(12px);
-      box-shadow: var(--shadow);
-      animation: fadeUp 1s ease;
-      transition: .25s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(255,255,255,.25);
-    }
-
-    .icon {
-      width: 54px;
-      height: 54px;
-      border-radius: 18px;
-      margin-bottom: 16px;
-      background: linear-gradient(135deg, var(--cyan), var(--violet));
-      box-shadow: 0 12px 36px rgba(89,240,255,.22);
-    }
-
-    .card h3 {
-      margin-bottom: 8px;
-      font-size: 1.3rem;
-    }
-
-    .card p {
-      color: var(--muted);
-      font-size: .95rem;
-      line-height: 1.6;
+    .auth-buttons {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: nowrap;
     }
 
     .btn {
-      display: inline-block;
-      margin-top: 16px;
-      padding: 12px 16px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, var(--cyan), var(--blue));
-      color: #000;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 0;
+      cursor: pointer;
       font-weight: 800;
-      transition: .2s ease;
+      border-radius: 18px;
+      padding: 14px 20px;
+      color: #071018;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      box-shadow: 0 16px 40px rgba(89,240,255,.18);
+      transition: transform .18s ease, filter .18s ease;
+      white-space: nowrap;
     }
 
     .btn:hover {
@@ -194,90 +192,420 @@
       filter: brightness(1.05);
     }
 
-    footer {
-      text-align: center;
-      margin-top: 60px;
-      color: var(--muted);
-      font-size: .9rem;
-      padding-bottom: 40px;
+    .btn.secondary {
+      color: #fff;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--line);
+      box-shadow: none;
+      backdrop-filter: blur(14px);
     }
+
+    /* ===== MAIN ===== */
+
+    main {
+      position: relative;
+      z-index: 2;
+      padding-top: 140px;
+      padding-bottom: 60px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--line);
+      color: var(--cyan);
+      font-size: .92rem;
+      font-weight: 700;
+      margin-bottom: 22px;
+      backdrop-filter: blur(14px);
+    }
+
+    .hero h2 {
+      margin: 0;
+      font-size: clamp(3rem, 6vw, 5rem);
+      line-height: .95;
+      letter-spacing: -.08em;
+    }
+
+    .grad {
+      background: linear-gradient(
+        135deg,
+        #ffffff 0%,
+        var(--cyan) 38%,
+        var(--violet) 72%,
+        var(--pink) 100%
+      );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: 24px auto 0;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1.05rem;
+    }
+
+    /* ===== TOOLS ===== */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 18px;
+      margin-top: 50px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      transition: .22s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+    }
+
+    .icon {
+      width: 62px;
+      height: 62px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      background: linear-gradient(
+        135deg,
+        var(--cyan),
+        var(--violet)
+      );
+      box-shadow: 0 12px 36px rgba(89,240,255,.22);
+    }
+
+    .card:nth-child(2) .icon {
+      background: linear-gradient(
+        135deg,
+        var(--violet),
+        var(--pink)
+      );
+    }
+
+    .card:nth-child(3) .icon {
+      background: linear-gradient(
+        135deg,
+        var(--blue),
+        var(--cyan)
+      );
+    }
+
+    .card:nth-child(4) .icon {
+      background: linear-gradient(
+        135deg,
+        var(--pink),
+        var(--cyan)
+      );
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 1.3rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .card .btn {
+      width: 100%;
+    }
+
+    /* ===== FOOTER ===== */
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 30px 0;
+      margin-top: 60px;
+      background: rgba(0,0,0,.18);
+      backdrop-filter: blur(12px);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      color: rgba(255,255,255,.55);
+      font-size: .95rem;
+    }
+
+    @media (max-width: 980px) {
+
+      .topbar-inner,
+      .container,
+      .footer-inner {
+        width: min(1180px, calc(100% - 20px));
+      }
+
+      .topbar-inner {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .auth-buttons {
+        width: 100%;
+      }
+
+      .auth-buttons .btn {
+        flex: 1;
+      }
+
+      main {
+        padding-top: 180px;
+      }
+    }
+
   </style>
 </head>
 
 <body>
 
-<!-- GLOW BACKGROUND -->
-<div class="glow one"></div>
-<div class="glow two"></div>
-<div class="glow three"></div>
+<div class="wrap">
 
-<script>
-  function isAuth() {
-    return localStorage.getItem("novibe-auth") === "true";
-  }
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+  <div class="glow three"></div>
 
-  if (!isAuth()) {
-    window.location.href = "/";
-  }
+  <!-- HEADER -->
 
-  function logout() {
-    localStorage.removeItem("novibe-auth");
-    window.location.href = "/";
-  }
-</script>
+  <header class="topbar">
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="brand">
-      <div class="logo"></div>
-      Novibe Home
-    </div>
-    <button class="logout" onclick="logout()">Déconnexion</button>
-  </div>
-</header>
+    <div class="topbar-inner">
 
-<div class="container">
+      <div class="brand">
 
-  <div class="title">Bienvenue sur Novibe</div>
-  <div class="subtitle">Ton espace central pour créer, héberger et gérer tes projets.</div>
+        <div class="logo"></div>
 
-  <div class="grid">
+        <div>
+          <h1>Novibe</h1>
+          <p>© Novibe Corporation</p>
+        </div>
 
-    <div class="card">
-      <div class="icon"></div>
-      <h3>Éditeur</h3>
-      <p>Code directement en HTML, CSS, JS et plus.</p>
-      <a class="btn" href="/editor">Ouvrir</a>
+      </div>
+
+      <nav>
+        <a href="/sites">Sites</a>
+        <a href="/editor">Éditeur</a>
+        <a href="/wiki">Wiki</a>
+      </nav>
+
+      <div class="auth-buttons">
+        <a class="btn secondary" href="/create">Créer</a>
+        <button class="btn" id="logoutBtn">
+          Déconnexion
+        </button>
+      </div>
+
     </div>
 
-    <div class="card">
-      <div class="icon"></div>
-      <h3>Sites</h3>
-      <p>Voir tous les sites hébergés sur Novibe.</p>
-      <a class="btn" href="/sites">Explorer</a>
-    </div>
+  </header>
 
-    <div class="card">
-      <div class="icon"></div>
-      <h3>Hébergeur</h3>
-      <p>Créer et publier ton propre site sur Novibe.</p>
-      <a class="btn" href="/create">Créer</a>
-    </div>
+  <!-- MAIN -->
 
-    <div class="card">
-      <div class="icon"></div>
-      <h3>Wiki</h3>
-      <p>Documentation, guides et aide Novibe.</p>
-      <a class="btn" href="/wiki">Lire</a>
-    </div>
+  <main class="container">
 
-  </div>
+    <section class="hero">
+
+      <div class="pill">
+        Dashboard Novibe
+      </div>
+
+      <h2>
+        Bienvenue sur <span class="grad">Novibe</span>
+      </h2>
+
+      <p>
+        Accède à tous les outils de la plateforme :
+        éditeur intégré, hébergement de sites,
+        gestion des projets et wiki communautaire
+        dans une interface moderne et unifiée.
+      </p>
+
+    </section>
+
+    <!-- TOOLS -->
+
+    <section class="grid">
+
+      <div class="card">
+
+        <div class="icon"></div>
+
+        <h3>Éditeur</h3>
+
+        <p>
+          Ouvre l’éditeur Novibe pour coder
+          en HTML, CSS, JavaScript, JSON,
+          Python et plus encore directement
+          depuis le navigateur.
+        </p>
+
+        <a class="btn" href="/editor">
+          Ouvrir l’éditeur
+        </a>
+
+      </div>
+
+      <div class="card">
+
+        <div class="icon"></div>
+
+        <h3>Sites</h3>
+
+        <p>
+          Explore tous les sites hébergés
+          sur Novibe avec une structure
+          moderne et indépendante.
+        </p>
+
+        <a class="btn" href="/sites">
+          Voir les sites
+        </a>
+
+      </div>
+
+      <div class="card">
+
+        <div class="icon"></div>
+
+        <h3>Hébergement</h3>
+
+        <p>
+          Publie ton propre site sur Novibe
+          avec ton espace personnalisé
+          et ton système de pages.
+        </p>
+
+        <a class="btn" href="/create">
+          Créer un site
+        </a>
+
+      </div>
+
+      <div class="card">
+
+        <div class="icon"></div>
+
+        <h3>Wiki</h3>
+
+        <p>
+          Consulte la documentation,
+          les guides et les ressources
+          de la communauté Novibe.
+        </p>
+
+        <a class="btn" href="/wiki">
+          Ouvrir le wiki
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
 
   <footer>
-    © Novibe Corporation — Dashboard sécurisé
+
+    <div class="footer-inner">
+
+      <div>
+        <strong style="color:white;">
+          Novibe
+        </strong>
+        — © Novibe Corporation
+      </div>
+
+      <div>
+        Dashboard moderne et outils intégrés.
+      </div>
+
+    </div>
+
   </footer>
 
 </div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+}
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDdMYtSr2FeNGay_Nwv8oLMXg7WVQspOJ8",
+  authDomain: "novibe-a5c1f.firebaseapp.com",
+  projectId: "novibe-a5c1f",
+  storageBucket: "novibe-a5c1f.firebasestorage.app",
+  messagingSenderId: "312673438609",
+  appId: "1:312673438609:web:2fbf719814a6c8c61a2830"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, (user) => {
+
+  if (!user) {
+    localStorage.setItem("novibe-auth", "false");
+    window.location.href = "/";
+  }
+
+});
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+logoutBtn.addEventListener("click", async () => {
+
+  await signOut(auth);
+
+  localStorage.setItem("novibe-auth", "false");
+
+  window.location.href = "/";
+
+});
+
+</script>
 
 </body>
 </html>
