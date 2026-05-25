@@ -6,7 +6,6 @@
   <title>Novibe — Login</title>
 
   <style>
-    /* === TOUT LE STYLE IDENTIQUE À /signup === */
     :root {
       --bg: #070b14;
       --panel: rgba(255,255,255,.06);
@@ -19,20 +18,23 @@
       --pink: #ff6bd6;
       --shadow: 0 24px 60px rgba(0,0,0,.35);
       --radius-lg: 24px;
-      --radius-xl: 34px;
     }
 
-    * { box-sizing: border-box; min-width: 0; }
+    * {
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
     html, body {
+      margin: 0;
       max-width: 100%;
       overflow-x: hidden;
       background: var(--bg);
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text);
     }
 
     body {
-      margin: 0;
-      font-family: Inter, system-ui, sans-serif;
-      color: var(--text);
       background:
         radial-gradient(circle at 12% 12%, rgba(89,240,255,.22), transparent 24%),
         radial-gradient(circle at 82% 18%, rgba(203,107,255,.20), transparent 24%),
@@ -40,9 +42,17 @@
         linear-gradient(180deg, #05070d 0%, #070b14 45%, #060913 100%);
     }
 
-    a { color: inherit; text-decoration: none; }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-    .wrap { min-height: 100vh; position: relative; overflow-x: clip; }
+    .wrap {
+      min-height: 100vh;
+      position: relative;
+      overflow-x: clip;
+    }
+
     .glow {
       position: fixed;
       border-radius: 999px;
@@ -50,19 +60,34 @@
       pointer-events: none;
       z-index: 0;
       opacity: .9;
-      animation: floating 8s ease-in-out infinite;
-    }
-    .glow.one { top: -120px; left: -60px; width: 360px; height: 360px; background: rgba(89,240,255,.25); }
-    .glow.two { bottom: -140px; right: -60px; width: 420px; height: 420px; background: rgba(203,107,255,.22); animation-duration: 9s; }
-    .glow.three { top: 30%; left: 46%; width: 300px; height: 300px; background: rgba(90,167,255,.16); animation-duration: 10s; }
-
-    @keyframes floating {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
     }
 
-    /* === TON HEADER EXACT === */
+    .glow.one {
+      top: -120px;
+      left: -60px;
+      width: 360px;
+      height: 360px;
+      background: rgba(89,240,255,.25);
+    }
+
+    .glow.two {
+      bottom: -140px;
+      right: -60px;
+      width: 420px;
+      height: 420px;
+      background: rgba(203,107,255,.22);
+    }
+
+    .glow.three {
+      top: 30%;
+      left: 46%;
+      width: 300px;
+      height: 300px;
+      background: rgba(90,167,255,.16);
+    }
+
+    /* ===== HEADER ===== */
+
     .topbar {
       position: fixed;
       top: 0;
@@ -74,7 +99,9 @@
       border-bottom: 1px solid var(--line);
     }
 
-    .topbar-inner, .container {
+    .topbar-inner,
+    .container,
+    .footer-inner {
       width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
     }
@@ -87,15 +114,50 @@
       padding: 18px 0;
     }
 
-    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
     .logo {
-      width: 44px; height: 44px; border-radius: 16px;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
       background: linear-gradient(135deg, var(--cyan), var(--violet));
       box-shadow: 0 12px 36px rgba(89,240,255,.22);
-      animation: floating 5s ease-in-out infinite;
     }
-    .brand h1 { margin: 0; font-size: 1.4rem; line-height: 1; letter-spacing: -.04em; }
-    .brand p { margin: 3px 0 0; color: var(--muted); font-size: .82rem; }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1.4rem;
+      line-height: 1;
+      letter-spacing: -.04em;
+    }
+
+    .brand p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 26px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    nav a {
+      color: rgba(255,255,255,.72);
+      font-size: .96rem;
+      transition: .2s ease;
+    }
+
+    nav a:hover {
+      color: #fff;
+      text-shadow: 0 0 12px rgba(89,240,255,.7);
+    }
 
     .auth-buttons {
       display: flex;
@@ -105,16 +167,27 @@
     }
 
     .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      gap: 10px; border: 0; cursor: pointer; font-weight: 800;
-      border-radius: 18px; padding: 14px 20px; color: #071018;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 0;
+      cursor: pointer;
+      font-weight: 800;
+      border-radius: 18px;
+      padding: 14px 20px;
+      color: #071018;
       background: linear-gradient(135deg, var(--cyan), var(--blue));
       box-shadow: 0 16px 40px rgba(89,240,255,.18);
-      transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+      transition: transform .18s ease, filter .18s ease;
       white-space: nowrap;
-      animation: pulseGlow 4s infinite;
     }
-    .btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
     .btn.secondary {
       color: #fff;
       background: rgba(255,255,255,.05);
@@ -123,40 +196,82 @@
       backdrop-filter: blur(14px);
     }
 
-    main { padding-top: 110px; }
+    /* ===== MAIN ===== */
 
-    /* === FORMULAIRE LOGIN === */
-    .card {
+    main {
+      padding-top: 140px;
+      display: flex;
+      justify-content: center;
+      padding-bottom: 60px;
+    }
+
+    .box {
+      width: min(520px, 92%);
+      padding: 30px;
+      border-radius: 30px;
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 34px;
       box-shadow: var(--shadow);
       backdrop-filter: blur(12px);
-      padding: 30px;
-      width: min(420px, 100%);
-      margin: 40px auto 0;
+      position: relative;
+      z-index: 2;
     }
 
-    .title {
-      font-size: 2.4rem;
-      font-weight: 900;
-      margin-bottom: 10px;
-      text-align: center;
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--line);
+      color: var(--cyan);
+      font-size: .92rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      backdrop-filter: blur(14px);
     }
 
-    .subtitle {
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      line-height: 1;
+      letter-spacing: -.06em;
+    }
+
+    .grad {
+      background: linear-gradient(
+        135deg,
+        #ffffff 0%,
+        var(--cyan) 38%,
+        var(--violet) 72%,
+        var(--pink) 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .desc {
       color: var(--muted);
-      margin-bottom: 30px;
-      text-align: center;
+      line-height: 1.7;
+      margin-top: 18px;
+      margin-bottom: 26px;
     }
 
     .field {
-      display: grid;
+      display: flex;
+      flex-direction: column;
       gap: 8px;
-      margin-top: 16px;
+      margin-bottom: 18px;
     }
 
-    .field input {
+    .field label {
+      font-size: .92rem;
+      color: rgba(255,255,255,.78);
+    }
+
+    input {
       padding: 15px 16px;
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,.12);
@@ -166,6 +281,11 @@
       font-size: 1rem;
     }
 
+    input:focus {
+      border-color: rgba(89,240,255,.55);
+      box-shadow: 0 0 0 3px rgba(89,240,255,.12);
+    }
+
     .message {
       margin-top: 16px;
       padding: 14px 16px;
@@ -173,56 +293,204 @@
       background: rgba(255,255,255,.05);
       border: 1px solid rgba(255,255,255,.10);
       color: var(--muted);
+      line-height: 1.6;
       min-height: 52px;
+      overflow-wrap: anywhere;
     }
+
+    .bottom-link {
+      margin-top: 16px;
+      color: rgba(255,255,255,.65);
+      font-size: .95rem;
+      text-align: center;
+    }
+
+    .bottom-link a {
+      color: var(--cyan);
+      font-weight: 700;
+    }
+
+    @media (max-width: 980px) {
+
+      .topbar-inner,
+      .container,
+      .footer-inner {
+        width: min(1180px, calc(100% - 20px));
+      }
+
+      .topbar-inner {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .auth-buttons {
+        width: 100%;
+      }
+
+      .auth-buttons .btn {
+        flex: 1;
+      }
+
+      main {
+        padding-top: 170px;
+      }
+    }
+
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="glow one"></div>
-    <div class="glow two"></div>
-    <div class="glow three"></div>
 
-<header class="topbar">
-  <div class="topbar-inner" style="flex-direction: column; align-items: flex-start; gap: 12px;">
-    
-    <div class="brand">
-      <div class="logo"></div>
-      <div>
-        <h1>Novibe</h1>
-        <p>© Novibe Corporation</p>
+<div class="wrap">
+
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+  <div class="glow three"></div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+
+      <div class="brand">
+        <div class="logo"></div>
+
+        <div>
+          <h1>Novibe</h1>
+          <p>© Novibe Corporation</p>
+        </div>
       </div>
+
+      <nav>
+        <a href="/#hosting">Hosting</a>
+        <a href="/#features">Fonctions</a>
+        <a href="/#about">À propos</a>
+      </nav>
+
+      <div class="auth-buttons">
+        <a class="btn secondary" href="/signup">Inscription</a>
+        <a class="btn" href="/">Accueil</a>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+
+    <div class="box">
+
+      <div class="pill">
+        Connexion sécurisée
+      </div>
+
+      <h1>
+        Connexion <span class="grad">Novibe</span>
+      </h1>
+
+      <div class="desc">
+        Connecte-toi à ton espace Novibe pour accéder aux outils,
+        aux sites hébergés et à ton dashboard.
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="email@novibe.com"
+        >
+      </div>
+
+      <div class="field">
+        <label>Mot de passe</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="••••••••"
+        >
+      </div>
+
+      <button
+        class="btn"
+        id="loginBtn"
+        style="width:100%;"
+      >
+        Se connecter
+      </button>
+
+      <div class="message" id="message">
+        Entre tes identifiants pour continuer.
+      </div>
+
+      <div class="bottom-link">
+        Pas encore de compte ?
+        <a href="/signup">Créer un compte</a>
+      </div>
+
     </div>
 
-    <div class="auth-buttons">
-      <a class="btn secondary" href="/signup">Inscription</a>
-      <a class="btn" href="/">Accueil</a>
-    </div>
+  </main>
 
-  </div>
-</header>
+</div>
 
-    <main class="container">
-      <div class="card">
-        <div class="title">Connexion</div>
-        <div class="subtitle">Accède à ton espace Novibe.</div>
+<script type="module">
 
-        <div class="field">
-          <label for="email">Adresse email</label>
-          <input id="email" type="email" placeholder="exemple@email.com" />
-        </div>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
-        <div class="field">
-          <label for="password">Mot de passe</label>
-          <input id="password" type="password" placeholder="Ton mot de passe" />
-        </div>
+import {
+  getAuth,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
-        <button id="loginBtn" class="btn" style="margin-top:16px;">Se connecter</button>
+const firebaseConfig = {
+  apiKey: "AIzaSyDdMYtSr2FeNGay_Nwv8oLMXg7WVQspOJ8",
+  authDomain: "novibe-a5c1f.firebaseapp.com",
+  projectId: "novibe-a5c1f",
+  storageBucket: "novibe-a5c1f.firebasestorage.app",
+  messagingSenderId: "312673438609",
+  appId: "1:312673438609:web:2fbf719814a6c8c61a2830"
+};
 
-        <div id="message" class="message">Entre tes identifiants.</div>
-      </div>
-    </main>
-  </div>
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const btn = document.getElementById("loginBtn");
+const msg = document.getElementById("message");
+
+btn.addEventListener("click", async () => {
+
+  try {
+
+    await signInWithEmailAndPassword(
+      auth,
+      email.value,
+      password.value
+    );
+
+    localStorage.setItem("novibe-auth", "true");
+
+    msg.textContent = "Connexion réussie...";
+    msg.style.color = "#59f0ff";
+
+    setTimeout(() => {
+      window.location.href = "/home";
+    }, 800);
+
+  } catch (e) {
+
+    msg.textContent = "Erreur : " + e.message;
+    msg.style.color = "#ff6bd6";
+
+  }
+
+});
+
+</script>
+
 </body>
 </html>
