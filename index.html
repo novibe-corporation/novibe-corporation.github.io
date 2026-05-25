@@ -337,61 +337,6 @@ main { padding-top: 128px; }
 .auth-buttons { width: 100%; }
 .auth-buttons .btn { width: auto; flex: 1; }
 }
-// =====================
-// AUTH BUTTON LOGIC
-// =====================
-
-const loginBtn = document.querySelector('.login-btn');
-const signupBtn = document.querySelector('.signup-btn');
-
-function isAuth() {
-  return localStorage.getItem('novibe-auth') === 'true';
-}
-
-function setAuth(v) {
-  localStorage.setItem('novibe-auth', v ? 'true' : 'false');
-  updateAuthUI();
-}
-
-function updateAuthUI() {
-  const auth = isAuth();
-
-  if (auth) {
-    loginBtn.textContent = "Profil";
-    signupBtn.textContent = "Déconnexion";
-    loginBtn.href = "#profile";
-    signupBtn.href = "#logout";
-  } else {
-    loginBtn.textContent = "Connexion";
-    signupBtn.textContent = "Inscription";
-    loginBtn.href = "/login";
-    signupBtn.href = "/signup";
-  }
-}
-
-// Connexion / Profil
-loginBtn.addEventListener('click', (e) => {
-  if (!isAuth()) {
-    e.preventDefault();
-    setAuth(true);
-  } else {
-    e.preventDefault();
-    alert("Profil à créer");
-  }
-});
-
-// Inscription / Déconnexion
-signupBtn.addEventListener('click', (e) => {
-  if (!isAuth()) {
-    e.preventDefault();
-    setAuth(true);
-  } else {
-    e.preventDefault();
-    setAuth(false);
-  }
-});
-
-updateAuthUI();
   </style>  
 </head>  
 <body>  
@@ -692,6 +637,67 @@ updateAuthUI();
     document.querySelectorAll('.card, .panel, .metric, .about-box').forEach(el => {
       observer.observe(el);
     });
+
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+const loginBtn = document.querySelector('.login-btn');
+const signupBtn = document.querySelector('.signup-btn');
+
+if (!loginBtn || !signupBtn) {
+  console.error("Boutons introuvables");
+  return;
+}
+
+function isAuth() {
+  return localStorage.getItem('novibe-auth') === 'true';
+}
+
+function setAuth(v) {
+  localStorage.setItem('novibe-auth', v ? 'true' : 'false');
+  updateAuthUI();
+}
+
+function updateAuthUI() {
+  const auth = isAuth();
+
+  if (auth) {
+    loginBtn.textContent = "Profil";
+    signupBtn.textContent = "Déconnexion";
+    loginBtn.href = "#profile";
+    signupBtn.href = "#logout";
+  } else {
+    loginBtn.textContent = "Connexion";
+    signupBtn.textContent = "Inscription";
+    loginBtn.href = "/login";
+    signupBtn.href = "/signup";
+  }
+}
+
+loginBtn.addEventListener('click', (e) => {
+  if (!isAuth()) {
+    e.preventDefault();
+    setAuth(true);
+  } else {
+    e.preventDefault();
+    alert("Profil à créer");
+  }
+});
+
+signupBtn.addEventListener('click', (e) => {
+  if (!isAuth()) {
+    e.preventDefault();
+    setAuth(true);
+  } else {
+    e.preventDefault();
+    setAuth(false);
+  }
+});
+
+updateAuthUI();
+
+});
   </script>
 </body>
 </html>
