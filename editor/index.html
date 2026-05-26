@@ -108,8 +108,6 @@
       background:rgba(90,167,255,.16);
     }
 
-    /* ===== HEADER NOVIBE ===== */
-
     .topbar{
       position:fixed;
       top:0;
@@ -200,8 +198,6 @@
       backdrop-filter:blur(14px);
     }
 
-    /* ===== MAIN ===== */
-
     main{
       position:relative;
       z-index:2;
@@ -238,6 +234,11 @@
       gap:8px;
       flex-wrap:wrap;
       min-width:0;
+    }
+
+    .tabs.locked .tab{
+      pointer-events:none;
+      opacity:.55;
     }
 
     .tab{
@@ -302,9 +303,27 @@
       background:rgba(255,255,255,.08);
     }
 
+    .icon-btn:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+      transform:none;
+    }
+
     .workspace{
       height:78vh;
       position:relative;
+    }
+
+    .code-view,
+    .preview-view{
+      display:none;
+      width:100%;
+      height:100%;
+    }
+
+    .code-view.active,
+    .preview-view.active{
+      display:block;
     }
 
     textarea{
@@ -323,15 +342,11 @@
     }
 
     .preview{
-      display:none;
+      display:flex;
+      flex-direction:column;
       width:100%;
       height:100%;
       background:#0b1220;
-      flex-direction:column;
-    }
-
-    .preview.active{
-      display:flex;
     }
 
     .browser-bar{
@@ -471,6 +486,13 @@
       margin-top:18px;
     }
 
+    .hint{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:.9rem;
+      line-height:1.5;
+    }
+
     @media(max-width:900px){
       .topbar-inner{
         flex-wrap:wrap;
@@ -507,7 +529,6 @@
     <div class="topbar-inner">
       <div class="brand">
         <div class="logo"></div>
-
         <div>
           <h1>Novibe</h1>
           <p>© Novibe Corporation</p>
@@ -528,38 +549,39 @@
         <div class="tabs" id="tabs"></div>
 
         <div class="actions">
-          <button class="icon-btn" id="addFileBtn">+</button>
+          <button class="icon-btn" id="addFileBtn" title="Ajouter un fichier">+</button>
           <button class="btn" id="runBtn">Exécuter</button>
         </div>
       </div>
 
       <div class="workspace">
 
-        <textarea id="editor"></textarea>
-
-        <div class="preview" id="preview">
-
-          <div class="browser-bar">
-            <div class="browser-left">
-
-              <div class="browser-icon">
-                <img id="siteIconImg">
-                <span id="siteIconFallback">N</span>
-              </div>
-
-              <div class="browser-name">
-                <strong id="siteTitle">Mon site</strong>
-                <span>Aperçu du projet</span>
-              </div>
-            </div>
-
-            <div class="browser-url" id="browserUrl">
-              index.html
-            </div>
-          </div>
-
-          <iframe id="frame"></iframe>
+        <div class="code-view active" id="codeView">
+          <textarea id="editor"></textarea>
         </div>
+
+        <div class="preview-view" id="previewView">
+          <div class="preview">
+            <div class="browser-bar">
+              <div class="browser-left">
+                <div class="browser-icon">
+                  <img id="siteIconImg" alt="logo du site">
+                  <span id="siteIconFallback">N</span>
+                </div>
+
+                <div class="browser-name">
+                  <strong id="siteTitle">Mon site</strong>
+                  <span>Aperçu du projet</span>
+                </div>
+              </div>
+
+              <div class="browser-url" id="browserUrl">index.html</div>
+            </div>
+
+            <iframe id="frame"></iframe>
+          </div>
+        </div>
+
       </div>
 
       <div class="status" id="status">
@@ -585,11 +607,14 @@
       <button class="btn" id="createBtn">Créer</button>
     </div>
 
+    <div class="hint">
+      Les fichiers exécutables sont les fichiers HTML. Les fichiers CSS et les images peuvent être ajoutés au projet, mais ils ne s’exécutent pas seuls.
+    </div>
   </div>
 </div>
 
 <script>
-  if(localStorage.getItem("novibe-auth") !== "true"){
+  if (localStorage.getItem("novibe-auth") !== "true") {
     location.href = "/";
   }
 
@@ -641,14 +666,14 @@ p{
 
   const tabs = document.getElementById("tabs");
   const editor = document.getElementById("editor");
-  const preview = document.getElementById("preview");
+  const codeView = document.getElementById("codeView");
+  const previewView = document.getElementById("previewView");
   const frame = document.getElementById("frame");
   const runBtn = document.getElementById("runBtn");
   const status = document.getElementById("status");
 
   const siteTitle = document.getElementById("siteTitle");
   const browserUrl = document.getElementById("browserUrl");
-
   const siteIconImg = document.getElementById("siteIconImg");
   const siteIconFallback = document.getElementById("siteIconFallback");
 
@@ -660,166 +685,201 @@ p{
 
   const logoutBtn = document.getElementById("logoutBtn");
 
-  logoutBtn.onclick = () => {
-    localStorage.removeItem("novibe-auth");
-    location.href = "/";
-  };
-
-  function saveCurrent(){
-    files[activeFile] = editor.value;
+  function setStatus(text, color) {
+    status.textContent = text;
+    if (color) status.style.color = color;
   }
 
-  function renderTabs(){
+  function isHtmlFile(fileName) {
+    return /\.html?$/i.test(fileName);
+  }
+
+  function isCssFile(fileName) {
+    return /\.css$/i.test(fileName);
+  }
+
+  function isImageFile(fileName) {
+    return /\.(png|jpe?g|gif|webp|svg)$/i.test(fileName);
+  }
+
+  function saveCurrent() {
+    if (files[activeFile] && files[activeFile].type === "html") {
+      files[activeFile].content = editor.value;
+    }
+  }
+
+  function renderTabs() {
     tabs.innerHTML = "";
 
     Object.keys(files).forEach((file) => {
-
       const tab = document.createElement("button");
+      tab.type = "button";
       tab.className = "tab" + (file === activeFile ? " active" : "");
-      tab.innerHTML = `
-        <span class="tab-dot"></span>
-        ${file}
-      `;
+      tab.innerHTML = `<span class="tab-dot"></span>${file}`;
 
-      tab.onclick = () => {
-        saveCurrent();
+      tab.addEventListener("click", () => {
+        if (previewMode) return;
 
         activeFile = file;
-
-        if(!previewMode){
-          editor.value = files[file];
-        } else {
-          runPreview();
-        }
-
+        editor.value = files[file].content || "";
         renderTabs();
-      };
+        updateCodeBar();
+        setStatus(`Ouvert : ${file}`, "#59f0ff");
+      });
 
       tabs.appendChild(tab);
     });
   }
 
-  function extractTitle(html){
-    const match = html.match(/<title>(.*?)<\/title>/i);
-    return match ? match[1] : "Mon site";
-  }
-
-  function extractIcon(html){
-    const match = html.match(/<link[^>]*rel=["'].*icon.*["'][^>]*href=["']([^"]+)["']/i);
-    return match ? match[1] : "";
-  }
-
-  function runPreview(){
-
-    saveCurrent();
-
-    const htmlFiles = Object.keys(files).filter(f => f.endsWith(".html"));
-
-    let html = files[activeFile];
-
-    if(!activeFile.endsWith(".html")){
-      html = files["index.html"];
-    }
-
-    frame.srcdoc = html;
-
-    preview.style.display = "flex";
-    editor.style.display = "none";
-
-    previewMode = true;
-
-    runBtn.textContent = "Terminer";
-
-    const title = extractTitle(html);
-    const icon = extractIcon(html);
-
-    siteTitle.textContent = title;
+  function updateCodeBar() {
+    const file = files[activeFile];
     browserUrl.textContent = activeFile;
+    siteTitle.textContent = activeFile;
 
-    if(icon){
-      siteIconImg.src = icon;
+    if (file && file.type === "html") {
+      siteIconImg.style.display = "none";
+      siteIconFallback.style.display = "block";
+      siteIconFallback.textContent = "N";
+    } else if (file && file.type === "image") {
+      siteIconImg.src = file.content;
       siteIconImg.style.display = "block";
       siteIconFallback.style.display = "none";
     } else {
       siteIconImg.style.display = "none";
-      siteIconFallback.style.display = "flex";
-      siteIconFallback.textContent = title.charAt(0).toUpperCase();
+      siteIconFallback.style.display = "block";
+      siteIconFallback.textContent = "N";
+    }
+  }
+
+  function extractTitle(html) {
+    const match = html.match(/<title>([\s\S]*?)<\/title>/i);
+    return match ? match[1].trim() : "Novibe";
+  }
+
+  function extractIcon(html) {
+    const match = html.match(/<link[^>]+rel=["'][^"']*icon[^"']*["'][^>]*href=["']([^"']+)["']/i);
+    return match ? match[1].trim() : "";
+  }
+
+  function buildPreviewHtml(html) {
+    let output = html;
+
+    let cssBundle = "";
+    let jsBundle = "";
+
+    Object.entries(files).forEach(([name, file]) => {
+      if (file.type === "css") {
+        cssBundle += `\n/* ${name} */\n${file.content}\n`;
+      } else if (file.type === "js") {
+        jsBundle += `\n// ${name}\n${file.content}\n`;
+      }
+    });
+
+    if (cssBundle.trim()) {
+      const cssTag = `<style id="novibe-inline-css">\n${cssBundle}\n</style>`;
+      if (/<\/head>/i.test(output)) {
+        output = output.replace(/<\/head>/i, cssTag + "\n</head>");
+      } else {
+        output = cssTag + "\n" + output;
+      }
     }
 
-    status.textContent = "Projet exécuté.";
-    status.style.color = "#59f0ff";
+    if (jsBundle.trim()) {
+      const jsTag = `<script id="novibe-inline-js">\n${jsBundle}\n<\/script>`;
+      if (/<\/body>/i.test(output)) {
+        output = output.replace(/<\/body>/i, jsTag + "\n</body>");
+      } else {
+        output += "\n" + jsTag;
+      }
+    }
+
+    Object.entries(files).forEach(([name, file]) => {
+      if (file.type !== "image") return;
+
+      const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const dataUrl = file.content;
+
+      output = output.replace(
+        new RegExp(`(src|href)=([\"'])${escaped}\\2`, "gi"),
+        `$1=$2${dataUrl}$2`
+      );
+
+      output = output.replace(
+        new RegExp(`url\\(([\"'])?${escaped}\\1?\\)`, "gi"),
+        `url("${dataUrl}")`
+      );
+    });
+
+    return output;
   }
 
-  function stopPreview(){
+  function updatePreviewBar(htmlFileName, html) {
+    const title = extractTitle(html);
+    const icon = extractIcon(html);
 
-    preview.style.display = "none";
-    editor.style.display = "block";
+    siteTitle.textContent = title;
+    browserUrl.textContent = htmlFileName;
 
+    if (icon) {
+      siteIconImg.src = icon;
+      siteIconImg.style.display = "block";
+      siteIconFallback.style.display = "none";
+    } else {
+      siteIconImg.removeAttribute("src");
+      siteIconImg.style.display = "none";
+      siteIconFallback.style.display = "block";
+      siteIconFallback.textContent = title.charAt(0).toUpperCase() || "N";
+    }
+  }
+
+  function setPreviewLock(lock) {
+    tabs.classList.toggle("locked", lock);
+    addFileBtn.disabled = lock;
+  }
+
+  function runPreview() {
+    saveCurrent();
+
+    const current = files[activeFile];
+
+    if (!current || current.type !== "html") {
+      setStatus("Seuls les fichiers HTML peuvent être exécutés.", "#ff6bd6");
+      return;
+    }
+
+    const html = buildPreviewHtml(current.content);
+
+    updatePreviewBar(activeFile, html);
+
+    frame.srcdoc = html;
+
+    codeView.classList.remove("active");
+    previewView.classList.add("active");
+
+    previewMode = true;
+    runBtn.textContent = "Terminer";
+    setStatus("Aperçu affiché.", "#59f0ff");
+    setPreviewLock(true);
+  }
+
+  function stopPreview() {
     previewMode = false;
-
+    previewView.classList.remove("active");
+    codeView.classList.add("active");
     runBtn.textContent = "Exécuter";
-
-    editor.value = files[activeFile];
-
-    status.textContent = "Retour au code.";
-    status.style.color = "#cb6bff";
+    setPreviewLock(false);
+    editor.value = files[activeFile].content || "";
+    updateCodeBar();
+    setStatus("Retour au code.", "#cb6bff");
   }
 
-  runBtn.onclick = () => {
-    if(previewMode){
+  runBtn.addEventListener("click", () => {
+    if (previewMode) {
       stopPreview();
     } else {
       runPreview();
     }
-  };
-
-  addFileBtn.onclick = () => {
-    modal.classList.add("show");
-  };
-
-  cancelBtn.onclick = () => {
-    modal.classList.remove("show");
-  };
-
-  createBtn.onclick = () => {
-
-    const name = fileName.value.trim();
-
-    if(!name){
-      return;
-    }
-
-    if(files[name]){
-      status.textContent = "Le fichier existe déjà.";
-      status.style.color = "#ff6bd6";
-      return;
-    }
-
-    files[name] = "";
-
-    saveCurrent();
-
-    activeFile = name;
-
-    renderTabs();
-
-    editor.value = files[name];
-
-    modal.classList.remove("show");
-
-    fileName.value = "";
-
-    status.textContent = `${name} créé.`;
-    status.style.color = "#59f0ff";
-  };
-
-  editor.addEventListener("input", () => {
-    files[activeFile] = editor.value;
   });
 
-  renderTabs();
-  editor.value = files["index.html"];
-</script>
-
-</body>
-</html>
+  addFileBtn.addEventListener("click", () => {
+    if (previewMode) retur
