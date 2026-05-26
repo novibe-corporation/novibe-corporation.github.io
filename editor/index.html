@@ -853,4 +853,182 @@
       }
     }
 
-  
+  if (js.trim()) {
+  const jsTag = `<script id="novibe-inline-js">\n${js}\n<\/script>`;
+
+  if (/<script[^>]+src=["']script\.js["'][^>]*><\/script>/i.test(output)) {
+    output = output.replace(
+      /<script[^>]+src=["']script\.js["'][^>]*><\/script>\s*/i,
+      jsTag + "\n"
+    );
+  } else if (/<\/body>/i.test(output)) {
+    output = output.replace(/<\/body>/i, jsTag + "\n</body>");
+  } else {
+    output += "\n" + jsTag;
+  }
+}
+
+return output;
+}
+
+function updateBrowserBar(html) {
+  const title = extractTitle(html);
+  const icon = extractIcon(html);
+
+  browserTitle.textContent = title;
+  browserUrl.textContent = activeFile;
+  browserSubtitle.textContent = "Projet Novibe";
+
+  if (icon) {
+    browserIconImg.src = icon;
+    browserIconImg.style.display = "block";
+    browserIconFallback.style.display = "none";
+  } else {
+    browserIconImg.style.display = "none";
+    browserIconFallback.style.display = "block";
+    browserIconFallback.textContent = title.charAt(0).toUpperCase();
+  }
+}
+
+function runProject() {
+  saveCurrentFile();
+
+  const html =
+    files["index.html"] ||
+    "<h1>Aucun fichier index.html trouvé.</h1>";
+
+  const finalHtml = injectAssets(html);
+
+  updateBrowserBar(finalHtml);
+
+  previewFrame.srcdoc = finalHtml;
+
+  codePane.classList.remove("active");
+  previewPane.classList.add("active");
+
+  previewMode = true;
+
+  runBtn.textContent = "Terminer";
+  modeLabel.textContent = "Aperçu du projet";
+
+  setStatus("Projet exécuté.", "#59f0ff");
+
+  previewPlaceholder.style.display = "none";
+}
+
+function stopPreview() {
+  previewMode = false;
+
+  codePane.classList.add("active");
+  previewPane.classList.remove("active");
+
+  code.value = files[activeFile];
+
+  runBtn.textContent = "Exécuter";
+  modeLabel.textContent = "Code source";
+
+  setStatus("Retour à l’éditeur.", "#cb6bff");
+}
+
+runBtn.addEventListener("click", () => {
+  if (!previewMode) {
+    runProject();
+  } else {
+    stopPreview();
+  }
+});
+
+addFileBtn.addEventListener("click", () => {
+  fileModal.classList.add("show");
+  fileNameInput.value = "";
+  fileNameInput.focus();
+});
+
+cancelFileBtn.addEventListener("click", () => {
+  fileModal.classList.remove("show");
+});
+
+fileModal.addEventListener("click", (e) => {
+  if (e.target === fileModal) {
+    fileModal.classList.remove("show");
+  }
+});
+
+createFileBtn.addEventListener("click", () => {
+  const rawName = fileNameInput.value;
+  const fileName = normalizeFileName(rawName);
+
+  if (!fileName) {
+    setStatus("Nom de fichier invalide.", "#ff6bd6");
+    return;
+  }
+
+  if (files[fileName]) {
+    setStatus("Ce fichier existe déjà.", "#ff6bd6");
+    return;
+  }
+
+  let defaultContent = "";
+
+  if (fileName.endsWith(".css")) {
+    defaultContent =
+`body{
+  margin:0;
+}`;
+  } else if (fileName.endsWith(".js")) {
+    defaultContent =
+`console.log("Novibe");`;
+  } else if (fileName.endsWith(".html")) {
+    defaultContent =
+`<!DOCTYPE html>
+<html>
+<head>
+  <title>${fileName}</title>
+</head>
+<body>
+
+</body>
+</html>`;
+  }
+
+  files[fileName] = defaultContent;
+
+  saveCurrentFile();
+
+  activeFile = fileName;
+
+  if (!previewMode) {
+    code.value = files[activeFile];
+  }
+
+  activeFileLabel.textContent = activeFile;
+
+  renderTabs();
+
+  fileModal.classList.remove("show");
+
+  setStatus(`Fichier créé : ${fileName}`, "#59f0ff");
+});
+
+logoutBtn.addEventListener("click", () => {
+  localStorage.removeItem("novibe-auth");
+  window.location.href = "/";
+});
+
+code.addEventListener("input", () => {
+  files[activeFile] = code.value;
+});
+
+window.addEventListener("beforeunload", saveCurrentFile);
+
+renderTabs();
+
+code.value = files[activeFile];
+
+activeFileLabel.textContent = activeFile;
+
+setStatus("Éditeur prêt.", "#59f0ff");
+</script>
+
+</body>
+</html>
