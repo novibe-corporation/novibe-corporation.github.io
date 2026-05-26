@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Novibe — Editor</title>
 
   <style>
@@ -18,6 +17,7 @@
       --violet:#cb6bff;
       --pink:#ff6bd6;
       --shadow:0 24px 60px rgba(0,0,0,.35);
+      --radius-lg:24px;
     }
 
     *{
@@ -31,13 +31,15 @@
       color:var(--text);
       font-family:Inter,system-ui,sans-serif;
       overflow-x:hidden;
+      scroll-behavior:smooth;
     }
 
     body{
       background:
         radial-gradient(circle at 12% 12%, rgba(89,240,255,.22), transparent 24%),
         radial-gradient(circle at 82% 18%, rgba(203,107,255,.20), transparent 24%),
-        linear-gradient(180deg, #05070d 0%, #070b14 100%);
+        radial-gradient(circle at 50% 75%, rgba(90,167,255,.14), transparent 30%),
+        linear-gradient(180deg, #05070d 0%, #070b14 45%, #060913 100%);
     }
 
     a{
@@ -45,7 +47,33 @@
       color:inherit;
     }
 
-    /* ===== BACKGROUND GLOW ===== */
+    @keyframes floaty {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0px); }
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 0 rgba(89,240,255,.18); }
+      50% { box-shadow: 0 0 22px rgba(89,240,255,.34); }
+      100% { box-shadow: 0 0 0 rgba(89,240,255,.18); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes softZoom {
+      from { opacity: 0; transform: scale(.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .wrap{
+      min-height:100vh;
+      position:relative;
+      overflow-x:clip;
+    }
 
     .glow{
       position:fixed;
@@ -72,93 +100,150 @@
       background:rgba(203,107,255,.22);
     }
 
-    /* ===== TRUE NOVIBE HEADER ===== */
+    .glow.three{
+      top:30%;
+      left:46%;
+      width:300px;
+      height:300px;
+      background:rgba(90,167,255,.16);
+    }
+
+    /* ===== HEADER NOVIBE ===== */
 
     .topbar{
       position:fixed;
       top:0;
+      left:0;
       width:100%;
       z-index:50;
-      background:rgba(7,11,20,.6);
       backdrop-filter:blur(10px);
+      background:rgba(7,11,20,.58);
       border-bottom:1px solid var(--line);
     }
 
-    .topbar-inner{
+    .topbar-inner,
+    .container{
       width:min(1180px, calc(100% - 32px));
-      margin:auto;
+      margin:0 auto;
+    }
+
+    .topbar-inner{
       display:flex;
-      justify-content:space-between;
       align-items:center;
+      justify-content:space-between;
       gap:20px;
-      padding:16px 0;
+      padding:18px 0;
     }
 
     .brand{
       display:flex;
       align-items:center;
-      gap:12px;
+      gap:14px;
+      animation:fadeUp .7s ease;
     }
 
     .logo{
       width:44px;
       height:44px;
-      border-radius:14px;
+      border-radius:16px;
       background:linear-gradient(135deg,var(--cyan),var(--violet));
-      box-shadow:0 10px 30px rgba(89,240,255,.25);
+      box-shadow:0 12px 36px rgba(89,240,255,.22);
+      animation:floaty 5s ease-in-out infinite;
     }
 
-    nav{
-      display:flex;
-      gap:20px;
-      flex-wrap:wrap;
+    .brand h1{
+      margin:0;
+      font-size:1.4rem;
+      line-height:1;
+      letter-spacing:-.04em;
     }
 
-    nav a{
-      color:rgba(255,255,255,.7);
-      font-size:.95rem;
-      transition:.2s;
-    }
-
-    nav a:hover{
-      color:white;
+    .brand p{
+      margin:3px 0 0;
+      color:var(--muted);
+      font-size:.82rem;
     }
 
     .auth-buttons{
       display:flex;
-      gap:10px;
+      align-items:center;
+      gap:12px;
+      flex-wrap:nowrap;
+      animation:fadeUp .7s ease;
     }
 
     .btn{
-      padding:12px 16px;
-      border-radius:14px;
-      border:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      border:0;
       cursor:pointer;
-      font-weight:700;
+      font-weight:800;
+      border-radius:18px;
+      padding:14px 20px;
       color:#071018;
       background:linear-gradient(135deg,var(--cyan),var(--blue));
-      transition:.2s;
+      box-shadow:0 16px 40px rgba(89,240,255,.18);
+      transition:transform .18s ease, filter .18s ease;
+      white-space:nowrap;
+      animation:pulseGlow 4s infinite;
     }
 
     .btn:hover{
       transform:translateY(-2px);
+      filter:brightness(1.05);
     }
 
     .btn.secondary{
+      color:#fff;
       background:rgba(255,255,255,.05);
       border:1px solid var(--line);
-      color:white;
+      box-shadow:none;
+      backdrop-filter:blur(14px);
     }
 
     /* ===== MAIN ===== */
 
     main{
       position:relative;
-      z-index:1;
+      z-index:2;
       padding-top:110px;
-      width:min(1400px, calc(100% - 32px));
-      margin:auto;
       padding-bottom:40px;
+      width:min(1400px, calc(100% - 32px));
+      margin:0 auto;
+    }
+
+    .hero{
+      margin-bottom:22px;
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:28px;
+      backdrop-filter:blur(12px);
+      box-shadow:var(--shadow);
+      animation:fadeUp .8s ease, softZoom .8s ease;
+    }
+
+    .hero h1{
+      margin:0;
+      font-size:3rem;
+      line-height:1;
+      letter-spacing:-.06em;
+    }
+
+    .hero h1 span{
+      background:linear-gradient(135deg,var(--cyan),var(--violet));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .hero p{
+      margin-top:16px;
+      color:var(--muted);
+      line-height:1.7;
+      max-width:880px;
     }
 
     .editor-layout{
@@ -174,9 +259,8 @@
       box-shadow:var(--shadow);
       overflow:hidden;
       backdrop-filter:blur(12px);
+      animation:fadeUp .85s ease;
     }
-
-    /* ===== CODE ===== */
 
     .editor-header{
       padding:18px 22px;
@@ -202,30 +286,44 @@
       box-shadow:0 0 20px rgba(89,240,255,.8);
     }
 
-    textarea{
-      width:100%;
-      height:75vh;
-      border:none;
-      resize:none;
-      outline:none;
-      padding:24px;
-      background:transparent;
-      color:white;
-      font-size:15px;
-      font-family:Consolas,monospace;
-      line-height:1.6;
+    .editor-header h2{
+      margin:0;
+      font-size:1.1rem;
     }
 
-    /* ===== PREVIEW ===== */
+    .editor-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
 
-    .preview-container{
+    .code-side,
+    .preview-side{
       display:flex;
       flex-direction:column;
-      height:100%;
+      min-height:74vh;
     }
 
+    .code-side{
+      border-right:1px solid var(--line);
+    }
+
+    .panel-title{
+      padding:14px 18px;
+      border-bottom:1px solid var(--line);
+      color:rgba(255,255,255,.72);
+      font-size:.92rem;
+      background:rgba(255,255,255,.02);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    /* ===== PREVIEW HEADER (BROWSER-LIKE) ===== */
+
     .browser-bar{
-      height:58px;
+      height:60px;
       border-bottom:1px solid var(--line);
       display:flex;
       align-items:center;
@@ -238,6 +336,7 @@
       display:flex;
       align-items:center;
       gap:12px;
+      min-width:0;
     }
 
     .browser-logo{
@@ -245,6 +344,26 @@
       height:30px;
       border-radius:10px;
       background:linear-gradient(135deg,var(--cyan),var(--violet));
+      box-shadow:0 10px 26px rgba(89,240,255,.22);
+      animation:floaty 5s ease-in-out infinite;
+      flex:0 0 auto;
+    }
+
+    .browser-name{
+      display:flex;
+      flex-direction:column;
+      min-width:0;
+    }
+
+    .browser-name strong{
+      font-size:.95rem;
+      line-height:1;
+    }
+
+    .browser-name span{
+      font-size:.76rem;
+      color:rgba(255,255,255,.55);
+      margin-top:4px;
     }
 
     .browser-url{
@@ -254,24 +373,63 @@
       border:1px solid rgba(255,255,255,.08);
       color:rgba(255,255,255,.7);
       font-size:.9rem;
+      white-space:nowrap;
+    }
+
+    textarea{
+      width:100%;
+      height:calc(74vh - 61px);
+      border:none;
+      resize:none;
+      outline:none;
+      padding:24px;
+      background:transparent;
+      color:white;
+      font-size:15px;
+      font-family:Consolas,monospace;
+      line-height:1.6;
+      display:block;
+    }
+
+    .preview-shell{
+      position:relative;
+      height:calc(74vh - 61px);
+      background:white;
     }
 
     iframe{
       width:100%;
-      height:75vh;
+      height:100%;
       border:none;
       background:white;
+      display:none;
     }
 
-    .empty-preview{
+    .preview-placeholder{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .placeholder-body{
+      flex:1;
       display:flex;
       align-items:center;
       justify-content:center;
-      height:75vh;
       color:rgba(255,255,255,.45);
       font-size:1rem;
       text-align:center;
       padding:30px;
+      background:
+        linear-gradient(180deg, rgba(7,11,20,.88), rgba(7,11,20,.84)),
+        radial-gradient(circle at top, rgba(89,240,255,.10), transparent 35%);
+    }
+
+    .status{
+      padding:14px 18px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:.92rem;
     }
 
     @media(max-width:1000px){
@@ -280,10 +438,6 @@
         flex-wrap:wrap;
         justify-content:center;
         text-align:center;
-      }
-
-      nav{
-        justify-content:center;
       }
 
       .auth-buttons{
@@ -298,68 +452,75 @@
         grid-template-columns:1fr;
       }
 
+      .code-side{
+        border-right:none;
+        border-bottom:1px solid var(--line);
+      }
+
+      .code-side,
+      .preview-side{
+        min-height:60vh;
+      }
+
       textarea,
-      iframe,
-      .empty-preview{
-        height:60vh;
+      .preview-shell{
+        height:calc(60vh - 61px);
       }
     }
   </style>
 </head>
-
 <body>
 
-<div class="glow one"></div>
-<div class="glow two"></div>
+<div class="wrap">
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+  <div class="glow three"></div>
 
-<header class="topbar">
-  <div class="topbar-inner">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <h1>Novibe</h1>
+          <p>© Novibe Corporation</p>
+        </div>
+      </div>
 
-    <div class="brand">
-      <div class="logo"></div>
-
-      <div>
-        <strong>Novibe</strong><br>
-        <small style="color:rgba(255,255,255,.6)">
-          © Corporation
-        </small>
+      <div class="auth-buttons">
+        <a class="btn secondary" href="/create">Créer</a>
+        <button class="btn" id="logoutBtn">Déconnexion</button>
       </div>
     </div>
+  </header>
 
-    <nav>
-      <a href="/home">Home</a>
-      <a href="/sites">Sites</a>
-      <a href="/wiki">Wiki</a>
-      <a href="/editor">Editor</a>
-    </nav>
+  <main>
+    <section class="hero">
+      <h1>Novibe <span>Editor</span></h1>
+      <p>
+        Éditeur de code intégré dans Novibe.
+        Tu codes à gauche et tu vois le résultat à droite,
+        avec un affichage type navigateur dans la zone de prévisualisation.
+      </p>
+    </section>
 
-    <div class="auth-buttons">
-      <a class="btn secondary" href="/create">Créer</a>
-      <a class="btn" href="/">Déconnexion</a>
-    </div>
+    <section class="editor-layout">
+      <div class="panel code-side">
+        <div class="editor-header">
+          <div class="editor-title">
+            <div class="editor-dot"></div>
+            <strong>novibe-editor</strong>
+          </div>
 
-  </div>
-</header>
-
-<main>
-
-  <div class="editor-layout">
-
-    <!-- CODE -->
-    <div class="panel">
-
-      <div class="editor-header">
-
-        <div class="editor-title">
-          <div class="editor-dot"></div>
-          <strong>novibe-editor</strong>
+          <div class="editor-actions">
+            <button class="btn secondary" id="clearBtn">Effacer</button>
+            <button class="btn" id="runBtn">Exécuter</button>
+          </div>
         </div>
 
-        <button class="btn" id="runBtn">
-          Exécuter
-        </button>
-
-      </div>
+        <div class="panel-title">
+          <span id="modeLabel">Code source</span>
+          <span style="color:rgba(255,255,255,.45);">HTML / CSS / JS</span>
+        </div>
 
 <textarea id="code"><!DOCTYPE html>
 <html lang="fr">
@@ -377,54 +538,61 @@
       align-items:center;
       justify-content:center;
       height:100vh;
+      flex-direction:column;
     }
 
     h1{
       font-size:50px;
       background:linear-gradient(135deg,#59f0ff,#cb6bff);
       -webkit-background-clip:text;
+      background-clip:text;
       color:transparent;
+      margin:0;
+    }
+
+    p{
+      color:rgba(255,255,255,.75);
+      margin-top:14px;
+      font-size:1.05rem;
     }
   </style>
 </head>
 
 <body>
-
   <h1>Bienvenue sur Novibe</h1>
-
+  <p>Ton site fonctionne.</p>
 </body>
 </html></textarea>
+      </div>
 
-    </div>
-
-    <!-- PREVIEW -->
-    <div class="panel preview-container">
-
-      <div class="browser-bar">
-
-        <div class="browser-left">
-          <div class="browser-logo"></div>
-
-          <div class="browser-url">
-            novibe://preview
+      <div class="panel preview-side">
+        <div class="browser-bar">
+          <div class="browser-left">
+            <div class="browser-logo"></div>
+            <div class="browser-name">
+              <strong>Novibe</strong>
+              <span>WebView intégré</span>
+            </div>
           </div>
+
+          <div class="browser-url">novibe://preview</div>
         </div>
 
-        <strong style="font-size:.92rem;">
-          Aperçu
-        </strong>
+        <div class="preview-shell" id="previewShell">
+          <div class="preview-placeholder" id="previewPlaceholder">
+            <div class="placeholder-body">
+              Clique sur “Exécuter” pour afficher le projet.
+            </div>
+          </div>
 
+          <iframe id="previewFrame"></iframe>
+        </div>
+
+        <div class="status" id="status">Éditeur prêt.</div>
       </div>
-
-      <div id="previewContent" class="empty-preview">
-        Clique sur "Exécuter" pour afficher ton site.
-      </div>
-
-    </div>
-
-  </div>
-
-</main>
+    </section>
+  </main>
+</div>
 
 <script>
   if(localStorage.getItem("novibe-auth") !== "true"){
@@ -432,38 +600,62 @@
   }
 
   const code = document.getElementById("code");
-  const preview = document.getElementById("previewContent");
+  const previewFrame = document.getElementById("previewFrame");
+  const previewPlaceholder = document.getElementById("previewPlaceholder");
   const runBtn = document.getElementById("runBtn");
+  const clearBtn = document.getElementById("clearBtn");
+  const status = document.getElementById("status");
+  const modeLabel = document.getElementById("modeLabel");
+  const logoutBtn = document.getElementById("logoutBtn");
 
-  let running = false;
+  let previewMode = false;
+
+  function showCode() {
+    previewFrame.style.display = "none";
+    previewPlaceholder.style.display = "flex";
+    code.style.display = "block";
+    runBtn.textContent = "Exécuter";
+    modeLabel.textContent = "Code source";
+    status.textContent = "Retour au code.";
+    status.style.color = "#cb6bff";
+    previewMode = false;
+  }
+
+  function showPreview() {
+    previewFrame.srcdoc = code.value;
+    previewPlaceholder.style.display = "none";
+    previewFrame.style.display = "block";
+    code.style.display = "none";
+    runBtn.textContent = "Terminer";
+    modeLabel.textContent = "Aperçu du site";
+    status.textContent = "Aperçu du projet affiché.";
+    status.style.color = "#59f0ff";
+    previewMode = true;
+  }
 
   runBtn.addEventListener("click", () => {
-
-    if(!running){
-
-      preview.innerHTML = `
-        <iframe id="previewFrame"></iframe>
-      `;
-
-      const frame = document.getElementById("previewFrame");
-
-      frame.srcdoc = code.value;
-
-      runBtn.textContent = "Terminer";
-
-      running = true;
-
+    if(!previewMode){
+      showPreview();
     } else {
-
-      preview.innerHTML = `
-        Clique sur "Exécuter" pour afficher ton site.
-      `;
-
-      runBtn.textContent = "Exécuter";
-
-      running = false;
+      showCode();
     }
+  });
 
+  clearBtn.addEventListener("click", () => {
+    code.value = "";
+    previewFrame.srcdoc = "";
+    previewFrame.style.display = "none";
+    previewPlaceholder.style.display = "flex";
+    status.textContent = "Code supprimé.";
+    status.style.color = "#ff6bd6";
+    if(previewMode){
+      showCode();
+    }
+  });
+
+  logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("novibe-auth");
+    window.location.href = "/";
   });
 </script>
 
