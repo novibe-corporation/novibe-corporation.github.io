@@ -879,4 +879,239 @@ p{
     const icon = extractIcon(html);
 
     siteTitle.textContent = title;
-    browserUrl.textContent
+    browserUrl.textContent = htmlFileName;
+
+    if (icon) {
+      const imageFile = files[icon];
+
+      if (imageFile && imageFile.type === "image") {
+        siteIconImg.src = imageFile.content;
+      } else {
+        siteIconImg.src = icon;
+      }
+
+      siteIconImg.style.display = "block";
+      siteIconFallback.style.display = "none";
+
+    } else {
+      siteIconImg.removeAttribute("src");
+      siteIconImg.style.display = "none";
+      siteIconFallback.style.display = "flex";
+      siteIconFallback.textContent =
+        title.charAt(0).toUpperCase() || "N";
+    }
+  }
+
+  function setPreviewLock(lock) {
+    tabs.classList.toggle("locked", lock);
+    addFileBtn.disabled = lock;
+  }
+
+  function runPreview() {
+    saveCurrent();
+
+    const current = files[activeFile];
+
+    if (!current || current.type !== "html") {
+      setStatus(
+        "Seuls les fichiers HTML peuvent être exécutés.",
+        "#ff6bd6"
+      );
+      return;
+    }
+
+    const html = buildPreviewHtml(current.content);
+
+    updatePreviewBar(activeFile, html);
+
+    frame.srcdoc = html;
+
+    codeView.classList.remove("active");
+    previewView.classList.add("active");
+
+    previewMode = true;
+
+    runBtn.textContent = "Terminer";
+
+    setPreviewLock(true);
+
+    setStatus(
+      `Aperçu lancé : ${activeFile}`,
+      "#59f0ff"
+    );
+  }
+
+  function stopPreview() {
+    previewMode = false;
+
+    previewView.classList.remove("active");
+    codeView.classList.add("active");
+
+    runBtn.textContent = "Exécuter";
+
+    setPreviewLock(false);
+
+    editor.value = files[activeFile].content || "";
+
+    updateCodeBar();
+
+    setStatus(
+      "Retour à l’éditeur.",
+      "#cb6bff"
+    );
+  }
+
+  function requestDelete(file) {
+    if (Object.keys(files).length <= 1) {
+      setStatus(
+        "Impossible de supprimer le dernier fichier.",
+        "#ff6bd6"
+      );
+      return;
+    }
+
+    fileToDelete = file;
+
+    deleteText.textContent =
+      `Voulez-vous vraiment supprimer "${file}" ?`;
+
+    deleteModal.classList.add("show");
+  }
+
+  function deleteFile(file) {
+    delete files[file];
+
+    if (activeFile === file) {
+      activeFile = Object.keys(files)[0];
+    }
+
+    editor.value = files[activeFile].content || "";
+
+    renderTabs();
+    updateCodeBar();
+
+    setStatus(
+      `Fichier supprimé : ${file}`,
+      "#ff6bd6"
+    );
+  }
+
+  runBtn.addEventListener("click", () => {
+    if (previewMode) {
+      stopPreview();
+    } else {
+      runPreview();
+    }
+  });
+
+  addFileBtn.addEventListener("click", () => {
+    if (previewMode) return;
+
+    modal.classList.add("show");
+    fileName.value = "";
+    fileName.focus();
+  });
+
+  cancelBtn.addEventListener("click", () => {
+    modal.classList.remove("show");
+  });
+
+  createBtn.addEventListener("click", () => {
+    const name = fileName.value.trim();
+
+    if (!name) {
+      setStatus("Nom de fichier invalide.", "#ff6bd6");
+      return;
+    }
+
+    if (files[name]) {
+      setStatus("Ce fichier existe déjà.", "#ff6bd6");
+      return;
+    }
+
+    let type = "text";
+    let content = "";
+
+    if (isHtmlFile(name)) {
+      type = "html";
+
+      content =
+`<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>${name}</title>
+</head>
+
+<body>
+
+</body>
+</html>`;
+
+    } else if (isCssFile(name)) {
+      type = "css";
+    } else if (isImageFile(name)) {
+      type = "image";
+      content = "";
+    } else if (/\.js$/i.test(name)) {
+      type = "js";
+    }
+
+    files[name] = {
+      type,
+      content
+    };
+
+    activeFile = name;
+
+    editor.value = content;
+
+    renderTabs();
+    updateCodeBar();
+
+    modal.classList.remove("show");
+
+    setStatus(
+      `Fichier créé : ${name}`,
+      "#59f0ff"
+    );
+  });
+
+  deleteNoBtn.addEventListener("click", () => {
+    deleteModal.classList.remove("show");
+    fileToDelete = "";
+  });
+
+  deleteYesBtn.addEventListener("click", () => {
+    if (fileToDelete) {
+      deleteFile(fileToDelete);
+    }
+
+    deleteModal.classList.remove("show");
+    fileToDelete = "";
+  });
+
+  logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("novibe-auth");
+    location.href = "/";
+  });
+
+  editor.addEventListener("input", () => {
+    if (!files[activeFile]) return;
+
+    files[activeFile].content = editor.value;
+  });
+
+  editor.value = files[activeFile].content;
+
+  renderTabs();
+  updateCodeBar();
+
+  setStatus(
+    "Éditeur prêt.",
+    "#59f0ff"
+  );
+</script>
+
+</body>
+</html>
