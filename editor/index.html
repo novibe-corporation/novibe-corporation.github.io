@@ -882,4 +882,89 @@ p{
   });
 
   addFileBtn.addEventListener("click", () => {
-    if (previewMode) retur
+    if (previewMode) return;
+
+    modal.classList.add("show");
+    fileName.value = "";
+    fileName.focus();
+  });
+
+  cancelBtn.addEventListener("click", () => {
+    modal.classList.remove("show");
+  });
+
+  function detectFileType(name) {
+    if (isHtmlFile(name)) return "html";
+    if (isCssFile(name)) return "css";
+    if (isImageFile(name)) return "image";
+    if (/\.js$/i.test(name)) return "js";
+    return "text";
+  }
+
+  createBtn.addEventListener("click", () => {
+    const name = fileName.value.trim();
+
+    if (!name) {
+      setStatus("Nom de fichier invalide.", "#ff6bd6");
+      return;
+    }
+
+    if (files[name]) {
+      setStatus("Ce fichier existe déjà.", "#ff6bd6");
+      return;
+    }
+
+    const type = detectFileType(name);
+
+    files[name] = {
+      type,
+      content:
+        type === "html"
+          ? "<!DOCTYPE html>\n<html>\n<head>\n<title>Nouveau fichier</title>\n</head>\n<body>\n\n</body>\n</html>"
+          : ""
+    };
+
+    activeFile = name;
+
+    editor.value = files[name].content;
+
+    renderTabs();
+    updateCodeBar();
+
+    modal.classList.remove("show");
+
+    setStatus(`Fichier créé : ${name}`, "#59f0ff");
+  });
+
+  editor.addEventListener("input", () => {
+    if (!files[activeFile]) return;
+
+    files[activeFile].content = editor.value;
+  });
+
+  logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("novibe-auth");
+    location.href = "/";
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+      e.preventDefault();
+
+      saveCurrent();
+
+      setStatus("Projet sauvegardé localement.", "#59f0ff");
+    }
+  });
+
+  renderTabs();
+
+  editor.value = files[activeFile].content;
+
+  updateCodeBar();
+
+  setStatus("Éditeur prêt.", "#59f0ff");
+</script>
+
+</body>
+</html>
