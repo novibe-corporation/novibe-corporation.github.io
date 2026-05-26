@@ -3,264 +3,316 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Novibe — Editor</title>
 
   <style>
-
-    :root {
-      --bg: #070b14;
-      --panel: rgba(255,255,255,.06);
-      --line: rgba(255,255,255,.12);
-      --text: #ffffff;
-      --muted: rgba(255,255,255,.68);
-      --cyan: #59f0ff;
-      --blue: #5aa7ff;
-      --violet: #cb6bff;
-      --pink: #ff6bd6;
-      --shadow: 0 24px 60px rgba(0,0,0,.35);
+    :root{
+      --bg:#070b14;
+      --panel:rgba(255,255,255,.06);
+      --line:rgba(255,255,255,.12);
+      --text:#ffffff;
+      --muted:rgba(255,255,255,.68);
+      --cyan:#59f0ff;
+      --blue:#5aa7ff;
+      --violet:#cb6bff;
+      --pink:#ff6bd6;
+      --shadow:0 24px 60px rgba(0,0,0,.35);
     }
 
-    * {
-      box-sizing: border-box;
+    *{
+      box-sizing:border-box;
+      min-width:0;
     }
 
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, sans-serif;
-      color: var(--text);
+    html,body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter,system-ui,sans-serif;
+      overflow-x:hidden;
+    }
+
+    body{
       background:
         radial-gradient(circle at 12% 12%, rgba(89,240,255,.22), transparent 24%),
         radial-gradient(circle at 82% 18%, rgba(203,107,255,.20), transparent 24%),
         linear-gradient(180deg, #05070d 0%, #070b14 100%);
-      overflow-x: hidden;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
+    a{
+      text-decoration:none;
+      color:inherit;
     }
 
-    /* ===== HEADER OFFICIEL ===== */
+    /* ===== BACKGROUND GLOW ===== */
 
-    .topbar {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: rgba(7,11,20,.6);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
-      z-index: 20;
+    .glow{
+      position:fixed;
+      border-radius:999px;
+      filter:blur(50px);
+      pointer-events:none;
+      z-index:0;
+      opacity:.9;
     }
 
-    .topbar-inner {
-      width: min(1180px, calc(100% - 32px));
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 0;
+    .glow.one{
+      top:-120px;
+      left:-60px;
+      width:360px;
+      height:360px;
+      background:rgba(89,240,255,.25);
     }
 
-    .brand {
+    .glow.two{
+      bottom:-140px;
+      right:-60px;
+      width:420px;
+      height:420px;
+      background:rgba(203,107,255,.22);
+    }
+
+    /* ===== TRUE NOVIBE HEADER ===== */
+
+    .topbar{
+      position:fixed;
+      top:0;
+      width:100%;
+      z-index:50;
+      background:rgba(7,11,20,.6);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+
+    .topbar-inner{
+      width:min(1180px, calc(100% - 32px));
+      margin:auto;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      padding:16px 0;
+    }
+
+    .brand{
       display:flex;
       align-items:center;
       gap:12px;
     }
 
-    .logo {
+    .logo{
       width:44px;
       height:44px;
       border-radius:14px;
-      background: linear-gradient(135deg,var(--cyan),var(--violet));
+      background:linear-gradient(135deg,var(--cyan),var(--violet));
+      box-shadow:0 10px 30px rgba(89,240,255,.25);
     }
 
-    nav {
+    nav{
       display:flex;
       gap:20px;
+      flex-wrap:wrap;
     }
 
-    nav a {
-      color: rgba(255,255,255,.7);
-      font-size: .95rem;
+    nav a{
+      color:rgba(255,255,255,.7);
+      font-size:.95rem;
+      transition:.2s;
     }
 
-    nav a:hover {
-      color: white;
+    nav a:hover{
+      color:white;
     }
 
-    .auth-buttons {
+    .auth-buttons{
       display:flex;
       gap:10px;
     }
 
-    .btn {
-      padding: 12px 16px;
-      border-radius: 14px;
-      border: none;
-      cursor: pointer;
-      font-weight: 700;
-      background: linear-gradient(135deg,var(--cyan),var(--blue));
-      color: #071018;
+    .btn{
+      padding:12px 16px;
+      border-radius:14px;
+      border:none;
+      cursor:pointer;
+      font-weight:700;
+      color:#071018;
+      background:linear-gradient(135deg,var(--cyan),var(--blue));
+      transition:.2s;
     }
 
-    .btn.secondary {
-      background: rgba(255,255,255,.05);
-      border: 1px solid var(--line);
-      color: white;
+    .btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .btn.secondary{
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--line);
+      color:white;
     }
 
     /* ===== MAIN ===== */
 
-    main {
-      padding-top: 110px;
-      width: min(1400px, calc(100% - 32px));
-      margin: auto;
-      padding-bottom: 40px;
+    main{
+      position:relative;
+      z-index:1;
+      padding-top:110px;
+      width:min(1400px, calc(100% - 32px));
+      margin:auto;
+      padding-bottom:40px;
     }
 
-    .hero {
-      margin-bottom: 22px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 26px;
-      padding: 28px;
-      backdrop-filter: blur(12px);
-      box-shadow: var(--shadow);
+    .editor-layout{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
     }
 
-    .hero h1 {
-      margin: 0;
-      font-size: 3rem;
-      letter-spacing: -.06em;
+    .panel{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      backdrop-filter:blur(12px);
     }
 
-    .hero h1 span {
-      background: linear-gradient(135deg,var(--cyan),var(--violet));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    /* ===== CODE ===== */
+
+    .editor-header{
+      padding:18px 22px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      background:rgba(255,255,255,.03);
     }
 
-    .hero p {
-      margin-top: 16px;
-      color: var(--muted);
-      line-height: 1.7;
-      max-width: 850px;
+    .editor-title{
+      display:flex;
+      align-items:center;
+      gap:12px;
     }
 
-    /* ===== EDITOR ===== */
-
-    .editor-panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 26px;
-      overflow: hidden;
-      backdrop-filter: blur(12px);
-      box-shadow: var(--shadow);
+    .editor-dot{
+      width:14px;
+      height:14px;
+      border-radius:999px;
+      background:var(--cyan);
+      box-shadow:0 0 20px rgba(89,240,255,.8);
     }
 
-    .editor-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 18px 20px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      gap: 12px;
-      flex-wrap: wrap;
+    textarea{
+      width:100%;
+      height:75vh;
+      border:none;
+      resize:none;
+      outline:none;
+      padding:24px;
+      background:transparent;
+      color:white;
+      font-size:15px;
+      font-family:Consolas,monospace;
+      line-height:1.6;
     }
 
-    .editor-top h2 {
-      margin: 0;
-      font-size: 1.1rem;
+    /* ===== PREVIEW ===== */
+
+    .preview-container{
+      display:flex;
+      flex-direction:column;
+      height:100%;
     }
 
-    .editor-actions {
-      display: flex;
-      gap: 10px;
+    .browser-bar{
+      height:58px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 16px;
+      background:rgba(255,255,255,.04);
     }
 
-    .editor-content {
-      min-height: 720px;
+    .browser-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
     }
 
-    .editor-workspace {
-      width: 100%;
-      height: 720px;
-      position: relative;
+    .browser-logo{
+      width:30px;
+      height:30px;
+      border-radius:10px;
+      background:linear-gradient(135deg,var(--cyan),var(--violet));
     }
 
-    .panel-title {
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--line);
-      color: rgba(255,255,255,.72);
-      font-size: .92rem;
-      background: rgba(255,255,255,.02);
+    .browser-url{
+      padding:10px 14px;
+      border-radius:12px;
+      background:rgba(0,0,0,.3);
+      border:1px solid rgba(255,255,255,.08);
+      color:rgba(255,255,255,.7);
+      font-size:.9rem;
     }
 
-    #code,
-    #preview {
-      width: 100%;
-      height: calc(100% - 49px);
-      border: none;
-      outline: none;
-      display: block;
+    iframe{
+      width:100%;
+      height:75vh;
+      border:none;
+      background:white;
     }
 
-    #code {
-      resize: none;
-      padding: 20px;
-      font-family: Consolas, monospace;
-      font-size: .95rem;
-      line-height: 1.7;
-      background: transparent;
-      color: white;
+    .empty-preview{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:75vh;
+      color:rgba(255,255,255,.45);
+      font-size:1rem;
+      text-align:center;
+      padding:30px;
     }
 
-    #preview {
-      background: white;
-      display: none;
-    }
+    @media(max-width:1000px){
 
-    .status {
-      padding: 14px 18px;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-      font-size: .92rem;
-    }
-
-    @media (max-width: 850px) {
-
-      .topbar-inner {
-        flex-wrap: wrap;
-        justify-content: center;
-        text-align: center;
+      .topbar-inner{
+        flex-wrap:wrap;
+        justify-content:center;
+        text-align:center;
       }
 
-      nav {
-        display: none;
+      nav{
+        justify-content:center;
       }
 
-      .hero h1 {
-        font-size: 2.2rem;
+      .auth-buttons{
+        width:100%;
       }
 
-      main {
-        width: min(1400px, calc(100% - 20px));
+      .auth-buttons .btn{
+        flex:1;
       }
 
-      .editor-workspace {
-        height: 600px;
+      .editor-layout{
+        grid-template-columns:1fr;
+      }
+
+      textarea,
+      iframe,
+      .empty-preview{
+        height:60vh;
       }
     }
-
   </style>
 </head>
 
 <body>
 
-<header class="topbar">
+<div class="glow one"></div>
+<div class="glow two"></div>
 
+<header class="topbar">
   <div class="topbar-inner">
 
     <div class="brand">
@@ -268,7 +320,9 @@
 
       <div>
         <strong>Novibe</strong><br>
-        <small>© Corporation</small>
+        <small style="color:rgba(255,255,255,.6)">
+          © Corporation
+        </small>
       </div>
     </div>
 
@@ -281,64 +335,55 @@
 
     <div class="auth-buttons">
       <a class="btn secondary" href="/create">Créer</a>
-      <button class="btn" id="logoutBtn">Déconnexion</button>
+      <a class="btn" href="/">Déconnexion</a>
     </div>
 
   </div>
-
 </header>
 
 <main>
 
-  <section class="hero">
+  <div class="editor-layout">
 
-    <h1>Novibe <span>Editor</span></h1>
+    <!-- CODE -->
+    <div class="panel">
 
-    <p>
-      Éditeur de code intégré dans Novibe.
-      Code directement ton site web et visualise le résultat en temps réel.
-    </p>
+      <div class="editor-header">
 
-  </section>
-
-  <section class="editor-panel">
-
-    <div class="editor-top">
-
-      <h2>editor.html</h2>
-
-      <div class="editor-actions">
-        <button class="btn secondary" id="clearBtn">Effacer</button>
-        <button class="btn" id="runBtn">Exécuter</button>
-      </div>
-
-    </div>
-
-    <div class="editor-content">
-
-      <div class="editor-workspace">
-
-        <div class="panel-title">
-          <span id="modeLabel">Code source</span>
+        <div class="editor-title">
+          <div class="editor-dot"></div>
+          <strong>novibe-editor</strong>
         </div>
 
+        <button class="btn" id="runBtn">
+          Exécuter
+        </button>
+
+      </div>
+
 <textarea id="code"><!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+  <meta charset="UTF-8">
   <title>Mon site Novibe</title>
 
   <style>
-    body {
-      background: #070b14;
-      color: white;
-      font-family: Arial;
-      text-align: center;
-      padding-top: 80px;
+    body{
+      margin:0;
+      background:#0b1220;
+      color:white;
+      font-family:Arial,sans-serif;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:100vh;
     }
 
-    h1 {
-      color: #59f0ff;
-      font-size: 3rem;
+    h1{
+      font-size:50px;
+      background:linear-gradient(135deg,#59f0ff,#cb6bff);
+      -webkit-background-clip:text;
+      color:transparent;
     }
   </style>
 </head>
@@ -347,96 +392,79 @@
 
   <h1>Bienvenue sur Novibe</h1>
 
-  <p>Ton site fonctionne.</p>
-
 </body>
 </html></textarea>
 
-        <iframe id="preview"></iframe>
+    </div>
 
+    <!-- PREVIEW -->
+    <div class="panel preview-container">
+
+      <div class="browser-bar">
+
+        <div class="browser-left">
+          <div class="browser-logo"></div>
+
+          <div class="browser-url">
+            novibe://preview
+          </div>
+        </div>
+
+        <strong style="font-size:.92rem;">
+          Aperçu
+        </strong>
+
+      </div>
+
+      <div id="previewContent" class="empty-preview">
+        Clique sur "Exécuter" pour afficher ton site.
       </div>
 
     </div>
 
-    <div class="status" id="status">
-      Éditeur prêt.
-    </div>
-
-  </section>
+  </div>
 
 </main>
 
 <script>
-
-  if(localStorage.getItem("novibe-auth") !== "true") {
+  if(localStorage.getItem("novibe-auth") !== "true"){
     window.location.href = "/";
   }
 
   const code = document.getElementById("code");
-  const preview = document.getElementById("preview");
-
+  const preview = document.getElementById("previewContent");
   const runBtn = document.getElementById("runBtn");
-  const clearBtn = document.getElementById("clearBtn");
 
-  const status = document.getElementById("status");
-  const modeLabel = document.getElementById("modeLabel");
-
-  const logoutBtn = document.getElementById("logoutBtn");
-
-  let previewMode = false;
+  let running = false;
 
   runBtn.addEventListener("click", () => {
 
-    if(!previewMode) {
+    if(!running){
 
-      preview.srcdoc = code.value;
+      preview.innerHTML = `
+        <iframe id="previewFrame"></iframe>
+      `;
 
-      code.style.display = "none";
-      preview.style.display = "block";
+      const frame = document.getElementById("previewFrame");
+
+      frame.srcdoc = code.value;
 
       runBtn.textContent = "Terminer";
 
-      modeLabel.textContent = "Aperçu du site";
-
-      status.textContent = "Mode aperçu activé.";
-      status.style.color = "#59f0ff";
-
-      previewMode = true;
+      running = true;
 
     } else {
 
-      preview.style.display = "none";
-      code.style.display = "block";
+      preview.innerHTML = `
+        Clique sur "Exécuter" pour afficher ton site.
+      `;
 
       runBtn.textContent = "Exécuter";
 
-      modeLabel.textContent = "Code source";
-
-      status.textContent = "Retour au code.";
-      status.style.color = "#cb6bff";
-
-      previewMode = false;
+      running = false;
     }
 
   });
-
-  clearBtn.addEventListener("click", () => {
-
-    code.value = "";
-
-    preview.srcdoc = "";
-
-    status.textContent = "Code supprimé.";
-    status.style.color = "#ff6bd6";
-  });
-
-  logoutBtn.addEventListener("click", () => {
-
-    localStorage.removeItem("novibe-auth");
-
-    window.location.href = "/";
-  });
-
 </script>
 
 </body>
