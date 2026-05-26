@@ -117,11 +117,15 @@
       border-radius:16px;
       background:linear-gradient(135deg,var(--cyan),var(--violet));
       box-shadow:0 12px 36px rgba(89,240,255,.22);
+      animation:floaty 5s ease-in-out infinite;
+      flex:0 0 auto;
     }
 
     .brand h1{
       margin:0;
       font-size:1.4rem;
+      line-height:1;
+      letter-spacing:-.04em;
     }
 
     .brand p{
@@ -134,6 +138,7 @@
       display:flex;
       align-items:center;
       gap:12px;
+      flex-wrap:nowrap;
     }
 
     .btn{
@@ -151,6 +156,7 @@
       box-shadow:0 16px 40px rgba(89,240,255,.18);
       transition:.18s ease;
       white-space:nowrap;
+      animation:pulseGlow 4s infinite;
     }
 
     .btn:hover{
@@ -162,6 +168,7 @@
       background:rgba(255,255,255,.05);
       border:1px solid var(--line);
       box-shadow:none;
+      backdrop-filter:blur(14px);
     }
 
     main{
@@ -345,6 +352,7 @@
       color:white;
       font-weight:800;
       font-size:.85rem;
+      flex:0 0 auto;
     }
 
     .browser-icon img{
@@ -377,6 +385,7 @@
       border-radius:12px;
       color:white;
       font-size:.88rem;
+      white-space:nowrap;
     }
 
     iframe{
@@ -451,22 +460,55 @@
       font-size:.9rem;
       line-height:1.5;
     }
+
+    @keyframes floaty{
+      0%{transform:translateY(0px);}
+      50%{transform:translateY(-8px);}
+      100%{transform:translateY(0px);}
+    }
+
+    @keyframes pulseGlow{
+      0%{box-shadow:0 0 0 rgba(89,240,255,.18);}
+      50%{box-shadow:0 0 22px rgba(89,240,255,.34);}
+      100%{box-shadow:0 0 0 rgba(89,240,255,.18);}
+    }
+
+    @media(max-width:900px){
+      .topbar-inner{
+        flex-wrap:wrap;
+        justify-content:center;
+        text-align:center;
+      }
+
+      .auth-buttons{
+        width:100%;
+      }
+
+      .auth-buttons .btn{
+        flex:1;
+      }
+
+      .workspace{
+        height:70vh;
+      }
+
+      .browser-url{
+        display:none;
+      }
+    }
   </style>
 </head>
 <body>
 
 <div class="wrap">
-
   <div class="glow one"></div>
   <div class="glow two"></div>
   <div class="glow three"></div>
 
   <header class="topbar">
     <div class="topbar-inner">
-
       <div class="brand">
         <div class="logo"></div>
-
         <div>
           <h1>Novibe</h1>
           <p>© Novibe Corporation</p>
@@ -477,41 +519,31 @@
         <a class="btn secondary" href="/create">Créer</a>
         <a class="btn" href="/home">Accueil</a>
       </div>
-
     </div>
   </header>
 
   <main>
-
     <div class="editor-shell">
-
       <div class="toolbar">
-
         <div class="tabs" id="tabs"></div>
 
         <div class="actions">
           <button class="icon-btn" id="addFileBtn">+</button>
           <button class="btn" id="runBtn">Exécuter</button>
         </div>
-
       </div>
 
       <div class="workspace">
-
         <div class="code-view active" id="codeView">
           <textarea id="editor"></textarea>
         </div>
 
         <div class="preview-view" id="previewView">
-
           <div class="preview">
-
             <div class="browser-bar">
-
               <div class="browser-left">
-
                 <div class="browser-icon">
-                  <img id="siteIconImg">
+                  <img id="siteIconImg" alt="logo du site">
                   <span id="siteIconFallback">N</span>
                 </div>
 
@@ -519,37 +551,25 @@
                   <strong id="siteTitle">Mon site</strong>
                   <span>Aperçu du projet</span>
                 </div>
-
               </div>
 
-              <div class="browser-url" id="browserUrl">
-                index.html
-              </div>
-
+              <div class="browser-url" id="browserUrl">index.html</div>
             </div>
 
             <iframe id="frame"></iframe>
-
           </div>
-
         </div>
-
       </div>
 
       <div class="status" id="status">
         Éditeur prêt.
       </div>
-
     </div>
-
   </main>
-
 </div>
 
 <div class="modal" id="modal">
-
   <div class="modal-card">
-
     <h3>Ajouter un fichier</h3>
 
     <div class="field">
@@ -565,18 +585,14 @@
     <div class="hint">
       Les fichiers HTML peuvent être exécutés.
     </div>
-
   </div>
-
 </div>
 
 <div class="modal" id="deleteModal">
-
   <div class="modal-card">
-
     <h3>Supprimer le fichier ?</h3>
 
-    <p class="hint" id="deleteText">
+    <p class="hint" id="deleteText" style="margin-top:0;">
       Voulez-vous vraiment supprimer ce fichier ?
     </p>
 
@@ -584,9 +600,7 @@
       <button class="btn secondary" id="deleteNoBtn">Non</button>
       <button class="btn" id="deleteYesBtn">Oui</button>
     </div>
-
   </div>
-
 </div>
 
 <script>
@@ -665,11 +679,9 @@
   }
 
   function renderTabs(){
-
     tabs.innerHTML = "";
 
     Object.keys(files).forEach((file)=>{
-
       const tab = document.createElement("button");
       tab.type = "button";
       tab.className = "tab" + (file === activeFile ? " active" : "");
@@ -688,7 +700,6 @@
       });
 
       tab.addEventListener("click",()=>{
-
         if(previewMode){
           return;
         }
@@ -708,7 +719,6 @@
   }
 
   function requestDelete(file){
-
     if(Object.keys(files).length <= 1){
       setStatus("Impossible de supprimer le dernier fichier.","#ff6bd6");
       return;
@@ -728,7 +738,6 @@
   });
 
   deleteYesBtn.addEventListener("click",()=>{
-
     delete files[fileToDelete];
 
     if(activeFile === fileToDelete){
@@ -745,7 +754,6 @@
   });
 
   function runPreview(){
-
     saveCurrent();
 
     const current = files[activeFile];
@@ -770,7 +778,6 @@
   }
 
   function stopPreview(){
-
     previewMode = false;
 
     previewView.classList.remove("active");
@@ -784,17 +791,14 @@
   }
 
   runBtn.addEventListener("click",()=>{
-
     if(previewMode){
       stopPreview();
     }else{
       runPreview();
     }
-
   });
 
   addFileBtn.addEventListener("click",()=>{
-
     if(previewMode){
       return;
     }
@@ -809,7 +813,6 @@
   });
 
   createBtn.addEventListener("click",()=>{
-
     const name = fileName.value.trim();
 
     if(!name){
@@ -837,8 +840,7 @@
     };
 
     activeFile = name;
-
-    editor.value = "";
+    editor.value = files[name].content;
 
     renderTabs();
 
@@ -852,7 +854,6 @@
   });
 
   editor.value = files[activeFile].content;
-
   renderTabs();
 </script>
 
