@@ -284,3 +284,542 @@
 
     .icon-btn{
       width:44px;
+      height:44px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      color:white;
+      font-size:1.2rem;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+
+    .icon-btn:hover{
+      transform:translateY(-2px);
+      background:rgba(255,255,255,.08);
+    }
+
+    .workspace{
+      height:78vh;
+      position:relative;
+    }
+
+    textarea{
+      width:100%;
+      height:100%;
+      border:none;
+      outline:none;
+      resize:none;
+      background:transparent;
+      color:white;
+      padding:24px;
+      font-size:15px;
+      line-height:1.6;
+      font-family:Consolas,monospace;
+      display:block;
+    }
+
+    .preview{
+      display:none;
+      width:100%;
+      height:100%;
+      background:#0b1220;
+      flex-direction:column;
+    }
+
+    .preview.active{
+      display:flex;
+    }
+
+    .browser-bar{
+      height:62px;
+      background:#0f172a;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 16px;
+      flex:0 0 auto;
+    }
+
+    .browser-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+
+    .browser-icon{
+      width:32px;
+      height:32px;
+      border-radius:10px;
+      background:linear-gradient(135deg,var(--cyan),var(--violet));
+      overflow:hidden;
+      flex:0 0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      color:white;
+      font-size:.85rem;
+    }
+
+    .browser-icon img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:none;
+    }
+
+    .browser-name{
+      display:flex;
+      flex-direction:column;
+      min-width:0;
+    }
+
+    .browser-name strong{
+      color:white;
+      font-size:.95rem;
+      line-height:1;
+    }
+
+    .browser-name span{
+      color:rgba(255,255,255,.58);
+      font-size:.75rem;
+      margin-top:4px;
+    }
+
+    .browser-url{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      padding:10px 14px;
+      border-radius:12px;
+      color:rgba(255,255,255,.72);
+      font-size:.88rem;
+      white-space:nowrap;
+    }
+
+    iframe{
+      width:100%;
+      height:100%;
+      border:none;
+      background:white;
+      flex:1;
+    }
+
+    .status{
+      padding:14px 18px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:.92rem;
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,.55);
+      backdrop-filter:blur(8px);
+      z-index:80;
+      padding:20px;
+    }
+
+    .modal.show{
+      display:flex;
+    }
+
+    .modal-card{
+      width:min(520px,100%);
+      background:rgba(10,14,24,.96);
+      border:1px solid var(--line);
+      border-radius:26px;
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+
+    .modal-card h3{
+      margin:0 0 10px;
+      font-size:1.35rem;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-top:14px;
+    }
+
+    .field input{
+      width:100%;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);
+      color:white;
+      outline:none;
+    }
+
+    .modal-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      margin-top:18px;
+    }
+
+    @media(max-width:900px){
+      .topbar-inner{
+        flex-wrap:wrap;
+        justify-content:center;
+        text-align:center;
+      }
+
+      .auth-buttons{
+        width:100%;
+      }
+
+      .auth-buttons .btn{
+        flex:1;
+      }
+
+      .workspace{
+        height:70vh;
+      }
+
+      .browser-url{
+        display:none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+  <div class="glow three"></div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="logo"></div>
+
+        <div>
+          <h1>Novibe</h1>
+          <p>© Novibe Corporation</p>
+        </div>
+      </div>
+
+      <div class="auth-buttons">
+        <a class="btn secondary" href="/create">Créer</a>
+        <button class="btn" id="logoutBtn">Déconnexion</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="editor-shell">
+
+      <div class="toolbar">
+        <div class="tabs" id="tabs"></div>
+
+        <div class="actions">
+          <button class="icon-btn" id="addFileBtn">+</button>
+          <button class="btn" id="runBtn">Exécuter</button>
+        </div>
+      </div>
+
+      <div class="workspace">
+
+        <textarea id="editor"></textarea>
+
+        <div class="preview" id="preview">
+
+          <div class="browser-bar">
+            <div class="browser-left">
+
+              <div class="browser-icon">
+                <img id="siteIconImg">
+                <span id="siteIconFallback">N</span>
+              </div>
+
+              <div class="browser-name">
+                <strong id="siteTitle">Mon site</strong>
+                <span>Aperçu du projet</span>
+              </div>
+            </div>
+
+            <div class="browser-url" id="browserUrl">
+              index.html
+            </div>
+          </div>
+
+          <iframe id="frame"></iframe>
+        </div>
+      </div>
+
+      <div class="status" id="status">
+        Éditeur prêt.
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-card">
+
+    <h3>Ajouter un fichier</h3>
+
+    <div class="field">
+      <label>Nom du fichier</label>
+      <input id="fileName" placeholder="style.css">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn secondary" id="cancelBtn">Annuler</button>
+      <button class="btn" id="createBtn">Créer</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  if(localStorage.getItem("novibe-auth") !== "true"){
+    location.href = "/";
+  }
+
+  const files = {
+    "index.html": `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Mon site Novibe</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  background:#0b1220;
+  color:white;
+  font-family:Arial,sans-serif;
+}
+
+h1{
+  font-size:52px;
+  margin:0;
+  background:linear-gradient(135deg,#59f0ff,#cb6bff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+p{
+  color:rgba(255,255,255,.7);
+  margin-top:14px;
+}
+</style>
+</head>
+
+<body>
+<h1>Bienvenue</h1>
+<p>Ton projet Novibe fonctionne.</p>
+</body>
+</html>`
+  };
+
+  let activeFile = "index.html";
+  let previewMode = false;
+
+  const tabs = document.getElementById("tabs");
+  const editor = document.getElementById("editor");
+  const preview = document.getElementById("preview");
+  const frame = document.getElementById("frame");
+  const runBtn = document.getElementById("runBtn");
+  const status = document.getElementById("status");
+
+  const siteTitle = document.getElementById("siteTitle");
+  const browserUrl = document.getElementById("browserUrl");
+
+  const siteIconImg = document.getElementById("siteIconImg");
+  const siteIconFallback = document.getElementById("siteIconFallback");
+
+  const addFileBtn = document.getElementById("addFileBtn");
+  const modal = document.getElementById("modal");
+  const fileName = document.getElementById("fileName");
+  const cancelBtn = document.getElementById("cancelBtn");
+  const createBtn = document.getElementById("createBtn");
+
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  logoutBtn.onclick = () => {
+    localStorage.removeItem("novibe-auth");
+    location.href = "/";
+  };
+
+  function saveCurrent(){
+    files[activeFile] = editor.value;
+  }
+
+  function renderTabs(){
+    tabs.innerHTML = "";
+
+    Object.keys(files).forEach((file) => {
+
+      const tab = document.createElement("button");
+      tab.className = "tab" + (file === activeFile ? " active" : "");
+      tab.innerHTML = `
+        <span class="tab-dot"></span>
+        ${file}
+      `;
+
+      tab.onclick = () => {
+        saveCurrent();
+
+        activeFile = file;
+
+        if(!previewMode){
+          editor.value = files[file];
+        } else {
+          runPreview();
+        }
+
+        renderTabs();
+      };
+
+      tabs.appendChild(tab);
+    });
+  }
+
+  function extractTitle(html){
+    const match = html.match(/<title>(.*?)<\/title>/i);
+    return match ? match[1] : "Mon site";
+  }
+
+  function extractIcon(html){
+    const match = html.match(/<link[^>]*rel=["'].*icon.*["'][^>]*href=["']([^"]+)["']/i);
+    return match ? match[1] : "";
+  }
+
+  function runPreview(){
+
+    saveCurrent();
+
+    const htmlFiles = Object.keys(files).filter(f => f.endsWith(".html"));
+
+    let html = files[activeFile];
+
+    if(!activeFile.endsWith(".html")){
+      html = files["index.html"];
+    }
+
+    frame.srcdoc = html;
+
+    preview.style.display = "flex";
+    editor.style.display = "none";
+
+    previewMode = true;
+
+    runBtn.textContent = "Terminer";
+
+    const title = extractTitle(html);
+    const icon = extractIcon(html);
+
+    siteTitle.textContent = title;
+    browserUrl.textContent = activeFile;
+
+    if(icon){
+      siteIconImg.src = icon;
+      siteIconImg.style.display = "block";
+      siteIconFallback.style.display = "none";
+    } else {
+      siteIconImg.style.display = "none";
+      siteIconFallback.style.display = "flex";
+      siteIconFallback.textContent = title.charAt(0).toUpperCase();
+    }
+
+    status.textContent = "Projet exécuté.";
+    status.style.color = "#59f0ff";
+  }
+
+  function stopPreview(){
+
+    preview.style.display = "none";
+    editor.style.display = "block";
+
+    previewMode = false;
+
+    runBtn.textContent = "Exécuter";
+
+    editor.value = files[activeFile];
+
+    status.textContent = "Retour au code.";
+    status.style.color = "#cb6bff";
+  }
+
+  runBtn.onclick = () => {
+    if(previewMode){
+      stopPreview();
+    } else {
+      runPreview();
+    }
+  };
+
+  addFileBtn.onclick = () => {
+    modal.classList.add("show");
+  };
+
+  cancelBtn.onclick = () => {
+    modal.classList.remove("show");
+  };
+
+  createBtn.onclick = () => {
+
+    const name = fileName.value.trim();
+
+    if(!name){
+      return;
+    }
+
+    if(files[name]){
+      status.textContent = "Le fichier existe déjà.";
+      status.style.color = "#ff6bd6";
+      return;
+    }
+
+    files[name] = "";
+
+    saveCurrent();
+
+    activeFile = name;
+
+    renderTabs();
+
+    editor.value = files[name];
+
+    modal.classList.remove("show");
+
+    fileName.value = "";
+
+    status.textContent = `${name} créé.`;
+    status.style.color = "#59f0ff";
+  };
+
+  editor.addEventListener("input", () => {
+    files[activeFile] = editor.value;
+  });
+
+  renderTabs();
+  editor.value = files["index.html"];
+</script>
+
+</body>
+</html>
