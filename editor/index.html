@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Novibe — Editor</title>
 
   <style>
@@ -17,7 +17,6 @@
       --violet:#cb6bff;
       --pink:#ff6bd6;
       --shadow:0 24px 60px rgba(0,0,0,.35);
-      --radius-lg:24px;
     }
 
     *{
@@ -31,7 +30,6 @@
       color:var(--text);
       font-family:Inter,system-ui,sans-serif;
       overflow-x:hidden;
-      scroll-behavior:smooth;
     }
 
     body{
@@ -39,7 +37,7 @@
         radial-gradient(circle at 12% 12%, rgba(89,240,255,.22), transparent 24%),
         radial-gradient(circle at 82% 18%, rgba(203,107,255,.20), transparent 24%),
         radial-gradient(circle at 50% 75%, rgba(90,167,255,.14), transparent 30%),
-        linear-gradient(180deg, #05070d 0%, #070b14 45%, #060913 100%);
+        linear-gradient(180deg,#05070d 0%,#070b14 45%,#060913 100%);
     }
 
     a{
@@ -47,32 +45,10 @@
       color:inherit;
     }
 
-    @keyframes floaty {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
-      100% { transform: translateY(0px); }
-    }
-
-    @keyframes pulseGlow {
-      0% { box-shadow: 0 0 0 rgba(89,240,255,.18); }
-      50% { box-shadow: 0 0 22px rgba(89,240,255,.34); }
-      100% { box-shadow: 0 0 0 rgba(89,240,255,.18); }
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes softZoom {
-      from { opacity: 0; transform: scale(.98); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
     .wrap{
       min-height:100vh;
       position:relative;
-      overflow-x:clip;
+      overflow-x:hidden;
     }
 
     .glow{
@@ -133,7 +109,6 @@
       display:flex;
       align-items:center;
       gap:14px;
-      animation:fadeUp .7s ease;
     }
 
     .logo{
@@ -142,15 +117,11 @@
       border-radius:16px;
       background:linear-gradient(135deg,var(--cyan),var(--violet));
       box-shadow:0 12px 36px rgba(89,240,255,.22);
-      animation:floaty 5s ease-in-out infinite;
-      flex:0 0 auto;
     }
 
     .brand h1{
       margin:0;
       font-size:1.4rem;
-      line-height:1;
-      letter-spacing:-.04em;
     }
 
     .brand p{
@@ -163,8 +134,6 @@
       display:flex;
       align-items:center;
       gap:12px;
-      flex-wrap:nowrap;
-      animation:fadeUp .7s ease;
     }
 
     .btn{
@@ -180,14 +149,12 @@
       color:#071018;
       background:linear-gradient(135deg,var(--cyan),var(--blue));
       box-shadow:0 16px 40px rgba(89,240,255,.18);
-      transition:transform .18s ease, filter .18s ease;
+      transition:.18s ease;
       white-space:nowrap;
-      animation:pulseGlow 4s infinite;
     }
 
     .btn:hover{
       transform:translateY(-2px);
-      filter:brightness(1.05);
     }
 
     .btn.secondary{
@@ -195,13 +162,12 @@
       background:rgba(255,255,255,.05);
       border:1px solid var(--line);
       box-shadow:none;
-      backdrop-filter:blur(14px);
     }
 
     main{
       position:relative;
       z-index:2;
-      padding-top:150px;
+      padding-top:140px;
       padding-bottom:40px;
       width:min(1400px, calc(100% - 32px));
       margin:0 auto;
@@ -214,7 +180,6 @@
       box-shadow:var(--shadow);
       overflow:hidden;
       backdrop-filter:blur(12px);
-      animation:fadeUp .85s ease, softZoom .85s ease;
     }
 
     .toolbar{
@@ -233,7 +198,6 @@
       align-items:center;
       gap:8px;
       flex-wrap:wrap;
-      min-width:0;
     }
 
     .tabs.locked .tab{
@@ -253,7 +217,6 @@
       color:rgba(255,255,255,.72);
       transition:.18s ease;
       font-size:.92rem;
-      white-space:nowrap;
     }
 
     .tab:hover{
@@ -265,7 +228,6 @@
       background:linear-gradient(180deg, rgba(89,240,255,.18), rgba(255,255,255,.05));
       color:white;
       border-color:rgba(255,255,255,.10);
-      box-shadow:0 10px 24px rgba(89,240,255,.10);
     }
 
     .tab-dot{
@@ -273,7 +235,6 @@
       height:10px;
       border-radius:999px;
       background:linear-gradient(135deg,var(--cyan),var(--violet));
-      flex:0 0 auto;
     }
 
     .tab-close{
@@ -281,34 +242,30 @@
       height:18px;
       border:none;
       border-radius:999px;
-      display:inline-flex;
+      display:flex;
       align-items:center;
       justify-content:center;
       cursor:pointer;
       background:rgba(255,255,255,.10);
       color:white;
       font-size:.8rem;
-      line-height:1;
-      transition:.18s ease;
       padding:0;
     }
 
     .tab-close:hover{
       background:rgba(255,107,214,.85);
-      transform:scale(1.05);
     }
 
     .actions{
       display:flex;
       align-items:center;
       gap:10px;
-      flex-wrap:wrap;
     }
 
     .icon-btn{
       width:44px;
       height:44px;
-      display:inline-flex;
+      display:flex;
       align-items:center;
       justify-content:center;
       border-radius:14px;
@@ -317,18 +274,6 @@
       color:white;
       font-size:1.2rem;
       cursor:pointer;
-      transition:.18s ease;
-    }
-
-    .icon-btn:hover{
-      transform:translateY(-2px);
-      background:rgba(255,255,255,.08);
-    }
-
-    .icon-btn:disabled{
-      opacity:.45;
-      cursor:not-allowed;
-      transform:none;
     }
 
     .workspace{
@@ -360,7 +305,6 @@
       font-size:15px;
       line-height:1.6;
       font-family:Consolas,monospace;
-      display:block;
     }
 
     .preview{
@@ -395,12 +339,11 @@
       border-radius:10px;
       background:linear-gradient(135deg,var(--cyan),var(--violet));
       overflow:hidden;
-      flex:0 0 auto;
       display:flex;
       align-items:center;
       justify-content:center;
-      font-weight:800;
       color:white;
+      font-weight:800;
       font-size:.85rem;
     }
 
@@ -414,13 +357,11 @@
     .browser-name{
       display:flex;
       flex-direction:column;
-      min-width:0;
     }
 
     .browser-name strong{
       color:white;
       font-size:.95rem;
-      line-height:1;
     }
 
     .browser-name span{
@@ -430,13 +371,12 @@
     }
 
     .browser-url{
-      background:rgba(255,255,255,.06);
+      background:#10203d;
       border:1px solid rgba(255,255,255,.08);
       padding:10px 14px;
       border-radius:12px;
-      color:rgba(255,255,255,.72);
+      color:white;
       font-size:.88rem;
-      white-space:nowrap;
     }
 
     iframe{
@@ -479,11 +419,6 @@
       padding:22px;
     }
 
-    .modal-card h3{
-      margin:0 0 10px;
-      font-size:1.35rem;
-    }
-
     .field{
       display:flex;
       flex-direction:column;
@@ -501,11 +436,13 @@
       outline:none;
     }
 
-    .modal-actions{
+    .modal-actions,
+    .confirm-actions{
       display:flex;
       justify-content:flex-end;
       gap:10px;
       margin-top:18px;
+      flex-wrap:wrap;
     }
 
     .hint{
@@ -514,51 +451,22 @@
       font-size:.9rem;
       line-height:1.5;
     }
-
-    .confirm-actions{
-      display:flex;
-      gap:10px;
-      justify-content:flex-end;
-      margin-top:18px;
-      flex-wrap:wrap;
-    }
-
-    @media(max-width:900px){
-      .topbar-inner{
-        flex-wrap:wrap;
-        justify-content:center;
-        text-align:center;
-      }
-
-      .auth-buttons{
-        width:100%;
-      }
-
-      .auth-buttons .btn{
-        flex:1;
-      }
-
-      .workspace{
-        height:70vh;
-      }
-
-      .browser-url{
-        display:none;
-      }
-    }
   </style>
 </head>
 <body>
 
 <div class="wrap">
+
   <div class="glow one"></div>
   <div class="glow two"></div>
   <div class="glow three"></div>
 
   <header class="topbar">
     <div class="topbar-inner">
+
       <div class="brand">
         <div class="logo"></div>
+
         <div>
           <h1>Novibe</h1>
           <p>© Novibe Corporation</p>
@@ -569,19 +477,23 @@
         <a class="btn secondary" href="/create">Créer</a>
         <a class="btn" href="/home">Accueil</a>
       </div>
+
     </div>
   </header>
 
   <main>
+
     <div class="editor-shell">
 
       <div class="toolbar">
+
         <div class="tabs" id="tabs"></div>
 
         <div class="actions">
-          <button class="icon-btn" id="addFileBtn" title="Ajouter un fichier">+</button>
+          <button class="icon-btn" id="addFileBtn">+</button>
           <button class="btn" id="runBtn">Exécuter</button>
         </div>
+
       </div>
 
       <div class="workspace">
@@ -591,11 +503,15 @@
         </div>
 
         <div class="preview-view" id="previewView">
+
           <div class="preview">
+
             <div class="browser-bar">
+
               <div class="browser-left">
+
                 <div class="browser-icon">
-                  <img id="siteIconImg" alt="logo du site">
+                  <img id="siteIconImg">
                   <span id="siteIconFallback">N</span>
                 </div>
 
@@ -603,13 +519,19 @@
                   <strong id="siteTitle">Mon site</strong>
                   <span>Aperçu du projet</span>
                 </div>
+
               </div>
 
-              <div class="browser-url" id="browserUrl">index.html</div>
+              <div class="browser-url" id="browserUrl">
+                index.html
+              </div>
+
             </div>
 
             <iframe id="frame"></iframe>
+
           </div>
+
         </div>
 
       </div>
@@ -619,11 +541,15 @@
       </div>
 
     </div>
+
   </main>
+
 </div>
 
 <div class="modal" id="modal">
+
   <div class="modal-card">
+
     <h3>Ajouter un fichier</h3>
 
     <div class="field">
@@ -637,69 +563,49 @@
     </div>
 
     <div class="hint">
-      Les fichiers exécutables sont les fichiers HTML. Les fichiers CSS et les images peuvent être ajoutés au projet, mais ils ne s’exécutent pas seuls.
+      Les fichiers HTML peuvent être exécutés.
     </div>
+
   </div>
+
 </div>
 
 <div class="modal" id="deleteModal">
+
   <div class="modal-card">
+
     <h3>Supprimer le fichier ?</h3>
-    <p id="deleteText" class="hint" style="margin-top:0;">Voulez-vous vraiment supprimer ce fichier ?</p>
+
+    <p class="hint" id="deleteText">
+      Voulez-vous vraiment supprimer ce fichier ?
+    </p>
 
     <div class="confirm-actions">
       <button class="btn secondary" id="deleteNoBtn">Non</button>
       <button class="btn" id="deleteYesBtn">Oui</button>
     </div>
+
   </div>
+
 </div>
 
 <script>
-  if (localStorage.getItem("novibe-auth") !== "true") {
+  if(localStorage.getItem("novibe-auth") !== "true"){
     location.href = "/";
   }
 
   const files = {
-    "index.html": {
-      type: "html",
-      content: `<!DOCTYPE html>
+    "index.html":{
+      type:"html",
+      content:`<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <title>Mon site Novibe</title>
-
-<style>
-body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  background:#0b1220;
-  color:white;
-  font-family:Arial,sans-serif;
-}
-
-h1{
-  font-size:52px;
-  margin:0;
-  background:linear-gradient(135deg,#59f0ff,#cb6bff);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-
-p{
-  color:rgba(255,255,255,.7);
-  margin-top:14px;
-}
-</style>
 </head>
-
-<body>
+<body style="background:#0b1220;color:white;font-family:Arial;display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;">
 <h1>Bienvenue</h1>
-<p>Ton projet Novibe fonctionne.</p>
+<p>Ton projet fonctionne.</p>
 </body>
 </html>`
     }
@@ -711,235 +617,160 @@ p{
 
   const tabs = document.getElementById("tabs");
   const editor = document.getElementById("editor");
+  const runBtn = document.getElementById("runBtn");
+  const frame = document.getElementById("frame");
+
   const codeView = document.getElementById("codeView");
   const previewView = document.getElementById("previewView");
-  const frame = document.getElementById("frame");
-  const runBtn = document.getElementById("runBtn");
+
+  const browserUrl = document.getElementById("browserUrl");
+  const siteTitle = document.getElementById("siteTitle");
+
   const status = document.getElementById("status");
 
-  const siteTitle = document.getElementById("siteTitle");
-  const browserUrl = document.getElementById("browserUrl");
-  const siteIconImg = document.getElementById("siteIconImg");
-  const siteIconFallback = document.getElementById("siteIconFallback");
-
   const addFileBtn = document.getElementById("addFileBtn");
+
   const modal = document.getElementById("modal");
   const fileName = document.getElementById("fileName");
   const cancelBtn = document.getElementById("cancelBtn");
   const createBtn = document.getElementById("createBtn");
 
   const deleteModal = document.getElementById("deleteModal");
-  const deleteText = document.getElementById("deleteText");
   const deleteNoBtn = document.getElementById("deleteNoBtn");
   const deleteYesBtn = document.getElementById("deleteYesBtn");
 
-  function setStatus(text, color) {
+  function setStatus(text,color){
     status.textContent = text;
-    if (color) status.style.color = color;
+    if(color){
+      status.style.color = color;
+    }
   }
 
-  function isHtmlFile(fileName) {
-    return /\.html?$/i.test(fileName);
+  function isHtmlFile(name){
+    return /\.html?$/i.test(name);
   }
 
-  function isCssFile(fileName) {
-    return /\.css$/i.test(fileName);
+  function isCssFile(name){
+    return /\.css$/i.test(name);
   }
 
-  function isImageFile(fileName) {
-    return /\.(png|jpe?g|gif|webp|svg)$/i.test(fileName);
+  function isImageFile(name){
+    return /\.(png|jpg|jpeg|gif|webp|svg)$/i.test(name);
   }
 
-  function saveCurrent() {
-    if (files[activeFile] && files[activeFile].type === "html") {
+  function saveCurrent(){
+    if(files[activeFile]){
       files[activeFile].content = editor.value;
     }
   }
 
-  function renderTabs() {
+  function renderTabs(){
+
     tabs.innerHTML = "";
 
-    Object.keys(files).forEach((file) => {
+    Object.keys(files).forEach((file)=>{
+
       const tab = document.createElement("button");
       tab.type = "button";
       tab.className = "tab" + (file === activeFile ? " active" : "");
+
       tab.innerHTML = `
         <span class="tab-dot"></span>
         <span>${file}</span>
-        <button class="tab-close" type="button" title="Supprimer">×</button>
+        <button class="tab-close">×</button>
       `;
 
       const closeBtn = tab.querySelector(".tab-close");
 
-      closeBtn.addEventListener("click", (e) => {
+      closeBtn.addEventListener("click",(e)=>{
         e.stopPropagation();
         requestDelete(file);
       });
 
-      tab.addEventListener("click", () => {
-        if (previewMode) return;
+      tab.addEventListener("click",()=>{
+
+        if(previewMode){
+          return;
+        }
 
         activeFile = file;
+
         editor.value = files[file].content || "";
+
+        browserUrl.textContent = file;
+        siteTitle.textContent = file;
+
         renderTabs();
-        updateCodeBar();
-        setStatus(`Ouvert : ${file}`, "#59f0ff");
       });
 
       tabs.appendChild(tab);
     });
   }
 
-  function updateCodeBar() {
-    const file = files[activeFile];
-    browserUrl.textContent = activeFile;
-    siteTitle.textContent = activeFile;
+  function requestDelete(file){
 
-    if (file && file.type === "html") {
-      siteIconImg.style.display = "none";
-      siteIconFallback.style.display = "block";
-      siteIconFallback.textContent = "N";
-    } else if (file && file.type === "image") {
-      siteIconImg.src = file.content;
-      siteIconImg.style.display = "block";
-      siteIconFallback.style.display = "none";
-    } else {
-      siteIconImg.style.display = "none";
-      siteIconFallback.style.display = "block";
-      siteIconFallback.textContent = "N";
-    }
-  }
-
-  function extractTitle(html) {
-    const match = html.match(/<title>([\s\S]*?)<\/title>/i);
-    return match ? match[1].trim() : "Novibe";
-  }
-
-  function extractIcon(html) {
-    const match = html.match(/<link[^>]+rel=["'][^"']*icon[^"']*["'][^>]*href=["']([^"']+)["']/i);
-    return match ? match[1].trim() : "";
-  }
-
-  function buildPreviewHtml(html) {
-    let output = html;
-
-    let cssBundle = "";
-    let jsBundle = "";
-
-    Object.entries(files).forEach(([name, file]) => {
-      if (file.type === "css") {
-        cssBundle += `\n/* ${name} */\n${file.content}\n`;
-      } else if (file.type === "js") {
-        jsBundle += `\n// ${name}\n${file.content}\n`;
-      }
-    });
-
-    if (cssBundle.trim()) {
-      const cssTag = `<style id="novibe-inline-css">\n${cssBundle}\n</style>`;
-      if (/<\/head>/i.test(output)) {
-        output = output.replace(/<\/head>/i, cssTag + "\n</head>");
-      } else {
-        output = cssTag + "\n" + output;
-      }
+    if(Object.keys(files).length <= 1){
+      setStatus("Impossible de supprimer le dernier fichier.","#ff6bd6");
+      return;
     }
 
-    if (jsBundle.trim()) {
-      const jsTag = `<script id="novibe-inline-js">\n${jsBundle}\n<\/script>`;
-      if (/<\/body>/i.test(output)) {
-        output = output.replace(/<\/body>/i, jsTag + "\n</body>");
-      } else {
-        output += "\n" + jsTag;
-      }
+    fileToDelete = file;
+
+    document.getElementById("deleteText").textContent =
+      `Voulez-vous vraiment supprimer ${file} ?`;
+
+    deleteModal.classList.add("show");
+  }
+
+  deleteNoBtn.addEventListener("click",()=>{
+    deleteModal.classList.remove("show");
+    fileToDelete = "";
+  });
+
+  deleteYesBtn.addEventListener("click",()=>{
+
+    delete files[fileToDelete];
+
+    if(activeFile === fileToDelete){
+      activeFile = Object.keys(files)[0];
     }
 
-    Object.entries(files).forEach(([name, file]) => {
-      if (file.type !== "image") return;
+    editor.value = files[activeFile].content || "";
 
-      const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const dataUrl = file.content;
+    renderTabs();
 
-      output = output.replace(
-        new RegExp(`(src|href)=([\"'])${escaped}\\2`, "gi"),
-        `$1=$2${dataUrl}$2`
-      );
+    deleteModal.classList.remove("show");
 
-      output = output.replace(
-        new RegExp(`url\\(([\"'])?${escaped}\\1?\\)`, "gi"),
-        `url("${dataUrl}")`
-      );
-    });
+    setStatus("Fichier supprimé.","#ff6bd6");
+  });
 
-    return output;
-  }
+  function runPreview(){
 
-  function updatePreviewBar(htmlFileName, html) {
-    const title = extractTitle(html);
-    const icon = extractIcon(html);
-
-    siteTitle.textContent = title;
-    browserUrl.textContent = htmlFileName;
-
-    if (icon) {
-      const imageFile = files[icon];
-
-      if (imageFile && imageFile.type === "image") {
-        siteIconImg.src = imageFile.content;
-      } else {
-        siteIconImg.src = icon;
-      }
-
-      siteIconImg.style.display = "block";
-      siteIconFallback.style.display = "none";
-
-    } else {
-      siteIconImg.removeAttribute("src");
-      siteIconImg.style.display = "none";
-      siteIconFallback.style.display = "flex";
-      siteIconFallback.textContent =
-        title.charAt(0).toUpperCase() || "N";
-    }
-  }
-
-  function setPreviewLock(lock) {
-    tabs.classList.toggle("locked", lock);
-    addFileBtn.disabled = lock;
-  }
-
-  function runPreview() {
     saveCurrent();
 
     const current = files[activeFile];
 
-    if (!current || current.type !== "html") {
-      setStatus(
-        "Seuls les fichiers HTML peuvent être exécutés.",
-        "#ff6bd6"
-      );
+    if(!current || current.type !== "html"){
+      setStatus("Seuls les fichiers HTML peuvent être exécutés.","#ff6bd6");
       return;
     }
 
-    const html = buildPreviewHtml(current.content);
+    frame.srcdoc = current.content;
 
-    updatePreviewBar(activeFile, html);
-
-    frame.srcdoc = html;
+    previewMode = true;
 
     codeView.classList.remove("active");
     previewView.classList.add("active");
 
-    previewMode = true;
-
     runBtn.textContent = "Terminer";
 
-    setPreviewLock(true);
+    tabs.classList.add("locked");
 
-    setStatus(
-      `Aperçu lancé : ${activeFile}`,
-      "#59f0ff"
-    );
+    setStatus("Aperçu lancé.","#59f0ff");
   }
 
-  function stopPreview() {
+  function stopPreview(){
+
     previewMode = false;
 
     previewView.classList.remove("active");
@@ -947,168 +778,82 @@ p{
 
     runBtn.textContent = "Exécuter";
 
-    setPreviewLock(false);
+    tabs.classList.remove("locked");
 
-    editor.value = files[activeFile].content || "";
-
-    updateCodeBar();
-
-    setStatus(
-      "Retour à l’éditeur.",
-      "#cb6bff"
-    );
+    setStatus("Retour au code.","#cb6bff");
   }
 
-  function requestDelete(file) {
-    if (Object.keys(files).length <= 1) {
-      setStatus(
-        "Impossible de supprimer le dernier fichier.",
-        "#ff6bd6"
-      );
-      return;
-    }
+  runBtn.addEventListener("click",()=>{
 
-    fileToDelete = file;
-
-    deleteText.textContent =
-      `Voulez-vous vraiment supprimer "${file}" ?`;
-
-    deleteModal.classList.add("show");
-  }
-
-  function deleteFile(file) {
-    delete files[file];
-
-    if (activeFile === file) {
-      activeFile = Object.keys(files)[0];
-    }
-
-    editor.value = files[activeFile].content || "";
-
-    renderTabs();
-    updateCodeBar();
-
-    setStatus(
-      `Fichier supprimé : ${file}`,
-      "#ff6bd6"
-    );
-  }
-
-  runBtn.addEventListener("click", () => {
-    if (previewMode) {
+    if(previewMode){
       stopPreview();
-    } else {
+    }else{
       runPreview();
     }
+
   });
 
-  addFileBtn.addEventListener("click", () => {
-    if (previewMode) return;
+  addFileBtn.addEventListener("click",()=>{
+
+    if(previewMode){
+      return;
+    }
 
     modal.classList.add("show");
     fileName.value = "";
     fileName.focus();
   });
 
-  cancelBtn.addEventListener("click", () => {
+  cancelBtn.addEventListener("click",()=>{
     modal.classList.remove("show");
   });
 
-  createBtn.addEventListener("click", () => {
+  createBtn.addEventListener("click",()=>{
+
     const name = fileName.value.trim();
 
-    if (!name) {
-      setStatus("Nom de fichier invalide.", "#ff6bd6");
+    if(!name){
       return;
     }
 
-    if (files[name]) {
-      setStatus("Ce fichier existe déjà.", "#ff6bd6");
+    if(files[name]){
+      setStatus("Ce fichier existe déjà.","#ff6bd6");
       return;
     }
 
-    let type = "text";
-    let content = "";
+    let type = "txt";
 
-    if (isHtmlFile(name)) {
+    if(isHtmlFile(name)){
       type = "html";
-
-      content =
-`<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>${name}</title>
-</head>
-
-<body>
-
-</body>
-</html>`;
-
-    } else if (isCssFile(name)) {
+    }else if(isCssFile(name)){
       type = "css";
-    } else if (isImageFile(name)) {
+    }else if(isImageFile(name)){
       type = "image";
-      content = "";
-    } else if (/\.js$/i.test(name)) {
-      type = "js";
     }
 
     files[name] = {
       type,
-      content
+      content:""
     };
 
     activeFile = name;
 
-    editor.value = content;
+    editor.value = "";
 
     renderTabs();
-    updateCodeBar();
 
     modal.classList.remove("show");
 
-    setStatus(
-      `Fichier créé : ${name}`,
-      "#59f0ff"
-    );
+    setStatus(`Fichier créé : ${name}`,"#59f0ff");
   });
 
-  deleteNoBtn.addEventListener("click", () => {
-    deleteModal.classList.remove("show");
-    fileToDelete = "";
-  });
-
-  deleteYesBtn.addEventListener("click", () => {
-    if (fileToDelete) {
-      deleteFile(fileToDelete);
-    }
-
-    deleteModal.classList.remove("show");
-    fileToDelete = "";
-  });
-
-  logoutBtn.addEventListener("click", () => {
-    localStorage.removeItem("novibe-auth");
-    location.href = "/";
-  });
-
-  editor.addEventListener("input", () => {
-    if (!files[activeFile]) return;
-
-    files[activeFile].content = editor.value;
+  editor.addEventListener("input",()=>{
+    saveCurrent();
   });
 
   editor.value = files[activeFile].content;
 
   renderTabs();
-  updateCodeBar();
-
-  setStatus(
-    "Éditeur prêt.",
-    "#59f0ff"
-  );
 </script>
 
 </body>
