@@ -276,6 +276,28 @@
       flex:0 0 auto;
     }
 
+    .tab-close{
+      width:18px;
+      height:18px;
+      border:none;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      background:rgba(255,255,255,.10);
+      color:white;
+      font-size:.8rem;
+      line-height:1;
+      transition:.18s ease;
+      padding:0;
+    }
+
+    .tab-close:hover{
+      background:rgba(255,107,214,.85);
+      transform:scale(1.05);
+    }
+
     .actions{
       display:flex;
       align-items:center;
@@ -493,6 +515,14 @@
       line-height:1.5;
     }
 
+    .confirm-actions{
+      display:flex;
+      gap:10px;
+      justify-content:flex-end;
+      margin-top:18px;
+      flex-wrap:wrap;
+    }
+
     @media(max-width:900px){
       .topbar-inner{
         flex-wrap:wrap;
@@ -575,7 +605,7 @@
                 </div>
               </div>
 
-              <div class="browser-url" id="browserUrl">README.md</div>
+              <div class="browser-url" id="browserUrl">index.html</div>
             </div>
 
             <iframe id="frame"></iframe>
@@ -594,7 +624,6 @@
 
 <div class="modal" id="modal">
   <div class="modal-card">
-
     <h3>Ajouter un fichier</h3>
 
     <div class="field">
@@ -613,13 +642,27 @@
   </div>
 </div>
 
+<div class="modal" id="deleteModal">
+  <div class="modal-card">
+    <h3>Supprimer le fichier ?</h3>
+    <p id="deleteText" class="hint" style="margin-top:0;">Voulez-vous vraiment supprimer ce fichier ?</p>
+
+    <div class="confirm-actions">
+      <button class="btn secondary" id="deleteNoBtn">Non</button>
+      <button class="btn" id="deleteYesBtn">Oui</button>
+    </div>
+  </div>
+</div>
+
 <script>
   if (localStorage.getItem("novibe-auth") !== "true") {
     location.href = "/";
   }
 
   const files = {
-    "index.html": `<!DOCTYPE html>
+    "index.html": {
+      type: "html",
+      content: `<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -659,10 +702,12 @@ p{
 <p>Ton projet Novibe fonctionne.</p>
 </body>
 </html>`
+    }
   };
 
   let activeFile = "index.html";
   let previewMode = false;
+  let fileToDelete = "";
 
   const tabs = document.getElementById("tabs");
   const editor = document.getElementById("editor");
@@ -682,6 +727,11 @@ p{
   const fileName = document.getElementById("fileName");
   const cancelBtn = document.getElementById("cancelBtn");
   const createBtn = document.getElementById("createBtn");
+
+  const deleteModal = document.getElementById("deleteModal");
+  const deleteText = document.getElementById("deleteText");
+  const deleteNoBtn = document.getElementById("deleteNoBtn");
+  const deleteYesBtn = document.getElementById("deleteYesBtn");
 
   const logoutBtn = document.getElementById("logoutBtn");
 
@@ -715,7 +765,18 @@ p{
       const tab = document.createElement("button");
       tab.type = "button";
       tab.className = "tab" + (file === activeFile ? " active" : "");
-      tab.innerHTML = `<span class="tab-dot"></span>${file}`;
+      tab.innerHTML = `
+        <span class="tab-dot"></span>
+        <span>${file}</span>
+        <button class="tab-close" type="button" title="Supprimer">×</button>
+      `;
+
+      const closeBtn = tab.querySelector(".tab-close");
+
+      closeBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        requestDelete(file);
+      });
 
       tab.addEventListener("click", () => {
         if (previewMode) return;
@@ -818,153 +879,4 @@ p{
     const icon = extractIcon(html);
 
     siteTitle.textContent = title;
-    browserUrl.textContent = htmlFileName;
-
-    if (icon) {
-      siteIconImg.src = icon;
-      siteIconImg.style.display = "block";
-      siteIconFallback.style.display = "none";
-    } else {
-      siteIconImg.removeAttribute("src");
-      siteIconImg.style.display = "none";
-      siteIconFallback.style.display = "block";
-      siteIconFallback.textContent = title.charAt(0).toUpperCase() || "N";
-    }
-  }
-
-  function setPreviewLock(lock) {
-    tabs.classList.toggle("locked", lock);
-    addFileBtn.disabled = lock;
-  }
-
-  function runPreview() {
-    saveCurrent();
-
-    const current = files[activeFile];
-
-    if (!current || current.type !== "html") {
-      setStatus("Seuls les fichiers HTML peuvent être exécutés.", "#ff6bd6");
-      return;
-    }
-
-    const html = buildPreviewHtml(current.content);
-
-    updatePreviewBar(activeFile, html);
-
-    frame.srcdoc = html;
-
-    codeView.classList.remove("active");
-    previewView.classList.add("active");
-
-    previewMode = true;
-    runBtn.textContent = "Terminer";
-    setStatus("Aperçu affiché.", "#59f0ff");
-    setPreviewLock(true);
-  }
-
-  function stopPreview() {
-    previewMode = false;
-    previewView.classList.remove("active");
-    codeView.classList.add("active");
-    runBtn.textContent = "Exécuter";
-    setPreviewLock(false);
-    editor.value = files[activeFile].content || "";
-    updateCodeBar();
-    setStatus("Retour au code.", "#cb6bff");
-  }
-
-  runBtn.addEventListener("click", () => {
-    if (previewMode) {
-      stopPreview();
-    } else {
-      runPreview();
-    }
-  });
-
-  addFileBtn.addEventListener("click", () => {
-    if (previewMode) return;
-
-    modal.classList.add("show");
-    fileName.value = "";
-    fileName.focus();
-  });
-
-  cancelBtn.addEventListener("click", () => {
-    modal.classList.remove("show");
-  });
-
-  function detectFileType(name) {
-    if (isHtmlFile(name)) return "html";
-    if (isCssFile(name)) return "css";
-    if (isImageFile(name)) return "image";
-    if (/\.js$/i.test(name)) return "js";
-    return "text";
-  }
-
-  createBtn.addEventListener("click", () => {
-    const name = fileName.value.trim();
-
-    if (!name) {
-      setStatus("Nom de fichier invalide.", "#ff6bd6");
-      return;
-    }
-
-    if (files[name]) {
-      setStatus("Ce fichier existe déjà.", "#ff6bd6");
-      return;
-    }
-
-    const type = detectFileType(name);
-
-    files[name] = {
-      type,
-      content:
-        type === "html"
-          ? "<!DOCTYPE html>\n<html>\n<head>\n<title>Nouveau fichier</title>\n</head>\n<body>\n\n</body>\n</html>"
-          : ""
-    };
-
-    activeFile = name;
-
-    editor.value = files[name].content;
-
-    renderTabs();
-    updateCodeBar();
-
-    modal.classList.remove("show");
-
-    setStatus(`Fichier créé : ${name}`, "#59f0ff");
-  });
-
-  editor.addEventListener("input", () => {
-    if (!files[activeFile]) return;
-
-    files[activeFile].content = editor.value;
-  });
-
-  logoutBtn.addEventListener("click", () => {
-    localStorage.removeItem("novibe-auth");
-    location.href = "/";
-  });
-
-  window.addEventListener("keydown", (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
-      e.preventDefault();
-
-      saveCurrent();
-
-      setStatus("Projet sauvegardé localement.", "#59f0ff");
-    }
-  });
-
-  renderTabs();
-
-  editor.value = files[activeFile].content;
-
-  updateCodeBar();
-
-  setStatus("Éditeur prêt.", "#59f0ff");
-</script>
-
-</body>
-</html>
+    browserUrl.textContent
