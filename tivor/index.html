@@ -1,261 +1,64 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Tivor – Moteur de recherche</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <style>
-    :root {
-      --tivor-blue: #1e90ff;
-      --bg: #0b0e16;
-      --text: #e9ecf8;
-      --glass: rgba(255,255,255,0.05);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Inter", system-ui, sans-serif;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* --- Fond animé pro (dégradé mouvant) --- */
-    .background {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at 20% 20%, #1e90ff22, transparent 60%),
-                  radial-gradient(circle at 80% 80%, #1e90ff11, transparent 60%);
-      animation: bgMove 12s infinite alternate ease-in-out;
-      z-index: 0;
-    }
-
-    @keyframes bgMove {
-      0%   { transform: translate(0,0); }
-      100% { transform: translate(20px, -20px); }
-    }
-
-    /* --- Conteneur principal --- */
-    .container {
-      position: relative;
-      z-index: 2;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    /* --- Logo Tivor (pro + animé) --- */
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 28px;
-      animation: fadeIn 1s ease-out;
-    }
-
-    .logo-icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 18px;
-      border: 2px solid var(--tivor-blue);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--tivor-blue);
-      background: rgba(255,255,255,0.03);
-      backdrop-filter: blur(6px);
-      animation: pulse 3s infinite ease-in-out;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 20px #1e90ff33; }
-      50%      { transform: scale(1.06); box-shadow: 0 0 40px #1e90ff55; }
-    }
-
-    .logo-text {
-      font-size: 34px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      animation: slideUp 0.8s ease-out;
-    }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* --- Barre de recherche --- */
-    .search-box {
-      width: 100%;
-      max-width: 600px;
-      background: var(--glass);
-      border: 1px solid #1e90ff55;
-      border-radius: 14px;
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 0 30px #00000055;
-      transition: 0.25s ease;
-      animation: fadeIn 1.2s ease-out;
-    }
-
-    .search-box:focus-within {
-      border-color: var(--tivor-blue);
-      box-shadow: 0 0 40px #1e90ff55;
-      transform: scale(1.01);
-    }
-
-    .search-input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: var(--text);
-      font-size: 17px;
-    }
-
-    .search-input::placeholder {
-      color: #9bb7ff88;
-    }
-
-    /* --- Bouton recherche --- */
-    .btn {
-      padding: 10px 18px;
-      border-radius: 10px;
-      border: 1px solid var(--tivor-blue);
-      background: transparent;
-      color: var(--text);
-      font-size: 14px;
-      cursor: pointer;
-      transition: 0.25s ease;
-    }
-
-    .btn:hover {
-      background: #1e90ff22;
-      box-shadow: 0 0 20px #1e90ff55;
-      transform: translateY(-2px);
-    }
-
-    /* --- Résultats --- */
-    .results {
-      margin-top: 26px;
-      width: 100%;
-      max-width: 600px;
-      max-height: 300px;
-      overflow-y: auto;
-      padding-right: 6px;
-      animation: fadeIn 1.4s ease-out;
-    }
-
-    .result {
-      padding: 14px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid #ffffff11;
-      margin-bottom: 10px;
-      transition: 0.25s ease;
-    }
-
-    .result:hover {
-      border-color: var(--tivor-blue);
-      background: #1e90ff11;
-      transform: translateY(-2px);
-    }
-
-    .result-title {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .result-url {
-      font-size: 12px;
-      color: #7fc4ff;
-      margin-bottom: 6px;
-    }
-
-    .result-snippet {
-      font-size: 13px;
-      opacity: 0.8;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <div class="background"></div>
+  <div class="background" aria-hidden="true"></div>
 
-  <div class="container">
-    <div class="logo">
-      <div class="logo-icon">T</div>
-      <div class="logo-text">Tivor</div>
-    </div>
+  <main class="container" role="main">
+    <header class="brand" aria-label="Tivor">
+      <div class="logo-icon" aria-hidden="true">T</div>
+      <h1 class="logo-text">Tivor</h1>
+    </header>
 
-    <div class="search-box">
-      <input id="searchInput" class="search-input" type="text" placeholder="Rechercher sur Tivor..." />
-      <button class="btn" id="searchBtn">Rechercher</button>
-    </div>
+    <form class="search-box" id="searchForm" role="search" aria-label="Recherche Tivor">
+      <label for="searchInput" class="visually-hidden">Rechercher</label>
+      <input id="searchInput" class="search-input" type="search" placeholder="Rechercher sur Tivor…" autocomplete="off" />
+      <button type="submit" class="btn" id="searchBtn">Rechercher</button>
+    </form>
 
-    <div class="results" id="results"></div>
-  </div>
+    <section class="results" id="results" aria-live="polite"></section>
+  </main>
 
   <script>
-    const input = document.getElementById("searchInput");
-    const btn = document.getElementById("searchBtn");
-    const results = document.getElementById("results");
+    const form = document.getElementById('searchForm');
+    const input = document.getElementById('searchInput');
+    const results = document.getElementById('results');
 
-    function search(q) {
-      results.innerHTML = "";
-
-      const fake = [
-        {
-          title: `Résultats pour "${q}"`,
-          url: "https://tivor.example/search?q=" + encodeURIComponent(q),
-          snippet: "Tivor vous propose une recherche élégante, rapide et animée."
-        },
-        {
-          title: "À propos de Tivor",
-          url: "https://tivor.example/about",
-          snippet: "Un moteur de recherche moderne, professionnel et animé."
-        }
+    function renderFakeResults(q) {
+      results.innerHTML = '';
+      if (!q.trim()) {
+        results.innerHTML = '';
+        return;
+      }
+      const items = [
+        { title: `Résultats pour « ${q} »`, url: `https://tivor.example/search?q=${encodeURIComponent(q)}`, snippet: 'Tivor — recherche fluide et élégante.' },
+        { title: 'À propos de Tivor', url: 'https://tivor.example/about', snippet: 'Moteur de recherche professionnel et animé.' }
       ];
-
-      fake.forEach(r => {
-        const div = document.createElement("div");
-        div.className = "result";
-        div.innerHTML = `
+      items.forEach((r, i) => {
+        const el = document.createElement('article');
+        el.className = 'result';
+        el.style.animationDelay = `${i * 60}ms`;
+        el.innerHTML = `
           <div class="result-title">${r.title}</div>
           <div class="result-url">${r.url}</div>
           <div class="result-snippet">${r.snippet}</div>
         `;
-        results.appendChild(div);
+        results.appendChild(el);
       });
     }
 
-    btn.onclick = () => {
-      if (input.value.trim()) search(input.value);
-    };
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      renderFakeResults(input.value);
+    });
 
-    input.addEventListener("keydown", e => {
-      if (e.key === "Enter" && input.value.trim()) search(input.value);
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Escape') input.value = '';
     });
   </script>
 </body>
