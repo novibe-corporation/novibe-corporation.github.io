@@ -3,63 +3,52 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Tivor – Moteur de recherche</title>
-  <link rel="stylesheet" href="../style.css">
+  <title>Nexio – Moteur de recherche</title>
+  <link rel="stylesheet" href="../style.css" id="mainCss" />
 </head>
 <body>
-  <div class="background" aria-hidden="true"></div>
+  <!-- Fond animé -->
+  <div class="background bg-default" aria-hidden="true"></div>
+
+  <!-- Bouton paramètres -->
+  <button class="settings-btn" id="settingsBtn" aria-label="Paramètres">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06A2 2 0 1 1 2.3 16.88l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09c.7 0 1.3-.4 1.51-1a1.65 1.65 0 0 0-.33-1.82l-.06-.06A2 2 0 1 1 7.12 2.3l.06.06c.45.45 1.1.6 1.7.4.5-.16 1.02-.25 1.55-.25H12c.53 0 1.05.09 1.55.25.6.2 1.25.05 1.7-.4l.06-.06A2 2 0 1 1 19.4 4.6l-.06.06c-.45.45-.6 1.1-.4 1.7.16.5.25 1.02.25 1.55V9c0 .53-.09 1.05-.25 1.55-.2.6.05 1.25.4 1.7l.06.06z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <!-- Panneau paramètres -->
+  <aside class="settings-panel" id="settingsPanel" aria-hidden="true">
+    <h3>Paramètres</h3>
+    <label for="bgSelect">Style du fond</label>
+    <select id="bgSelect" aria-label="Choisir style du fond">
+      <option value="default">Dégradé par défaut</option>
+      <option value="blue">Bleu océan</option>
+      <option value="purple">Violet néon</option>
+      <option value="sunset">Coucher de soleil</option>
+    </select>
+    <label for="motionToggle">Animations</label>
+    <div class="toggle-row">
+      <button id="motionToggle" class="toggle-btn" aria-pressed="true">Activées</button>
+    </div>
+  </aside>
 
   <main class="container" role="main">
-    <header class="brand" aria-label="Tivor">
-      <div class="logo-icon" aria-hidden="true">T</div>
-      <h1 class="logo-text">Tivor</h1>
+    <header class="brand" aria-label="Nexio">
+      <div class="logo-icon" aria-hidden="true">N</div>
+      <h1 class="logo-text fade-in">Nexio</h1>
     </header>
 
-    <form class="search-box" id="searchForm" role="search" aria-label="Recherche Tivor">
+    <form class="search-box" id="searchForm" role="search" aria-label="Recherche Nexio">
       <label for="searchInput" class="visually-hidden">Rechercher</label>
-      <input id="searchInput" class="search-input" type="search" placeholder="Rechercher sur Tivor…" autocomplete="off" />
+      <input id="searchInput" class="search-input fade-in" type="search" placeholder="Rechercher sur Nexio…" autocomplete="off" />
       <button type="submit" class="btn" id="searchBtn">Rechercher</button>
     </form>
 
     <section class="results" id="results" aria-live="polite"></section>
   </main>
 
-  <script>
-    const form = document.getElementById('searchForm');
-    const input = document.getElementById('searchInput');
-    const results = document.getElementById('results');
-
-    function renderFakeResults(q) {
-      results.innerHTML = '';
-      if (!q.trim()) {
-        results.innerHTML = '';
-        return;
-      }
-      const items = [
-        { title: `Résultats pour « ${q} »`, url: `https://tivor.example/search?q=${encodeURIComponent(q)}`, snippet: 'Tivor — recherche fluide et élégante.' },
-        { title: 'À propos de Tivor', url: 'https://tivor.example/about', snippet: 'Moteur de recherche professionnel et animé.' }
-      ];
-      items.forEach((r, i) => {
-        const el = document.createElement('article');
-        el.className = 'result';
-        el.style.animationDelay = `${i * 60}ms`;
-        el.innerHTML = `
-          <div class="result-title">${r.title}</div>
-          <div class="result-url">${r.url}</div>
-          <div class="result-snippet">${r.snippet}</div>
-        `;
-        results.appendChild(el);
-      });
-    }
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      renderFakeResults(input.value);
-    });
-
-    input.addEventListener('keydown', e => {
-      if (e.key === 'Escape') input.value = '';
-    });
-  </script>
+  <script src="../app.js"></script>
 </body>
 </html>
