@@ -1,230 +1,416 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Toolenix — Outils & Tutoriels Tech</title>
-
   <style>
-    :root {
-      --bg: #ffffff;
-      --text: #111827;
-      --text-light: #6b7280;
-      --primary: #2563eb;
-      --border: #e5e7eb;
-      --card-bg: #f9fafb;
-      --radius: 10px;
-      --font: "Inter", sans-serif;
+    :root{
+      --bg:#ffffff;
+      --text:#0f1724;
+      --muted:#6b7280;
+      --primary:#2563eb;
+      --border:#e6e9ee;
+      --card:#f8fafc;
+      --radius:10px;
+      --gap:20px;
+      --maxw:1100px;
+      --font:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
 
-    body {
-      margin: 0;
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--text);
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--text);
+      background:var(--bg);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
     }
 
-    header {
-      border-bottom: 1px solid var(--border);
-      background: #fff;
-      padding: 14px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+    /* Header */
+    header{
+      position:sticky;
+      top:0;
+      background:var(--bg);
+      border-bottom:1px solid var(--border);
+      z-index:40;
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .logo{
+      width:36px;
+      height:36px;
+      border-radius:8px;
+      display:inline-grid;
+      place-items:center;
+      background:linear-gradient(180deg,#eef6ff,#dbeeff);
+      color:var(--primary);
+      font-weight:700;
+      font-size:18px;
+      border:1px solid rgba(37,99,235,0.12);
+    }
+    .brand-name{
+      font-weight:700;
+      font-size:16px;
+      color:var(--text);
+    }
+    .nav-links{
+      display:flex;
+      gap:18px;
+      align-items:center;
+    }
+    .nav-links a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:15px;
+    }
+    .nav-links a:hover{color:var(--text)}
+    .cta{
+      background:var(--primary);
+      color:#fff;
+      padding:9px 14px;
+      border-radius:999px;
+      border:none;
+      font-weight:600;
+      cursor:pointer;
+      font-size:14px;
     }
 
-    nav {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* Mobile menu button */
+    .menu-btn{
+      display:none;
+      background:transparent;
+      border:1px solid var(--border);
+      width:44px;
+      height:44px;
+      border-radius:8px;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+    }
+    .menu-icon{
+      width:20px;
+      height:2px;
+      background:var(--text);
+      position:relative;
+    }
+    .menu-icon::before,.menu-icon::after{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      height:2px;
+      background:var(--text);
+    }
+    .menu-icon::before{top:-6px}
+    .menu-icon::after{bottom:-6px}
+
+    /* Hero */
+    .hero{
+      max-width:var(--maxw);
+      margin:48px auto 24px;
+      padding:0 18px;
+      display:grid;
+      grid-template-columns:1fr 420px;
+      gap:28px;
+      align-items:start;
+    }
+    .hero h1{
+      font-size:36px;
+      margin:0 0 12px;
+      line-height:1.05;
+      font-weight:700;
+    }
+    .hero p{
+      margin:0 0 20px;
+      color:var(--muted);
+      max-width:680px;
+      font-size:16px;
+    }
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+    .btn-outline{
+      padding:10px 14px;
+      border-radius:8px;
+      border:1px solid var(--border);
+      background:transparent;
+      color:var(--text);
+      cursor:pointer;
+      font-size:14px;
     }
 
-    .logo {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--text);
+    /* Right panel */
+    .panel{
+      background:var(--card);
+      border:1px solid var(--border);
+      padding:18px;
+      border-radius:12px;
+    }
+    .panel h4{margin:0 0 8px;font-size:16px}
+    .panel p{margin:0;color:var(--muted);font-size:14px}
+
+    /* Sections */
+    main{max-width:var(--maxw);margin:28px auto;padding:0 18px 60px}
+    .section{margin-top:36px}
+    .section h2{font-size:20px;margin:0 0 8px}
+    .section p{color:var(--muted);margin:0 0 16px}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:16px;
+    }
+    .card{
+      background:#fff;
+      border:1px solid var(--border);
+      padding:16px;
+      border-radius:10px;
+    }
+    .card h3{margin:0 0 8px;font-size:16px}
+    .card p{margin:0 0 12px;color:var(--muted);font-size:14px}
+    .card a{color:var(--primary);text-decoration:none;font-weight:600}
+
+    footer{
+      border-top:1px solid var(--border);
+      padding:22px 18px;
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
     }
 
-    .nav-links a {
-      margin-left: 20px;
-      text-decoration: none;
-      color: var(--text-light);
-      font-size: 15px;
+    /* Off-canvas menu (right) */
+    .offcanvas{
+      position:fixed;
+      top:0;
+      right:-320px;
+      width:320px;
+      height:100vh;
+      background:#fff;
+      box-shadow:-20px 0 40px rgba(15,23,36,0.08);
+      border-left:1px solid var(--border);
+      transition:right 260ms cubic-bezier(.2,.9,.3,1);
+      z-index:60;
+      display:flex;
+      flex-direction:column;
+      padding:18px;
+    }
+    .offcanvas.open{right:0}
+    .offcanvas .close{
+      align-self:flex-end;
+      background:transparent;
+      border:none;
+      font-size:18px;
+      cursor:pointer;
+      color:var(--muted);
+    }
+    .offcanvas nav{margin-top:18px;display:flex;flex-direction:column;gap:12px}
+    .offcanvas a{color:var(--text);text-decoration:none;font-size:16px;padding:10px;border-radius:8px}
+    .offcanvas a:hover{background:#f3f6fb}
+
+    /* Overlay */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(2,6,23,0.35);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity 200ms ease;
+      z-index:50;
+    }
+    .overlay.show{opacity:1;pointer-events:auto}
+
+    /* Responsive */
+    @media (max-width:880px){
+      .hero{grid-template-columns:1fr;gap:18px}
+      .nav-links{display:none}
+      .menu-btn{display:flex}
+      .panel{order:2}
     }
 
-    .nav-links a:hover {
-      color: var(--text);
-    }
-
-    .hero {
-      max-width: 1100px;
-      margin: 60px auto;
-      padding: 0 20px;
-      text-align: left;
-    }
-
-    .hero h1 {
-      font-size: 42px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      color: var(--text-light);
-      max-width: 600px;
-      margin-bottom: 25px;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-      padding: 12px 22px;
-      border-radius: var(--radius);
-      border: none;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    .btn-primary:hover {
-      background: #1d4ed8;
-    }
-
-    .section {
-      max-width: 1100px;
-      margin: 60px auto;
-      padding: 0 20px;
-    }
-
-    .section h2 {
-      font-size: 26px;
-      margin-bottom: 10px;
-    }
-
-    .section p {
-      color: var(--text-light);
-      margin-bottom: 25px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-    }
-
-    .card h3 {
-      margin: 0 0 8px;
-      font-size: 18px;
-    }
-
-    .card p {
-      color: var(--text-light);
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
-
-    .card a {
-      color: var(--primary);
-      font-size: 14px;
-      text-decoration: none;
-    }
-
-    footer {
-      margin-top: 60px;
-      padding: 20px;
-      text-align: center;
-      color: var(--text-light);
-      border-top: 1px solid var(--border);
+    @media (max-width:420px){
+      .offcanvas{width:100%}
     }
   </style>
 </head>
-
 <body>
+  <header>
+    <div class="nav" role="navigation" aria-label="Navigation principale">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">T</div>
+        <div>
+          <div class="brand-name">Toolenix</div>
+        </div>
+      </div>
 
-<header>
-  <nav>
-    <div class="logo">Toolenix</div>
-    <div class="nav-links">
-      <a href="#tutoriels">Tutoriels</a>
-      <a href="#comparateurs">Comparateurs</a>
-      <a href="#guides">Guides</a>
-      <a href="#contact">Contact</a>
+      <div class="nav-links" aria-hidden="true">
+        <a href="#tutoriels">Tutoriels</a>
+        <a href="#comparateurs">Comparateurs</a>
+        <a href="#guides">Guides</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="cta" onclick="location.href='#tutoriels'">Découvrir</button>
+        <button class="menu-btn" id="menuBtn" aria-label="Ouvrir le menu">
+          <span class="menu-icon" aria-hidden="true"></span>
+        </button>
+      </div>
     </div>
-  </nav>
-</header>
+  </header>
 
-<section class="hero">
-  <h1>Le hub des outils & tutoriels tech.</h1>
-  <p>Apprends plus vite, choisis les bons outils et construis tes projets avec une plateforme claire, moderne et professionnelle.</p>
-  <button class="btn-primary">Découvrir les tutoriels</button>
-</section>
-
-<section class="section" id="tutoriels">
-  <h2>Tutoriels récents</h2>
-  <p>Des guides simples, efficaces et orientés projets.</p>
-
-  <div class="grid">
-    <div class="card">
-      <h3>Créer un bot Discord</h3>
-      <p>Un guide complet pour débuter avec Python et Discord.py.</p>
-      <a href="#">Lire →</a>
-    </div>
-
-    <div class="card">
-      <h3>Firebase sur Android</h3>
-      <p>Connexion, Auth, Firestore, bonnes pratiques.</p>
-      <a href="#">Lire →</a>
-    </div>
-
-    <div class="card">
-      <h3>Créer une app KivyMD</h3>
-      <p>UI moderne, navigation, thèmes, build Android.</p>
-      <a href="#">Lire →</a>
+  <div id="offcanvas" class="offcanvas" aria-hidden="true" aria-labelledby="menuBtn" role="dialog">
+    <button class="close" id="closeBtn" aria-label="Fermer le menu">✕</button>
+    <nav>
+      <a href="#tutoriels" onclick="closeMenu()">Tutoriels</a>
+      <a href="#comparateurs" onclick="closeMenu()">Comparateurs</a>
+      <a href="#guides" onclick="closeMenu()">Guides</a>
+      <a href="#contact" onclick="closeMenu()">Contact</a>
+      <a href="#discord" onclick="closeMenu()">Discord</a>
+      <a href="#partenariats" onclick="closeMenu()">Partenariats</a>
+    </nav>
+    <div style="margin-top:auto;padding-top:12px;border-top:1px solid var(--border)">
+      <button class="cta" style="width:100%;margin-top:12px" onclick="location.href='#contact'">Nous contacter</button>
     </div>
   </div>
-</section>
 
-<section class="section" id="comparateurs">
-  <h2>Comparateurs d’outils</h2>
-  <p>Choisis les meilleurs outils sans perdre de temps.</p>
+  <div id="overlay" class="overlay" tabindex="-1" aria-hidden="true" onclick="closeMenu()"></div>
 
-  <div class="grid">
-    <div class="card">
-      <h3>Hébergeurs Minecraft</h3>
-      <p>Performance, prix, support : le comparatif pro.</p>
-      <a href="#">Voir →</a>
-    </div>
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <h1 id="hero-title">Outils et tutoriels pour développeurs</h1>
+        <p>Guides pratiques et comparatifs objectifs pour choisir les bons outils et accélérer vos projets.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="location.href='#tutoriels'">Voir les tutoriels</button>
+          <button class="btn-outline" onclick="location.href='#comparateurs'">Voir les comparateurs</button>
+        </div>
+      </div>
 
-    <div class="card">
-      <h3>VPN</h3>
-      <p>Confidentialité, vitesse, pays disponibles.</p>
-      <a href="#">Voir →</a>
-    </div>
+      <aside class="panel" aria-labelledby="panel-title">
+        <h4 id="panel-title">À la une</h4>
+        <p>Comparateur d'hébergeurs, guide Firebase, et tutoriels bots Discord.</p>
+      </aside>
+    </section>
 
-    <div class="card">
-      <h3>IA pour développeurs</h3>
-      <p>Copilot, Gemini, Claude : lequel choisir.</p>
-      <a href="#">Voir →</a>
-    </div>
-  </div>
-</section>
+    <section class="section" id="tutoriels" aria-labelledby="tutoriels-title">
+      <h2 id="tutoriels-title">Tutoriels récents</h2>
+      <p>Guides pratiques, orientés projet.</p>
+      <div class="grid">
+        <article class="card">
+          <h3>Créer un bot Discord</h3>
+          <p>Guide complet pour débuter avec Python et Discord.py.</p>
+          <a href="#">Lire →</a>
+        </article>
 
-<footer>
-  Toolenix — © <span id="year"></span>
-</footer>
+        <article class="card">
+          <h3>Firebase sur Android</h3>
+          <p>Connexion, Auth, Firestore et bonnes pratiques.</p>
+          <a href="#">Lire →</a>
+        </article>
 
-<script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+        <article class="card">
+          <h3>App KivyMD</h3>
+          <p>Interface, navigation et déploiement Android.</p>
+          <a href="#">Lire →</a>
+        </article>
+      </div>
+    </section>
 
+    <section class="section" id="comparateurs" aria-labelledby="comparateurs-title">
+      <h2 id="comparateurs-title">Comparateurs</h2>
+      <p>Tests et critères clairs pour choisir un service.</p>
+      <div class="grid">
+        <article class="card">
+          <h3>Hébergeurs Minecraft</h3>
+          <p>Performance, prix, support.</p>
+          <a href="#">Voir →</a>
+        </article>
+
+        <article class="card">
+          <h3>VPN</h3>
+          <p>Confidentialité, vitesse, couverture.</p>
+          <a href="#">Voir →</a>
+        </article>
+
+        <article class="card">
+          <h3>IA pour développeurs</h3>
+          <p>Comparatif des assistants de code.</p>
+          <a href="#">Voir →</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">Contact & communauté</h2>
+      <p>Proposez un outil, signalez un bug ou collaborez.</p>
+      <div class="grid">
+        <div class="card">
+          <h3>Discord</h3>
+          <p>Échanges en temps réel avec la communauté.</p>
+          <a href="#">Rejoindre →</a>
+        </div>
+
+        <div class="card">
+          <h3>Contact</h3>
+          <p>Envoyez-nous un message pour partenariats ou retours.</p>
+          <a href="#">Formulaire →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Toolenix — © <span id="year"></span>
+  </footer>
+
+  <script>
+    const offcanvas = document.getElementById('offcanvas');
+    const overlay = document.getElementById('overlay');
+    const menuBtn = document.getElementById('menuBtn');
+    const closeBtn = document.getElementById('closeBtn');
+
+    function openMenu(){
+      offcanvas.classList.add('open');
+      overlay.classList.add('show');
+      offcanvas.setAttribute('aria-hidden','false');
+      overlay.setAttribute('aria-hidden','false');
+      // trap focus: focus first link
+      const firstLink = offcanvas.querySelector('nav a');
+      if(firstLink) firstLink.focus();
+    }
+
+    function closeMenu(){
+      offcanvas.classList.remove('open');
+      overlay.classList.remove('show');
+      offcanvas.setAttribute('aria-hidden','true');
+      overlay.setAttribute('aria-hidden','true');
+      menuBtn.focus();
+    }
+
+    menuBtn.addEventListener('click', openMenu);
+    closeBtn.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && offcanvas.classList.contains('open')) closeMenu();
+    });
+
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
