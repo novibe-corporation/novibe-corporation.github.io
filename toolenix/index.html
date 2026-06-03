@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Toolenix — Le hub des outils et tutoriels tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg-dark: #05060a;
+      --bg-darker: #020308;
+      --blue: #3a7bff;
+      --blue-soft: #4f8dff;
+      --accent: #7a4bff;
+      --text-main: #f5f5f5;
+      --text-muted: #b3b3b3;
+      --card-bg: #0c0f1a;
+      --border-soft: #1a2135;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #0b1630 0, #020308 55%, #000 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    a {
+      color: var(--blue-soft);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border-soft);
+      background: linear-gradient(
+        90deg,
+        rgba(10, 20, 40, 0.95),
+        rgba(10, 20, 40, 0.7),
+        rgba(10, 20, 40, 0.95)
+      );
+      backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 30% 0, #7ad0ff, #3a7bff 40%, #020308 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 18px rgba(58, 123, 255, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-circle::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0, rgba(255, 255, 255, 0.2) 40%, transparent 80%);
+      opacity: 0.7;
+    }
+
+    .logo-t {
+      position: relative;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: 0.03em;
+    }
+
+    .brand-name {
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--blue), var(--accent));
+      transition: width 0.18s ease-out;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-main);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(122, 75, 255, 0.7);
+      background: radial-gradient(circle at top left, rgba(122, 75, 255, 0.3), transparent 55%);
+      color: var(--text-main);
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.15s ease-out, transform 0.1s ease-out;
+    }
+
+    .nav-cta:hover {
+      background: radial-gradient(circle at top left, rgba(122, 75, 255, 0.5), transparent 60%);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: 32px auto 0;
+      padding: 0 18px 32px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.2fr);
+      gap: 26px;
+      align-items: center;
+    }
+
+    .hero-kicker {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-kicker-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: radial-gradient(circle, #7ad0ff, #3a7bff);
+      box-shadow: 0 0 10px rgba(122, 208, 255, 0.9);
+    }
+
+    .hero-title {
+      font-size: clamp(30px, 4vw, 38px);
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(90deg, #7ad0ff, #3a7bff, #7a4bff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 460px;
+      margin-bottom: 18px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      font-size: 11px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(74, 104, 180, 0.8);
+      background: rgba(7, 12, 30, 0.9);
+      color: var(--text-muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .btn-primary {
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, var(--blue), var(--accent));
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(58, 123, 255, 0.6);
+      transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 22px rgba(58, 123, 255, 0.8);
+    }
+
+    .btn-ghost {
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(74, 104, 180, 0.7);
+      background: rgba(7, 10, 22, 0.9);
+      color: var(--text-main);
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-note {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .hero-right {
+      position: relative;
+      padding: 16px;
+    }
+
+    .banner {
+      border-radius: 18px;
+      padding: 18px 18px 16px;
+      background: radial-gradient(circle at left, rgba(58, 123, 255, 0.35), transparent 55%),
+        radial-gradient(circle at right, rgba(122, 75, 255, 0.35), transparent 55%),
+        linear-gradient(135deg, #050814, #050814);
+      border: 1px solid rgba(58, 123, 255, 0.4);
+      box-shadow: 0 0 26px rgba(0, 0, 0, 0.9);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .banner-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 14px;
+      align-items: center;
+    }
+
+    .banner-logo-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .banner-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .banner-logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: radial-gradient(circle at 30% 0, #7ad0ff, #3a7bff 40%, #020308 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 18px rgba(58, 123, 255, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .banner-logo-icon::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0, rgba(255, 255, 255, 0.2) 40%, transparent 80%);
+      opacity: 0.7;
+    }
+
+    .banner-logo-t {
+      position: relative;
+      font-weight: 800;
+      font-size: 22px;
+    }
+
+    .banner-logo-text-main {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .banner-logo-text-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .banner-tagline {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 260px;
+    }
+
+    .banner-circuits {
+      position: relative;
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: radial-gradient(circle at top, rgba(58, 123, 255, 0.25), transparent 60%);
+      border: 1px solid rgba(58, 123, 255, 0.4);
+      overflow: hidden;
+    }
+
+    .circuit-line {
+      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #7ad0ff, transparent);
+      opacity: 0.7;
+    }
+
+    .circuit-line:nth-child(1) {
+      top: 18%;
+      left: -10%;
+      width: 120%;
+    }
+
+    .circuit-line:nth-child(2) {
+      top: 50%;
+      left: -20%;
+      width: 140%;
+    }
+
+    .circuit-line:nth-child(3) {
+      top: 80%;
+      left: -5%;
+      width: 110%;
+    }
+
+    .circuit-node {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: radial-gradient(circle, #7ad0ff, #3a7bff);
+      box-shadow: 0 0 10px rgba(122, 208, 255, 0.9);
+    }
+
+    .circuit-node:nth-child(4) {
+      top: 16%;
+      left: 18%;
+    }
+
+    .circuit-node:nth-child(5) {
+      top: 48%;
+      left: 60%;
+    }
+
+    .circuit-node:nth-child(6) {
+      top: 78%;
+      left: 32%;
+    }
+
+    .banner-list {
+      position: relative;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .banner-list strong {
+      color: var(--text-main);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 18px 40px;
+    }
+
+    .section {
+      margin-top: 26px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .section-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+      padding: 12px 13px;
+      font-size: 13px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(58, 123, 255, 0.12), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .card-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .card-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(58, 123, 255, 0.7);
+      color: var(--blue-soft);
+      background: rgba(5, 10, 25, 0.9);
+    }
+
+    .link-inline {
+      font-size: 12px;
+      color: var(--blue-soft);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--border-soft);
+      background: rgba(5, 8, 20, 0.9);
+      margin-top: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      min-width: 420px;
+    }
+
+    th,
+    td {
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid #15192a;
+    }
+
+    th {
+      background: rgba(10, 16, 32, 0.95);
+      font-weight: 600;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-soft);
+      padding: 14px 18px 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      background: linear-gradient(180deg, transparent, #020308 40%);
+    }
+
+    @media (max-width: 840px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-right {
+        order: -1;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="nav-left">
+        <div class="logo-circle">
+          <span class="logo-t">T</span>
+        </div>
+        <div>
+          <div class="brand-name">Toolenix</div>
+          <div class="brand-sub">Hub des outils & tutoriels tech</div>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="#tutoriels">Tutoriels</a>
+        <a href="#comparateurs">Comparateurs</a>
+        <a href="#guides">Guides</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <button class="nav-cta">Rejoindre la communauté</button>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div>
+      <div class="hero-kicker">
+        <span class="hero-kicker-dot"></span>
+        Plateforme tech pour devs & créateurs
+      </div>
+      <h1 class="hero-title">
+        <span>Toolenix</span>, ton hub pour comparer, apprendre et créer.
+      </h1>
+      <p class="hero-sub">
+        Tutoriels clairs, comparateurs d’outils et guides complets pour t’aider à lancer ton bot, ton app ou ton site
+        sans te perdre dans la jungle des outils.
+      </p>
+
+      <div class="hero-badges">
+        <span class="badge">Comparateurs d’outils</span>
+        <span class="badge">Tutoriels dev & infra</span>
+        <span class="badge">Guides complets</span>
+        <span class="badge">Affiliation transparente</span>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn-primary">Découvrir les tutoriels</button>
+        <button class="btn-ghost">
+          Voir les comparateurs
+        </button>
+      </div>
+      <div class="hero-note">
+        Mis à jour régulièrement — Python, Android, bots Discord, Firebase, IA…
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="banner">
+        <div class="banner-grid">
+          <div class="banner-logo-block">
+            <div class="banner-logo">
+              <div class="banner-logo-icon">
+                <span class="banner-logo-t">T</span>
+              </div>
+              <div>
+                <div class="banner-logo-text-main">Toolenix</div>
+                <div class="banner-logo-text-sub">Le hub des outils & tutoriels tech</div>
+              </div>
+            </div>
+            <p class="banner-tagline">
+              Compare les meilleurs outils, suis des tutoriels concrets et construis tes projets plus vite.
+            </p>
+          </div>
+
+          <div class="banner-circuits">
+            <div class="circuit-line"></div>
+            <div class="circuit-line"></div>
+            <div class="circuit-line"></div>
+            <div class="circuit-node"></div>
+            <div class="circuit-node"></div>
+            <div class="circuit-node"></div>
+
+            <div class="banner-list">
+              <strong>Inclus dès aujourd’hui :</strong><br />
+              • Comparateur d’hébergeurs Minecraft<br />
+              • Comparateur de VPN & IA<br />
+              • Tutoriels bots Discord & Firebase
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section class="section" id="tutoriels">
+      <div class="section-header">
+        <h2 class="section-title">Derniers tutoriels</h2>
+        <span class="section-sub">Des guides concrets, orientés projets réels.</span>
+      </div>
+      <div class="cards-grid">
+        <article class="card">
+          <h3 class="card-title">Créer un bot Discord avec Python</h3>
+          <p class="card-desc">
+            De l’installation à la mise en ligne, étape par étape, avec gestion des commandes et des événements.
+          </p>
+          <div class="card-meta">
+            <span class="pill">Python · Discord.py</span>
+            <a href="#" class="link-inline">Lire le tutoriel →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3 class="card-title">Configurer Firebase sur Android Studio</h3>
+          <p class="card-desc">
+            Connexion de ton app Android à Firebase : Auth, Firestore, configuration Gradle et bonnes pratiques.
+          </p>
+          <div class="card-meta">
+            <span class="pill">Android · Firebase</span>
+            <a href="#" class="link-inline">Lire le tutoriel →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3 class="card-title">Créer une app avec KivyMD</h3>
+          <p class="card-desc">
+            Interface moderne, navigation, thèmes et déploiement sur Android à partir de Python.
+          </p>
+          <div class="card-meta">
+            <span class="pill">Python · KivyMD</span>
+            <a href="#" class="link-inline">Lire le tutoriel →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="comparateurs">
+      <div class="section-header">
+        <h2 class="section-title">Comparateurs d’outils</h2>
+        <span class="section-sub">Choisis les bons outils sans y passer des heures.</span>
+      </div>
+
+      <div class="cards-grid">
+        <article class="card">
+          <h3 class="card-title">Comparateur d’hébergeurs Minecraft</h3>
+          <p class="card-desc">
+            Latence, slots, support, prix : trouve l’hébergeur idéal pour ton serveur Minecraft.
+          </p>
+          <div class="card-meta">
+            <span class="pill">Jeux · Serveurs</span>
+            <a href="#" class="link-inline">Voir le comparateur →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3 class="card-title">Comparateur de VPN</h3>
+          <p class="card-desc">
+            Vitesse, confidentialité, prix, pays disponibles : choisis le VPN adapté à ton usage.
+          </p>
+          <div class="card-meta">
+            <span class="pill">Sécurité · Réseau</span>
+            <a href="#" class="link-inline">Voir le comparateur →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3 class="card-title">Comparateur d’IA pour développeurs</h3>
+          <p class="card-desc">
+            Copilot, Gemini, Claude… Compare les IA pour coder plus vite et mieux.
+          </p>
+          <div class="card-meta">
+            <span class="pill">IA · Dev</span>
+            <a href="#" class="link-inline">Voir le comparateur →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="guides">
+      <div class="section-header">
+        <h2 class="section-title">Pourquoi Toolenix ?</h2>
+        <span class="section-sub">Une plateforme pensée pour les devs, créateurs et makers.</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Avantage</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Centralisation</td>
+              <td>Tutoriels, comparateurs et guides réunis au même endroit.</td>
+            </tr>
+            <tr>
+              <td>Clarté</td>
+              <td>Contenu structuré, exemples concrets, explications sans blabla inutile.</td>
+            </tr>
+            <tr>
+              <td>Affiliation transparente</td>
+              <td>Les liens affiliés sont indiqués clairement, sans bullshit.</td>
+            </tr>
+            <tr>
+              <td>Communauté</td>
+              <td>Partage de retours d’expérience, recommandations et projets.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="section-header">
+        <h2 class="section-title">Rejoindre la communauté</h2>
+        <span class="section-sub">Tu veux proposer un outil, un tuto ou un retour d’expérience ?</span>
+      </div>
+
+      <div class="cards-grid">
+        <article class="card">
+          <h3 class="card-title">Discord</h3>
+          <p class="card-desc">
+            Rejoins le serveur pour discuter outils, dev, hébergeurs, IA et partager tes projets.
+          </p>
+          <div class="card-meta">
+            <span class="pill">Temps réel</span>
+            <a href="#" class="link-inline">Rejoindre le serveur →</a>
+          </div>
+        </article>
+
+     
