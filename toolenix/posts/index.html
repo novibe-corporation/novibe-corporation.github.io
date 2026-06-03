@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Posts — Toolenix</title>
+  <style>
+    body{
+      margin:0;
+      font-family:Inter, sans-serif;
+      background:#fff;
+      color:#0f1724;
+    }
+    header{
+      padding:16px;
+      border-bottom:1px solid #e5e7eb;
+    }
+    main{
+      max-width:900px;
+      margin:30px auto;
+      padding:0 16px;
+    }
+    h1{font-size:28px;margin-bottom:10px}
+    .filter{
+      margin:20px 0;
+      display:flex;
+      gap:10px;
+    }
+    select{
+      padding:8px;
+      border-radius:6px;
+      border:1px solid #d1d5db;
+    }
+    .post{
+      border:1px solid #e5e7eb;
+      padding:16px;
+      border-radius:10px;
+      margin-bottom:16px;
+    }
+    .post h3{margin:0 0 6px}
+    .post p{margin:0 0 10px;color:#6b7280}
+    .post a{color:#2563eb;text-decoration:none;font-weight:600}
+  </style>
+</head>
+
+<body>
+
+<header>
+  <strong>Toolenix</strong>
+</header>
+
+<main>
+  <h1>Tous les posts</h1>
+
+  <div class="filter">
+    <select id="filter">
+      <option value="all">Toutes catégories</option>
+      <option value="discord">Discord</option>
+      <option value="android">Android</option>
+      <option value="python">Python</option>
+    </select>
+  </div>
+
+  <div id="posts">
+    <div class="post" data-cat="discord">
+      <h3>Créer un bot Discord</h3>
+      <p>Aide complète pour créer un bot Discord.</p>
+      <a href="/posts/discord/bot/create">Lire →</a>
+    </div>
+
+    <div class="post" data-cat="android">
+      <h3>Firebase sur Android</h3>
+      <p>Connexion, Auth, Firestore.</p>
+      <a href="#">Lire →</a>
+    </div>
+
+    <div class="post" data-cat="python">
+      <h3>Créer une app KivyMD</h3>
+      <p>UI moderne, navigation, build Android.</p>
+      <a href="#">Lire →</a>
+    </div>
+  </div>
+</main>
+
+<script>
+  const filter = document.getElementById("filter");
+  const posts = document.querySelectorAll(".post");
+
+  filter.onchange = () => {
+    const val = filter.value;
+    posts.forEach(p => {
+      p.style.display = (val === "all" || p.dataset.cat === val) ? "block" : "none";
+    });
+  };
+</script>
+
+</body>
+</html>
