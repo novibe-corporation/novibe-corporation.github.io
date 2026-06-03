@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Créer un bot Discord — Toolenix</title>
+  <style>
+    body{
+      margin:0;
+      font-family:Inter, sans-serif;
+      background:#fff;
+      color:#0f1724;
+    }
+    header{
+      padding:16px;
+      border-bottom:1px solid #e5e7eb;
+    }
+    main{
+      max-width:800px;
+      margin:30px auto;
+      padding:0 16px;
+    }
+    h1{font-size:28px;margin-bottom:10px}
+    h2{margin-top:30px;font-size:20px}
+    p{color:#374151;line-height:1.6}
+    pre{
+      background:#f3f4f6;
+      padding:14px;
+      border-radius:8px;
+      overflow:auto;
+    }
+    code{font-family:monospace}
+  </style>
+</head>
+
+<body>
+
+<header>
+  <strong>Toolenix</strong>
+</header>
+
+<main>
+  <h1>Créer un bot Discord</h1>
+  <p>Ce guide vous aide à créer un bot Discord en Python étape par étape.</p>
+
+  <h2>1. Installer Python</h2>
+  <p>Téléchargez Python depuis python.org puis installez-le.</p>
+
+  <h2>2. Installer discord.py</h2>
+  <pre><code>pip install discord.py</code></pre>
+
+  <h2>3. Créer le fichier du bot</h2>
+  <pre><code>import discord
+
+client = discord.Client()
+
+@client.event
+async def on_ready():
+    print("Bot connecté")
+
+@client.event
+async def on_message(message):
+    if message.content == "!ping":
+        await message.channel.send("Pong !")
+
+client.run("TON_TOKEN_ICI")
+</code></pre>
+
+  <h2>4. Ajouter le bot à votre serveur</h2>
+  <p>Dans le portail développeur Discord, créez une application, activez le bot et copiez le lien d’invitation.</p>
+
+  <h2>5. Lancer le bot</h2>
+  <pre><code>python bot.py</code></pre>
+
+  <p>Votre bot est maintenant en ligne.</p>
+</main>
+
+</body>
+</html>
